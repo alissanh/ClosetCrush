@@ -7,5 +7,24 @@
     "form-data": "^4.0.2",
     "puppeteer": "^24.4.0",
     "replicate": "^1.0.1"
-  }
+  },
+  "name": "cmd-f",
+  "version": "1.0.0",
+  "description": "link -> get html image of each item via webscrape -> store based on webscrape",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alissanh/cmd-f.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alissanh/cmd-f/issues"
+  },
+  "homepage": "https://github.com/alissanh/cmd-f#readme"
 }
