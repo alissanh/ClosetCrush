@@ -2,7 +2,7 @@
 html, body {
   margin: 0;
   padding: 0;  /* no extra padding at all */
-  height: 120%;  /* good practice if you want a sticky footer approach */
+  height: 107%;  /* good practice if you want a sticky footer approach */
 }
 
 body {
