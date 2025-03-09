@@ -1,70 +1,151 @@
 /* General Styles */
-html, body {
-    margin: 0;
-    padding: 0;  /* no extra padding at all */
-    height: 100%;  /* good practice if you want a sticky footer approach */
-  }
-
 body {
-    font-family: 'Irish Grover', cursive;
-    background-image: url('images/backgrounds/finalcheetahbckgrnd.jpeg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+  margin: 0;
+  padding: 5px;
+  font-family: 'Irish Grover', cursive;
+  background-color: #F2CBEF; /* Light pink background */
 }
 
-/* 2) Turn body into a flex container with column direction */
-body {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* 3) The main content area expands, pushing the footer to the bottom */
-  .container {
-    flex: 1; /* Grow to fill leftover space */
-  }
-
-/* Outfit Preview Section */
-.outfit-preview {
-  flex: 1;
-  min-width: 300px;
-  max-width: 400px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-.outfit-preview h2 {
+h1, h2, h3 {
   font-family: 'Irish Grover', cursive;
   color: #BA56AE;
+}
+
+#welcome-message {
   text-align: center;
-  margin-bottom: 15px;
+  margin: 20px 0;
+  font-size: 32px;
+  color: #BA56AE;
 }
 
-.mannequin-container {
-  background-color: white;
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+/* Navbar Styling */
+.navbar {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  width: 100%;
+  justify-content: space-between;
+  background-color: #F2CBEF; /* Soft pastel pink */
+  padding: 10px 20px;
 }
 
-.mannequin {
-  position: relative;
-  width: 300px;
-  height: 500px;
-  margin-bottom: 20px;
-  background-color: #f8f8f8;
+/* Logo */
+.logo img {
+  height: 40px; /* Adjust size as needed */
+}
+
+/* Navigation Links */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;  /* Space between links */
+  margin-left: auto;  /* Pushes links to the right */
+  /* margin: 0;
+  padding: 0; */
+}
+
+.nav-links li {
+  display: inline-block;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-size: 18px;
+  color: #000000;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #BA56AE; /* Change text color to match your theme */
+}
+
+/* Right Section (Buttons & User Icon) */
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Add Button */
+.add-button {
+  color: #BA56AE;
+  border: none;
+  background: none;
+  font-size: 40px;
+  font-weight: bold;
+  padding: 8px 15px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* My Crushes Button */
+.my-crushes {
+  font-family: 'Irish Grover', cursive;
+  background-color: #BA56AE;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  width: auto;
+  white-space: nowrap;
+  font-size: 16px;
   border-radius: 10px;
+  cursor: pointer;
 }
 
-.mannequin-base {
+.my-crushes:hover {
+  background-color: #a35287;
+}
+
+/* User Icon */
+.user-icon {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Footer */
+.footer {
+  background-color: #F2CBEF;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+}
+
+.footer .logo img {
+  height: 40px;
+  margin-bottom: 10px;
+}
+
+.footer p {
+  color: #666;
+  font-size: 14px;
+}
+
+/* Stage and Outfit Display */
+.stage-wrapper {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.stage {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.outfit-preview {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;
 }
 
 .preview-item {
@@ -75,225 +156,227 @@ body {
 }
 
 .preview-top {
-  top: 50px;
-  left: 50px;
-  width: 200px;
-  height: 150px;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  height: 40%;
 }
 
 .preview-bottom {
-  top: 200px;
-  left: 50px;
-  width: 200px;
-  height: 150px;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  height: 40%;
+}
+
+.preview-dress {
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  height: 70%;
 }
 
 .preview-shoes {
-  bottom: 0;
-  left: 75px;
-  width: 150px;
-  height: 150px;
-  background-position: center bottom;
-  z-index: 20;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30%;
+  height: 20%;
 }
 
 .preview-accessories {
-  top: 20px;
-  right: 30px;
-  width: 80px;
-  height: 80px;
+  top: 20%;
+  right: 20%;
+  width: 20%;
+  height: 20%;
 }
 
-.save-outfit-btn {
-  font-family: 'Irish Grover', cursive;
+/* Outfit Options */
+.outfit-options {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.outfit-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.outfit-button:hover,
+.outfit-button:focus {
+  transform: scale(1.1);
+}
+
+.outfit-button img {
+  max-width: 60px;
+  height: auto;
+}
+
+/* Outfit Actions */
+.outfit-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 15px 0;
+}
+
+.action-button {
   background-color: #BA56AE;
   color: white;
   border: none;
-  padding: 12px 30px;
-  font-size: 16px;
-  border-radius: 10px;
+  padding: 8px 20px;
+  font-family: 'Irish Grover', cursive;
+  border-radius: 20px;
   cursor: pointer;
-  width: 80%;
-  margin-top: 10px;
-}
-/* Navbar Styling */
-.navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #F2CBEF;
-    padding: 10px 20px;
+  font-size: 16px;
+  transition: background-color 0.3s;
 }
 
-/* Logo */
-.logo img {
-    height: 50px; /* Adjust size as needed */
+.action-button:hover {
+  background-color: #a04a95;
 }
 
-/* Navigation Links */
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 20px;  /* Space between links */
-    margin-left: auto;  /* Pushes links to the right */
-    padding: 10px 20px;
-    /* margin: 0;
-    padding: 0; */
+.crush-button {
+  background-color: #ff6b6b;
 }
 
-.nav-links li {
-    display: inline-block;
+.crush-button.crushed {
+  background-color: #ff0000;
 }
 
-.nav-links a {
-    text-decoration: none;
-    font-size: 18px;
-    color: #000000;
-    font-weight: bold;
-    transition: color 0.3s ease;
+/* Item Carousels */
+.item-carousels {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.nav-links a:hover {
-    color: #BA56AE; /* Change text color to match your theme */
+.item-carousel {
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* Right Section (Buttons & User Icon) */
-.right-section {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+.item-carousel h3 {
+  font-family: 'Irish Grover', cursive;
+  color: #BA56AE;
+  margin-top: 0;
+  text-align: center;
 }
 
-/* Add Button */
-.add-button {
-    background-color: #a653a0;
-    color: white;
-    font-size: 24px;
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    line-height: 40px;
-    text-decoration: none; /* so it appears like a button */
+.carousel-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.my-crushes:hover {
-    background-color: #a35287;
+.carousel-items {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 10px;
+  padding: 10px 0;
+  width: 100%;
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
 }
 
-/* My Crushes Button */
-.my-crushes {
-    font-family: 'Irish Grover', cursive;
-    background-color: #BA56AE;
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    width: auto;
-    white-space: nowrap;
-    font-size: 16px;
-    border-radius: 10px;
+.carousel-items::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome/Safari */
 }
 
-.my-crushes:hover {
-    background-color: #a35287;
+.carousel-item {
+  min-width: 100px;
+  height: 100px;
+  background-color: #fff;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+  overflow: hidden;
 }
 
-/* User Icon */
-.user-icon {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    cursor: pointer;
+.carousel-item:hover {
+  transform: translateY(-5px);
 }
 
-/* User Icon */
-.user-icon {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    cursor: pointer;
+.carousel-item.selected {
+  border-color: #BA56AE;
+  box-shadow: 0 0 10px rgba(186, 86, 174, 0.5);
 }
 
-/* Center the stage */
-.stage-container {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-top: 20px;
-    max-width: 600px;
-    margin: 0 auto;
+.item-image {
+  width: 100%;
+  height: 100%;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-/* Stage Image */
-.stage {
-    width: 100%; /* Adjust size as needed */
-    max-width: 800px;
-    display: block;
+.carousel-nav {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #BA56AE;
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: bold;
 }
 
-
-/* Position Outfit Selection Buttons on the Right Side of the Stage */
-.outfit-options {
-    position: absolute;
-    right: 34%; /* Adjust to move buttons inside the stage */
-    top: 36%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 1px; /* Adjust spacing between buttons */
-    z-index: 10; /* Ensure buttons are above the stage */
+.carousel-nav:hover {
+  background-color: #a04a95;
 }
 
-/* Outfit Button Styling */
-.outfit-button {
-    width: 48px; /* Make all buttons the same size */
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: none;
-    cursor: pointer;
+.loading-message, .empty-message, .error-message {
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  color: #666;
 }
 
-/* Outfit Button Images */
-.outfit-button img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* Ensures images fit properly */
+.empty-message {
+  color: #888;
+  font-style: italic;
 }
 
-.outfit-button:hover img {
-    transform: scale(1.1); /* Slight zoom effect on hover */
+.error-message {
+  color: #cc0000;
 }
 
-/* Style for the Welcome message */
-#welcome-message {
-    display: block;
-    text-align: center;
-    font-family: 'Irish Grover', cursive; /* Matches your main font */
-    font-size: 3rem;                     /* Large, playful size */
-    color: #ffffff;                      /* White text (adjust if you want another color) */
-    text-shadow: 2px 2px 4px #000000;    /* Slight shadow for contrast on busy backgrounds */
-    margin-top: 30px;                    /* Spacing above the stage */
-    margin-bottom: 20px;                 /* Spacing below the text */
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .navbar {
+      flex-direction: column;
+      gap: 10px;
   }
-
-/* Footer Styling */
-.footer {
-    background-color: #F2CBEF; /* Matches navbar */
-    color: #000000; /* Black text */
-    text-align: center;
-    padding: 5px 10px;
-    font-family: 'Irish Grover', cursive;
-    font-size: 10px;
-}
-
-/* Footer Logo */
-.footer .logo img {
-    height: 40px; /* Adjust size as needed */
-    margin-bottom: 5px;
+  
+  .nav-links {
+      gap: 10px;
+  }
+  
+  .outfit-button img {
+      max-width: 40px;
+  }
+  
+  .action-button {
+      padding: 6px 15px;
+      font-size: 14px;
+  }
+  
+  .carousel-item {
+      min-width: 80px;
+      height: 80px;
+  }
 }

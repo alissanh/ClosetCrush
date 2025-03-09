@@ -26,7 +26,7 @@
         </ul>
         <div class="right-section">
             <a href="wishlist.html" class="add-button">+</a>
-            <button class="my-crushes">My Crushes</button>
+            <button id="myCrushesBtn" class="my-crushes">My Crushes</button>
             <a href="profile.html" class="profile-link">
                 <img
                   id="icon-pic"
@@ -44,31 +44,103 @@
 
     <!-- Stage with Avatar -->
     <div class="stage-container">
-        <img src="images/stage.png" alt="Stage" class="stage">
+        <div class="stage-wrapper">
+            <img src="images/stage.png" alt="Stage" class="stage">
+            
+            <!-- Outfit Display (preview items on the stage) -->
+            <div class="outfit-preview">
+                <div id="previewTop" class="preview-item preview-top"></div>
+                <div id="previewBottom" class="preview-item preview-bottom"></div>
+                <div id="previewDress" class="preview-item preview-dress"></div>
+                <div id="previewShoes" class="preview-item preview-shoes"></div>
+                <div id="previewAccessories" class="preview-item preview-accessories"></div>
+            </div>
+        </div>
 
+        <!-- Outfit Actions -->
+        <div class="outfit-actions">
+            <button id="saveOutfitBtn" class="action-button">Save Outfit</button>
+            <button id="crushOutfitBtn" class="action-button crush-button">♥ Crush</button>
+        </div>
+
+        <!-- Outfit Category Buttons -->
         <div class="outfit-options">
-          <button class="outfit-button">
+          <button class="outfit-button" data-category="tops">
               <img src="images/buttons/shirt_resized.png" alt="Tops">
           </button>
-          <button class="outfit-button">
+          <button class="outfit-button" data-category="bottoms">
               <img src="images/buttons/skirt_resized.png" alt="Bottoms">
           </button>
-          <button class="outfit-button">
+          <button class="outfit-button" data-category="dresses">
               <img src="images/buttons/dress_resized.png" alt="Dresses">
           </button>
-          <button class="outfit-button">
+          <button class="outfit-button" data-category="shoes">
               <img src="images/buttons/heel_resized.png" alt="Shoes">
           </button>
-          <button class="outfit-button">
+          <button class="outfit-button" data-category="accessories">
               <img src="images/buttons/accessory_resized.png" alt="Accessories">
           </button>
         </div>
 
+        <!-- Item Carousels -->
+        <div class="item-carousels">
+            <div id="topsCarousel" class="item-carousel" style="display: none;">
+                <h3>Select a Top</h3>
+                <div class="carousel-container">
+                    <button class="carousel-nav prev">&lt;</button>
+                    <div class="carousel-items" id="topsItems">
+                        <div class="loading-message">Loading your tops...</div>
+                    </div>
+                    <button class="carousel-nav next">&gt;</button>
+                </div>
+            </div>
+            
+            <div id="bottomsCarousel" class="item-carousel" style="display: none;">
+                <h3>Select Bottoms</h3>
+                <div class="carousel-container">
+                    <button class="carousel-nav prev">&lt;</button>
+                    <div class="carousel-items" id="bottomsItems">
+                        <div class="loading-message">Loading your bottoms...</div>
+                    </div>
+                    <button class="carousel-nav next">&gt;</button>
+                </div>
+            </div>
+            
+            <div id="dressesCarousel" class="item-carousel" style="display: none;">
+                <h3>Select a Dress</h3>
+                <div class="carousel-container">
+                    <button class="carousel-nav prev">&lt;</button>
+                    <div class="carousel-items" id="dressesItems">
+                        <div class="loading-message">Loading your dresses...</div>
+                    </div>
+                    <button class="carousel-nav next">&gt;</button>
+                </div>
+            </div>
+            
+            <div id="shoesCarousel" class="item-carousel" style="display: none;">
+                <h3>Select Shoes</h3>
+                <div class="carousel-container">
+                    <button class="carousel-nav prev">&lt;</button>
+                    <div class="carousel-items" id="shoesItems">
+                        <div class="loading-message">Loading your shoes...</div>
+                    </div>
+                    <button class="carousel-nav next">&gt;</button>
+                </div>
+            </div>
+            
+            <div id="accessoriesCarousel" class="item-carousel" style="display: none;">
+                <h3>Select Accessories</h3>
+                <div class="carousel-container">
+                    <button class="carousel-nav prev">&lt;</button>
+                    <div class="carousel-items" id="accessoriesItems">
+                        <div class="loading-message">Loading your accessories...</div>
+                    </div>
+                    <button class="carousel-nav next">&gt;</button>
+                </div>
+            </div>
+        </div>
     </div>
-
-
-</div>
-
+  </div>
 
   <!-- Footer -->
   <footer class="footer">
@@ -78,5 +150,260 @@
     <p>@ 2025 SL, JK, HH & AH. All Rights Reserved</p>
   </footer>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if user is logged in
+        const userId = localStorage.getItem('userId');
+        if (!userId) {
+            window.location.href = "signinpage.html";
+            return;
+        }
+        
+        // Set welcome message with user's email
+        const userEmail = localStorage.getItem('userEmail');
+        if (userEmail) {
+            const welcomeMessage = document.getElementById('welcome-message');
+            welcomeMessage.textContent = `Welcome, ${userEmail.split('@')[0]}`;
+        }
+        
+        // Current outfit tracking
+        const currentOutfit = {
+            tops: null,
+            bottoms: null,
+            dresses: null,
+            shoes: null,
+            accessories: null
+        };
+        
+        // Get DOM elements
+        const outfitButtons = document.querySelectorAll('.outfit-button');
+        const carousels = document.querySelectorAll('.item-carousel');
+        const saveOutfitBtn = document.getElementById('saveOutfitBtn');
+        const crushOutfitBtn = document.getElementById('crushOutfitBtn');
+        const myCrushesBtn = document.getElementById('myCrushesBtn');
+        
+        // Add event listeners to category buttons
+        outfitButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const category = button.getAttribute('data-category');
+                
+                // Hide all carousels
+                carousels.forEach(carousel => {
+                    carousel.style.display = 'none';
+                });
+                
+                // Show selected category carousel
+                const selectedCarousel = document.getElementById(`${category}Carousel`);
+                if (selectedCarousel) {
+                    selectedCarousel.style.display = 'block';
+                    
+                    // Load items if not already loaded
+                    const itemsContainer = document.getElementById(`${category}Items`);
+                    if (itemsContainer && itemsContainer.querySelector('.loading-message')) {
+                        loadItemsForCategory(category, itemsContainer);
+                    }
+                }
+            });
+        });
+        
+        // My Crushes button
+        if (myCrushesBtn) {
+            myCrushesBtn.addEventListener('click', () => {
+                window.location.href = "crushes.html";
+            });
+        }
+        
+        // Save outfit functionality
+        if (saveOutfitBtn) {
+            saveOutfitBtn.addEventListener('click', saveOutfit);
+        }
+        
+        // Crush outfit functionality
+        if (crushOutfitBtn) {
+            crushOutfitBtn.addEventListener('click', crushOutfit);
+        }
+        
+        // Load items for a category
+        async function loadItemsForCategory(category, container) {
+            try {
+                // Fetch user's items
+                const response = await fetch(`/users/${userId}/items`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Clear container
+                container.innerHTML = '';
+                
+                // Check if there are items in this category
+                if (!data[category] || data[category].length === 0) {
+                    const emptyMessage = document.createElement('div');
+                    emptyMessage.className = 'empty-message';
+                    emptyMessage.textContent = `No ${category} found. Add some from the + button!`;
+                    container.appendChild(emptyMessage);
+                    return;
+                }
+                
+                // Add items to carousel
+                data[category].forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'carousel-item';
+                    
+                    // Create image container
+                    const imageElement = document.createElement('div');
+                    imageElement.className = 'item-image';
+                    imageElement.style.backgroundImage = `url(images/${item.filename || item})`;
+                    
+                    // Add click handler to select this item
+                    itemElement.addEventListener('click', () => {
+                        // Remove selection from all items in this category
+                        container.querySelectorAll('.carousel-item').forEach(el => {
+                            el.classList.remove('selected');
+                        });
+                        
+                        // Add selected class to this item
+                        itemElement.classList.add('selected');
+                        
+                        // Update the outfit
+                        currentOutfit[category] = item.filename || item;
+                        updateOutfitPreview();
+                    });
+                    
+                    itemElement.appendChild(imageElement);
+                    container.appendChild(itemElement);
+                });
+                
+                // Add navigation functionality
+                setupCarouselNavigation(category);
+                
+            } catch (error) {
+                console.error(`Error loading ${category}:`, error);
+                container.innerHTML = `<div class="error-message">Failed to load ${category}</div>`;
+            }
+        }
+        
+        // Setup carousel navigation buttons
+        function setupCarouselNavigation(category) {
+            const carousel = document.getElementById(`${category}Carousel`);
+            const itemsContainer = document.getElementById(`${category}Items`);
+            const prevButton = carousel.querySelector('.prev');
+            const nextButton = carousel.querySelector('.next');
+            
+            prevButton.addEventListener('click', () => {
+                itemsContainer.scrollBy({ left: -200, behavior: 'smooth' });
+            });
+            
+            nextButton.addEventListener('click', () => {
+                itemsContainer.scrollBy({ left: 200, behavior: 'smooth' });
+            });
+        }
+        
+        // Update outfit preview
+        function updateOutfitPreview() {
+            // If a dress is selected, hide tops and bottoms
+            if (currentOutfit.dresses) {
+                document.getElementById('previewTop').style.display = 'none';
+                document.getElementById('previewBottom').style.display = 'none';
+                document.getElementById('previewDress').style.display = 'block';
+                document.getElementById('previewDress').style.backgroundImage = `url(images/${currentOutfit.dresses})`;
+            } else {
+                document.getElementById('previewDress').style.display = 'none';
+                document.getElementById('previewTop').style.display = 'block';
+                document.getElementById('previewBottom').style.display = 'block';
+                
+                if (currentOutfit.tops) {
+                    document.getElementById('previewTop').style.backgroundImage = `url(images/${currentOutfit.tops})`;
+                }
+                
+                if (currentOutfit.bottoms) {
+                    document.getElementById('previewBottom').style.backgroundImage = `url(images/${currentOutfit.bottoms})`;
+                }
+            }
+            
+            // Update shoes and accessories
+            if (currentOutfit.shoes) {
+                document.getElementById('previewShoes').style.backgroundImage = `url(images/${currentOutfit.shoes})`;
+            }
+            
+            if (currentOutfit.accessories) {
+                document.getElementById('previewAccessories').style.backgroundImage = `url(images/${currentOutfit.accessories})`;
+            }
+        }
+        
+        // Save outfit function
+        async function saveOutfit() {
+            // Check if any items are selected
+            const hasItems = Object.values(currentOutfit).some(item => item !== null);
+            
+            if (!hasItems) {
+                alert('Please select at least one item for your outfit!');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/users/${userId}/saveOutfit`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        outfit: currentOutfit,
+                        date: new Date().toISOString()
+                    }),
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Outfit saved successfully!');
+                } else {
+                    alert('Failed to save outfit: ' + (data.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error saving outfit:', error);
+                alert('Failed to save outfit. Please try again.');
+            }
+        }
+        
+        // Crush outfit function (add to favorites)
+        async function crushOutfit() {
+            // Check if any items are selected
+            const hasItems = Object.values(currentOutfit).some(item => item !== null);
+            
+            if (!hasItems) {
+                alert('Please select at least one item to crush!');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/users/${userId}/crushOutfit`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        outfit: currentOutfit,
+                        date: new Date().toISOString()
+                    }),
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Outfit crushed! ❤️');
+                    crushOutfitBtn.classList.add('crushed');
+                } else {
+                    alert('Failed to crush outfit: ' + (data.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error crushing outfit:', error);
+                alert('Failed to crush outfit. Please try again.');
+            }
+        }
+    });
+  </script>
 </body>
 </html>
