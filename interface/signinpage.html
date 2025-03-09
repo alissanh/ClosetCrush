@@ -95,10 +95,14 @@
         const signupForm = document.getElementById("signup-form");
         const signinButton = document.getElementById("show-signin");
         const signupButton = document.getElementById("show-signup");
+        const messageElement = document.getElementById("message");
 
         // Initially hide both forms
         signinForm.classList.add("hidden");
         signupForm.classList.add("hidden");
+        
+        // Show sign-in form by default
+        signinForm.classList.remove("hidden");
 
         // Show sign-in form and hide sign-up form
         signinButton.addEventListener("click", function () {
@@ -112,23 +116,125 @@
             signinForm.classList.add("hidden");
         });
 
-        // Redirect after sign-in form submission
-        signinForm.addEventListener("submit", function (event) {
+        // Handle sign-in form submission
+        signinForm.addEventListener("submit", async function (event) {
             event.preventDefault(); // Prevent default form submission behavior
-            console.log("Sign-in form submitted"); // Debugging
-            window.location.href = "landingpage.html"; // Redirect to landing page
+            
+            const email = document.getElementById("signin-email").value;
+            const password = document.getElementById("signin-password").value;
+            
+            try {
+                // Use the findOrCreate endpoint to ensure a user exists
+                const response = await fetch('/users/findOrCreate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email }),
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Store user ID in localStorage for later use
+                    localStorage.setItem('userId', data.user._id);
+                    localStorage.setItem('userEmail', data.user.email);
+                    
+                    messageElement.textContent = "Sign-in successful! Redirecting...";
+                    messageElement.style.color = "green";
+                    
+                    // Redirect to landing page after a short delay
+                    setTimeout(() => {
+                        window.location.href = "landingpage.html";
+                    }, 1000);
+                } else {
+                    messageElement.textContent = data.error || "Sign-in failed. Please try again.";
+                    messageElement.style.color = "red";
+                }
+            } catch (error) {
+                console.error('Error during sign-in:', error);
+                messageElement.textContent = "An error occurred. Please try again.";
+                messageElement.style.color = "red";
+            }
         });
 
-        // Redirect after sign-up form submission
-        signupForm.addEventListener("submit", function (event) {
+        // Handle sign-up form submission
+        signupForm.addEventListener("submit", async function (event) {
             event.preventDefault(); // Prevent default form submission behavior
-            console.log("Sign-up form submitted"); // Debugging
             
-            window.location.href = "landingpage.html"; // Redirect to landing page
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("signup-email").value;
+            const username = document.getElementById("signup-username").value;
+            const password = document.getElementById("signup-password").value;
+            const confirmPassword = document.getElementById("confirm-password").value;
+            
+            // Get selected background
+            const backgroundRadios = document.getElementsByName("background");
+            let background = "";
+            
+            for (let i = 0; i < backgroundRadios.length; i++) {
+                if (backgroundRadios[i].checked) {
+                    background = backgroundRadios[i].value;
+                    break;
+                }
+            }
+            
+            // Basic validation
+            if (password !== confirmPassword) {
+                messageElement.textContent = "Passwords do not match!";
+                messageElement.style.color = "red";
+                return;
+            }
+            
+            try {
+                // Use the findOrCreate endpoint to create a new user
+                const response = await fetch('/users/findOrCreate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        email,
+                        name,
+                        username,
+                        background
+                    }),
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Store user ID in localStorage for later use
+                    localStorage.setItem('userId', data.user._id);
+                    localStorage.setItem('userEmail', data.user.email);
+                    
+                    messageElement.textContent = "Account created successfully! Redirecting...";
+                    messageElement.style.color = "green";
+                    
+                    // Redirect to landing page after a short delay
+                    setTimeout(() => {
+                        window.location.href = "landingpage.html";
+                    }, 1000);
+                } else {
+                    messageElement.textContent = data.error || "Account creation failed. Please try again.";
+                    messageElement.style.color = "red";
+                }
+            } catch (error) {
+                console.error('Error during sign-up:', error);
+                messageElement.textContent = "An error occurred. Please try again.";
+                messageElement.style.color = "red";
+            }
         });
     });
-
     </script>
+
+    <!-- Footer -->
+  <footer>
+    <div class="footer-logo">
+        <img src="images/logo.png" alt="ClosetCrush Logo">
+    </div>
+    <p>© 2025 SL, JK, HH & AH. All Rights Reserved</p>
+</footer>
 
 </body>
 </html>

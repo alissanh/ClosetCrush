@@ -99,19 +99,19 @@ async function removeBackground(imageUrl) {
 app.post('/users/:id/addItem', async (req, res) => {
   try {
     const userId = req.params.id;
-    const { category, imageUrl } = req.body;
+    const { category, imageUrl, name, brand, price } = req.body;
 
     if (!category || !imageUrl) {
       return res.status(400).json({ error: 'Missing category or imageUrl' });
     }
 
     const { hostname } = new URL(imageUrl);
-    const parts = hostname.split('.');
-    let brand = parts[0];
-    if (brand === 'www' && parts.length > 1) brand = parts[1];
+    const urlParts = hostname.split('.');
+    let derivedBrand = urlParts[0];
+    if (derivedBrand === 'www' && urlParts.length > 1) derivedBrand = urlParts[1];
 
     const timestamp = Date.now();
-    const outputFilename = `${brand}_${category}_${timestamp}.png`;
+    const outputFilename = `${derivedBrand}_${category}_${timestamp}.png`;
 
     const imagesDir = path.join(frontendPath, 'images');
     if (!fs.existsSync(imagesDir)) fs.mkdirSync(imagesDir, { recursive: true });
@@ -123,16 +123,25 @@ app.post('/users/:id/addItem', async (req, res) => {
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ error: 'User not found' });
 
-    user[category].push(outputFilename);
+    // Create new item object with all details
+    const newItem = {
+      filename: outputFilename,
+      name: name || '',
+      brand: brand || derivedBrand,
+      price: price || '',
+      addedAt: new Date()
+    };
+
+    // Add item to the appropriate category
+    user[category].push(newItem);
     await user.save();
 
-    console.log(`Saved file for '${brand}' in category '${category}' -> ${outputFilename}`);
+    console.log(`Saved item "${name}" from '${brand || derivedBrand}' in category '${category}'`);
 
     return res.json({
       success: true,
       category,
-      brand,
-      filename: outputFilename,
+      item: newItem
     });
 
   } catch (error) {
@@ -249,6 +258,48 @@ app.get('/images/:imageName', (req, res) => {
   }
 });
 
+app.post('/users/:id/deleteItem', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { category, itemId } = req.body;
+
+    if (!category || !itemId) {
+      return res.status(400).json({ error: 'Missing category or itemId' });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    // Find the item by its ID
+    const itemIndex = user[category].findIndex(item => item._id.toString() === itemId);
+    
+    if (itemIndex === -1) {
+      return res.status(404).json({ error: 'Item not found in user\'s collection' });
+    }
+    
+    // Get filename before removing
+    const filename = user[category][itemIndex].filename;
+    
+    // Remove the item from the array
+    user[category].splice(itemIndex, 1);
+    await user.save();
+    
+    // Optionally delete the file from the filesystem
+    const imagePath = path.join(frontendPath, 'images', filename);
+    if (fs.existsSync(imagePath)) {
+      fs.unlinkSync(imagePath);
+    }
+    
+    return res.json({
+      success: true,
+      message: `Item removed from ${category}`
+    });
+
+  } catch (error) {
+    console.error('Error deleting item:', error);
+    return res.status(500).json({ error: error.message });
+  }
+});
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

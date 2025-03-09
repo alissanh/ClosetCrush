@@ -161,40 +161,42 @@
       const imagePreview = document.getElementById('image-preview');
     
       wishlistForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-    
-        // Gather form data
-        const formData = new FormData(wishlistForm);
-        const itemName = formData.get('itemName').trim();
-        const brandName = formData.get('brandName').trim();
-        const imageUrl = formData.get('imageLink').trim(); // Changed to match your original form
-        const category = formData.get('category');
-    
-        // Check if any required field is empty
-        if (!itemName || !brandName || !imageUrl || !category) {
-          statusMessage.textContent = 'Please fill out all fields!';
-          statusMessage.className = 'status-message error';
-          return;
-        }
-    
-        // Show loading message
-        statusMessage.textContent = 'Processing your image. This may take a moment...';
-        statusMessage.className = 'status-message loading';
-    
-        try {
-          // Send to server for processing
-          const response = await fetch(`/users/${userId}/addItem`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              imageUrl: imageUrl, // Using the image link from your form
-              category,
-              name: itemName,
-              brand: brandName
-            }),
-          });
+      event.preventDefault();
+
+      // Gather form data
+      const formData = new FormData(wishlistForm);
+      const itemName = formData.get('itemName').trim();
+      const brandName = formData.get('brandName').trim();
+      const price = formData.get('price').trim();  
+      const imageUrl = formData.get('imageLink').trim();
+      const category = formData.get('category');
+
+      // Check if any required field is empty
+      if (!imageUrl || !category) {
+        statusMessage.textContent = 'Image URL and category are required!';
+        statusMessage.className = 'status-message error';
+        return;
+      }
+
+      // Show loading message
+      statusMessage.textContent = 'Processing your image. This may take a moment...';
+      statusMessage.className = 'status-message loading';
+
+      try {
+        // Send to server for processing
+        const response = await fetch(`/users/${userId}/addItem`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            imageUrl,
+            category,
+            name: itemName,
+            brand: brandName,
+            price: price
+          }),
+        });
     
           const data = await response.json();
     
