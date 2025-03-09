@@ -31,18 +31,26 @@
     height: 50px;
   }
   
-  .nav-links {
+  /* Navigation Links */
+.nav-links {
     list-style: none;
     display: flex;
-    gap: 20px; 
+    gap: 20px;  /* Space between links */
     margin-left: auto;  /* Pushes links to the right */
-    padding: 10px 20px;
+    /* margin: 0;
+    padding: 0; */
   }
   
-  .nav-links li a {
+  .nav-links li {
+    display: inline-block;
+  }
+  
+  .nav-links a {
     text-decoration: none;
-    color: black;
     font-size: 18px;
+    color: #000000;
+    font-weight: bold;
+    transition: color 0.3s ease;
   }
   
   .right-section {

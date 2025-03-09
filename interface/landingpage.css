@@ -50,25 +50,25 @@ h1, h2, h3 {
 
 /* Navigation Links */
 .nav-links {
-  list-style: none;
-  display: flex;
-  gap: 20px;  /* Space between links */
-  margin-left: auto;  /* Pushes links to the right */
-  /* margin: 0;
-  padding: 0; */
-}
-
-.nav-links li {
-  display: inline-block;
-}
-
-.nav-links a {
-  text-decoration: none;
-  font-size: 18px;
-  color: #000000;
-  font-weight: bold;
-  transition: color 0.3s ease;
-}
+    list-style: none;
+    display: flex;
+    gap: 20px;  /* Space between links */
+    margin-left: auto;  /* Pushes links to the right */
+    /* margin: 0;
+    padding: 0; */
+  }
+  
+  .nav-links li {
+    display: inline-block;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    font-size: 18px;
+    color: #000000;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
 
 .nav-links a:hover {
   color: #BA56AE; /* Change text color to match your theme */
