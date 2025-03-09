@@ -42,33 +42,32 @@
 
   <!-- MAIN CONTENT -->
   <div class="profile-container">
-    <!-- Title and subtitle (like items-title) -->
-    <h1 class="profile-title">Hey Sophia!</h1>
-    <p class="profile-subtitle">Love your outfit!</p>
-
-    <!-- Subheading for top crushes -->
-    <h2 class="profile-subheading">My top crushes &lt;3</h2>
-
-    <!-- Two-column area (left = crush cards, right = Bratz carousel) -->
+    <!-- Two-column layout -->
     <div class="profile-grid">
-      <!-- LEFT COLUMN: crush cards -->
-      <div class="crush-cards">
-        <div class="crush-card">
-          <img src="images/dress.png" alt="Dress" />
-          <p>perf fit for brunch</p>
-        </div>
-        <div class="crush-card">
-          <img src="images/dress.png" alt="Dress" />
-          <p>perf fit for brunch</p>
-        </div>
-        <div class="crush-card">
-          <img src="images/dress.png" alt="Dress" />
-          <p>perf fit for brunch</p>
+      <!-- LEFT COLUMN: greeting, subheading, crush cards -->
+      <div class="left-column">
+        <h1 class="profile-title">Hey Sophia!</h1>
+        <p class="profile-subtitle">Love your outfit!</p>
+        <h2 class="profile-subheading">My top crushes &lt;3</h2>
+
+        <div class="crush-cards">
+          <div class="crush-card">
+            <img src="images/dress.png" alt="Dress" />
+            <p>perf fit for brunch</p>
+          </div>
+          <div class="crush-card">
+            <img src="images/dress.png" alt="Dress" />
+            <p>perf fit for brunch</p>
+          </div>
+          <div class="crush-card">
+            <img src="images/dress.png" alt="Dress" />
+            <p>perf fit for brunch</p>
+          </div>
         </div>
       </div>
 
       <!-- RIGHT COLUMN: Bratz carousel -->
-      <div class="profile-carousel">
+      <div class="right-column profile-carousel">
         <button id="prev-btn" onclick="prevImage()">&lt;</button>
         <img
           id="profile-pic"

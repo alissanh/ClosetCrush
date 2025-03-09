@@ -109,9 +109,20 @@
   /* TWO-COLUMN LAYOUT (like .items-grid, but for profile) */
   .profile-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Two equal-width columns */
-    gap: 40px; /* Spacing between columns */
-    align-items: start; /* top-aligned */
+    grid-template-columns: 1fr 1fr; 
+    gap: 40px; 
+  }
+  
+  .left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .right-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   /* LEFT COLUMN: crush-cards */
