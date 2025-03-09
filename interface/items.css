@@ -2,6 +2,7 @@
 body {
   margin: 0;
   padding: 5px;
+  height: 107%;
   font-family: 'Irish Grover', cursive;
   background-image: url(images/backgrounds/finalcleanbckgrnd.png);
   background-repeat: repeat;
