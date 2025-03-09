@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dream Closet - Clueless Inspired</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>My Dream Closet</h1>
+            <p class="tagline">As if! Your digital wardrobe awaits...</p>
+        </header>
+
+        <div class="main-content">
+            <div class="left-panel">
+                <div class="upload-section">
+                    <h2>Add to Your Closet</h2>
+                    <div class="url-input-container">
+                        <input type="text" id="imageUrlInput" placeholder="Paste image URL with plain background">
+                        <select id="categorySelect">
+                            <option value="tops">Top</option>
+                            <option value="bottoms">Bottom</option>
+                            <option value="shoes">Shoes</option>
+                            <option value="accessories">Accessory</option>
+                        </select>
+                        <button id="addItemBtn">Add Item</button>
+                    </div>
+                    <div id="uploadStatus" class="status-message"></div>
+                </div>
+                
+                <div class="saved-outfits">
+                    <h2>Saved Outfits</h2>
+                    <div id="outfitsList" class="outfits-list">
+                        <!-- Saved outfits will appear here -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-panel">
+                <div class="outfit-creator">
+                    <h2>Create Your Look</h2>
+                    
+                    <div class="mannequin-container">
+                        <div class="mannequin">
+                            <div id="previewTop" class="preview-item preview-top"></div>
+                            <div id="previewBottom" class="preview-item preview-bottom"></div>
+                            <div id="previewShoes" class="preview-item preview-shoes"></div>
+                            <div id="previewAccessories" class="preview-item preview-accessories"></div>
+                        </div>
+                        <button id="saveOutfitBtn" class="save-outfit-btn">Save This Outfit</button>
+                    </div>
+                    
+                    <div class="closet-items">
+                        <div class="category-section">
+                            <h3>Tops</h3>
+                            <div id="topsContainer" class="items-scroll">
+                                <!-- Tops will appear here -->
+                            </div>
+                        </div>
+                        
+                        <div class="category-section">
+                            <h3>Bottoms</h3>
+                            <div id="bottomsContainer" class="items-scroll">
+                                <!-- Bottoms will appear here -->
+                            </div>
+                        </div>
+                        
+                        <div class="category-section">
+                            <h3>Shoes</h3>
+                            <div id="shoesContainer" class="items-scroll">
+                                <!-- Shoes will appear here -->
+                            </div>
+                        </div>
+                        
+                        <div class="category-section">
+                            <h3>Accessories</h3>
+                            <div id="accessoriesContainer" class="items-scroll">
+                                <!-- Accessories will appear here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="userIdModal" class="modal">
+            <div class="modal-content">
+                <h2>Welcome to My Dream Closet</h2>
+                <p>Enter your email to access your closet:</p>
+                <input type="email" id="userEmailInput" placeholder="your@email.com">
+                <button id="loginBtn">Let's Get Started</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
