@@ -68,7 +68,14 @@ app.post('/users/:id/addItem', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = 8080;
+
+app.use(express.static(__dirname));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'landingpage.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
