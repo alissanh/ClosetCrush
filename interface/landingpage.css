@@ -1,0 +1,90 @@
+/* General Styles */
+body {
+    margin: 0;
+    padding: 5px;
+    font-family: 'Irish Grover', cursive;
+    background-color: #F2CBEF; /* Light pink background */
+}
+
+/* Navbar Styling */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #F2CBEF; /* Soft pastel pink */
+    padding: 10px 20px;
+}
+
+/* Logo */
+.logo img {
+    height: 40px; /* Adjust size as needed */
+}
+
+/* Navigation Links */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;  /* Space between links */
+    margin-left: auto;  /* Pushes links to the right */
+    /* margin: 0;
+    padding: 0; */
+}
+
+.nav-links li {
+    display: inline-block;
+}
+
+.nav-links a {
+    text-decoration: none;
+    font-size: 18px;
+    color: #000000;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #BA56AE; /* Change text color to match your theme */
+}
+
+/* Right Section (Buttons & User Icon) */
+.right-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Add Button */
+.add-button {
+    color: #BA56AE;
+    border: none;
+    background: none;
+    font-size: 40px;
+    font-weight: bold;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+/* My Crushes Button */
+.my-crushes {
+    font-family: 'Irish Grover', cursive;
+    background-color: #BA56AE;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    width: auto;
+    white-space: nowrap;
+    font-size: 16px;
+    border-radius: 10px;
+}
+
+.my-crushes:hover {
+    background-color: #a35287;
+}
+
+/* User Icon */
+.user-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+}
