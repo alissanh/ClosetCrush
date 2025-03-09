@@ -10,8 +10,16 @@ import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 import User from './data.js';
 
+// Add local storage database
+const localDb = {
+  users: {}
+};
+
+let useLocalStorage = true;
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
 
 // Check if interface folder is in the current directory or one level up
 let frontendPath = path.join(__dirname, 'interface');
@@ -83,17 +91,30 @@ if (!process.env.MONGODB_URI) {
   process.exit(1); // Exit with error
 }
 
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB!'))
-  .catch((error) => console.error('MongoDB connection error:', error));
+mongoose.connect(process.env.MONGODB_URI, {
+  serverSelectionTimeoutMS: 30000,
+})
+.then(() => console.log('Connected to MongoDB!'))
+.catch((error) => {
+  console.error('MongoDB connection error details:', error);
+  if (error.name === 'MongoServerSelectionError') {
+    console.error('Cannot connect to MongoDB server. Please check network connectivity and MongoDB Atlas configuration.');
+  }
+});
 
+// Background removal function
 const replicate = new Replicate({ auth: process.env.REPLICATE_API_TOKEN });
 const REMBG_MODEL_VERSION =
   'cjwbw/rembg:fb8af171cfa1616ddcf1242c093f9c46bcada5ad4cf6f2fbe8b81b330ec5c003';
 
 async function removeBackground(imageUrl) {
-  const stream = await replicate.run(REMBG_MODEL_VERSION, { input: { image: imageUrl } });
-  return stream;
+  try {
+    const stream = await replicate.run(REMBG_MODEL_VERSION, { input: { image: imageUrl } });
+    return stream;
+  } catch (error) {
+    console.error('Error removing background:', error);
+    throw error;
+  }
 }
 
 app.post('/users/:id/addItem', async (req, res) => {
@@ -152,6 +173,29 @@ app.post('/users/:id/addItem', async (req, res) => {
 
 app.get('/users/:id/items', async (req, res) => {
   try {
+    if (useLocalStorage) {
+      // Find user by email (we're using email as key in localDb)
+      let userEmail = '';
+      for (const email in localDb.users) {
+        if (localDb.users[email]._id === req.params.id) {
+          userEmail = email;
+          break;
+        }
+      }
+      
+      if (!userEmail) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      
+      return res.json({
+        tops: localDb.users[userEmail].tops,
+        bottoms: localDb.users[userEmail].bottoms,
+        shoes: localDb.users[userEmail].shoes,
+        accessories: localDb.users[userEmail].accessories
+      });
+    }
+    
+    // If MongoDB is available
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ error: 'User not found' });
 
@@ -174,10 +218,35 @@ app.post('/users/findOrCreate', async (req, res) => {
       return res.status(400).json({ error: 'Email is required' });
     }
     
-    // Look for existing user
+    // Use local storage fallback if MongoDB is unavailable
+    if (useLocalStorage) {
+      // Check if user exists in local storage
+      if (!localDb.users[email]) {
+        // Create new user
+        localDb.users[email] = {
+          _id: Date.now().toString(),
+          email,
+          tops: [],
+          bottoms: [],
+          shoes: [],
+          accessories: [],
+          outfits: [],
+          crushes: []
+        };
+      }
+      
+      return res.json({
+        success: true,
+        user: {
+          _id: localDb.users[email]._id,
+          email: localDb.users[email].email
+        }
+      });
+    }
+    
+    // If MongoDB is available, use it as before
     let user = await User.findOne({ email });
     
-    // If no user found, create a new one
     if (!user) {
       user = new User({ email });
       await user.save();
@@ -297,6 +366,80 @@ app.post('/users/:id/deleteItem', async (req, res) => {
 
   } catch (error) {
     console.error('Error deleting item:', error);
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+// Save an outfit
+app.post('/users/:id/saveOutfit', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { outfit, date } = req.body;
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    // Initialize outfits array if it doesn't exist
+    if (!user.outfits) {
+      user.outfits = [];
+    }
+
+    // Add the outfit
+    user.outfits.push({
+      tops: outfit.tops,
+      bottoms: outfit.bottoms,
+      dresses: outfit.dresses,
+      shoes: outfit.shoes,
+      accessories: outfit.accessories,
+      date: date || new Date()
+    });
+
+    await user.save();
+
+    return res.json({
+      success: true,
+      message: 'Outfit saved successfully'
+    });
+
+  } catch (error) {
+    console.error('Error saving outfit:', error);
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+// Add an outfit to crushes (favorites)
+app.post('/users/:id/crushOutfit', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { outfit, date } = req.body;
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    // Initialize crushes array if it doesn't exist
+    if (!user.crushes) {
+      user.crushes = [];
+    }
+
+    // Add the outfit to crushes
+    user.crushes.push({
+      tops: outfit.tops,
+      bottoms: outfit.bottoms,
+      dresses: outfit.dresses,
+      shoes: outfit.shoes,
+      accessories: outfit.accessories,
+      date: date || new Date()
+    });
+
+    await user.save();
+
+    return res.json({
+      success: true,
+      message: 'Outfit added to crushes'
+    });
+
+  } catch (error) {
+    console.error('Error adding outfit to crushes:', error);
     return res.status(500).json({ error: error.message });
   }
 });
