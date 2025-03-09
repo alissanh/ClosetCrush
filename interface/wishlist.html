@@ -95,26 +95,33 @@
   </footer>
 
 
-  <!-- Script to handle the form submission (optional) -->
-   <!-- Script to handle the form submission (optional) -->
   <script>
     const wishlistForm = document.getElementById('wishlistForm');
+  
     wishlistForm.addEventListener('submit', (event) => {
       event.preventDefault();
-
+  
       // Gather form data
       const formData = new FormData(wishlistForm);
-      const itemName = formData.get('itemName');
-      const brandName = formData.get('brandName');
-      const price = formData.get('price');
-      const imageLink = formData.get('imageLink');
-
+      const itemName = formData.get('itemName').trim();
+      const brandName = formData.get('brandName').trim();
+      const price = formData.get('price').trim();
+      const imageLink = formData.get('imageLink').trim();
+  
+      // Check if any required field is empty
+      if (!itemName || !brandName || !price || !imageLink) {
+        alert('Please fill out all fields!');
+        return; // Stop here, do not proceed to crush item
+      }
+  
+      // If all fields have values
       console.log({ itemName, brandName, price, imageLink });
       alert('Your item has been crushed!');
-
+  
       // Clear the form or navigate somewhere else
       wishlistForm.reset();
     });
   </script>
+  
 </body>
 </html>
