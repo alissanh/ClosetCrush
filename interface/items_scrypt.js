@@ -9,14 +9,89 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Determine the current category based on the page URL or filename
     const currentPage = window.location.pathname.split('/').pop().replace('.html', '');
-    const categories = ['tops', 'bottoms', 'shoes', 'accessories'];
+    const categories = ['tops', 'bottoms', 'shoes', 'accessories', 'dresses'];
     
     // Default to the first category if we can't determine it from the URL
     let category = categories.includes(currentPage) ? currentPage : 'shoes';
     
-    // Load user's items for the current category
-    loadUserItems(userId, category);
+    // Sync items with server first
+    syncItemsToServer().then(() => {
+      // Load user's items for the current category
+      loadUserItems(userId, category);
+    });
   });
+  
+  async function syncItemsToServer() {
+    const userId = localStorage.getItem('userId');
+    if (!userId) return;
+    
+    try {
+      // Retrieve any locally stored items
+      const localTops = JSON.parse(localStorage.getItem('tops') || '[]');
+      const localBottoms = JSON.parse(localStorage.getItem('bottoms') || '[]');
+      const localDresses = JSON.parse(localStorage.getItem('dresses') || '[]');
+      const localShoes = JSON.parse(localStorage.getItem('shoes') || '[]');
+      const localAccessories = JSON.parse(localStorage.getItem('accessories') || '[]');
+      const localCrushes = JSON.parse(localStorage.getItem('outfitCrushes') || '[]');
+      
+      console.log('Local items for sync:', {
+        tops: localTops.length,
+        bottoms: localBottoms.length,
+        dresses: localDresses.length,
+        shoes: localShoes.length,
+        accessories: localAccessories.length,
+        crushes: localCrushes.length
+      });
+      
+      // Prepare data for sync
+      const syncData = {
+        items: {
+          tops: localTops,
+          bottoms: localBottoms,
+          dresses: localDresses,
+          shoes: localShoes,
+          accessories: localAccessories
+        },
+        crushes: localCrushes
+      };
+      
+      // Send to server
+      const response = await fetch(`/users/${userId}/sync`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(syncData)
+      });
+      
+      const result = await response.json();
+      console.log('Sync result:', result);
+      
+      return result;
+    } catch (error) {
+      console.error('Error syncing items:', error);
+      return null;
+    }
+  }
+  
+  // Store item locally function
+  function storeItemLocally(category, item) {
+    try {
+      let items = JSON.parse(localStorage.getItem(category) || '[]');
+      
+      // Check if the item already exists
+      const exists = items.some(existingItem => 
+        existingItem._id === item._id || existingItem.filename === item.filename);
+        
+      if (!exists) {
+        items.push(item);
+        localStorage.setItem(category, JSON.stringify(items));
+        console.log(`Stored ${category} item locally, total: ${items.length}`);
+      }
+    } catch (error) {
+      console.error(`Error storing ${category} locally:`, error);
+    }
+  }
   
   async function loadUserItems(userId, category) {
     const itemsGrid = document.getElementById('items-grid');
@@ -42,6 +117,14 @@ document.addEventListener('DOMContentLoaded', function() {
         emptyState.style.display = 'block';
         return;
       }
+      
+      // Store items in localStorage for each category
+      Object.keys(data).forEach(cat => {
+        if (Array.isArray(data[cat])) {
+          localStorage.setItem(cat, JSON.stringify(data[cat]));
+          console.log(`Stored ${data[cat].length} ${cat} items in localStorage`);
+        }
+      });
       
       data[category].forEach(item => {
         // Create item card
@@ -123,6 +206,15 @@ document.addEventListener('DOMContentLoaded', function() {
       if (data.success) {
         // Remove the item card from the grid
         itemCard.remove();
+        
+        // Remove from local storage too
+        try {
+          let items = JSON.parse(localStorage.getItem(category) || '[]');
+          items = items.filter(item => item._id !== itemId);
+          localStorage.setItem(category, JSON.stringify(items));
+        } catch (e) {
+          console.error('Error updating localStorage after delete:', e);
+        }
         
         // Check if there are any items left
         const itemsGrid = document.getElementById('items-grid');

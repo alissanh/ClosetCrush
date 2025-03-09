@@ -153,86 +153,165 @@
   </footer>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Check if user is logged in
-      const userId = localStorage.getItem('userId');
-      if (!userId) {
-        // Redirect to sign-in page if no user is logged in
-        window.location.href = "/signin";
-        return;
-      }
-      
-      const wishlistForm = document.getElementById('wishlistForm');
-      const statusMessage = document.getElementById('status-message');
-      const previewContainer = document.getElementById('preview-container');
-      const imagePreview = document.getElementById('image-preview');
-    
-      wishlistForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
+document.addEventListener('DOMContentLoaded', function() {
+  // Check if user is logged in
+  const userId = localStorage.getItem('userId');
+  if (!userId) {
+    // Redirect to sign-in page if no user is logged in
+    window.location.href = "/signin";
+    return;
+  }
+  
+  // Sync items first
+  syncItemsToServer();
+  
+  const wishlistForm = document.getElementById('wishlistForm');
+  const statusMessage = document.getElementById('status-message');
+  const previewContainer = document.getElementById('preview-container');
+  const imagePreview = document.getElementById('image-preview');
 
-      // Gather form data
-      const formData = new FormData(wishlistForm);
-      const itemName = formData.get('itemName').trim();
-      const brandName = formData.get('brandName').trim();
-      const price = formData.get('price').trim();  
-      const imageUrl = formData.get('imageLink').trim();
-      const category = formData.get('category');
+  wishlistForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
 
-      // Check if any required field is empty
-      if (!imageUrl || !category) {
-        statusMessage.textContent = 'Image URL and category are required!';
-        statusMessage.className = 'status-message error';
-        return;
-      }
+    // Gather form data
+    const formData = new FormData(wishlistForm);
+    const itemName = formData.get('itemName').trim();
+    const brandName = formData.get('brandName').trim();
+    const price = formData.get('price').trim();  
+    const imageUrl = formData.get('imageLink').trim();
+    const category = formData.get('category');
 
-      // Show loading message
-      statusMessage.textContent = 'Processing your image. This may take a moment...';
-      statusMessage.className = 'status-message loading';
+    // Check if any required field is empty
+    if (!imageUrl || !category) {
+      statusMessage.textContent = 'Image URL and category are required!';
+      statusMessage.className = 'status-message error';
+      return;
+    }
 
-      try {
-        // Send to server for processing
-        const response = await fetch(`/users/${userId}/addItem`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            imageUrl,
-            category,
-            name: itemName,
-            brand: brandName,
-            price: price
-          }),
-        });
-    
-          const data = await response.json();
-    
-          if (data.success) {
-            // Show success message
-            statusMessage.textContent = `Your item has been crushed and added to your ${category} collection!`;
-            statusMessage.className = 'status-message success';
-    
-            // Show preview if available
-            if (data.filename) {
-              previewContainer.style.display = 'block';
-              imagePreview.style.backgroundImage = `url(/images/${data.filename})`;
-            }
-    
-            // Clear the form
-            wishlistForm.reset();
-    
-          } else {
-            // Show error
-            statusMessage.textContent = data.error || 'Failed to add item. Please try again.';
-            statusMessage.className = 'status-message error';
-          }
-        } catch (error) {
-          console.error('Error adding item:', error);
-          statusMessage.textContent = 'An error occurred. Please try again.';
-          statusMessage.className = 'status-message error';
-        }
+    // Show loading message
+    statusMessage.textContent = 'Processing your image. This may take a moment...';
+    statusMessage.className = 'status-message loading';
+
+    try {
+      // Send to server for processing
+      const response = await fetch(`/users/${userId}/addItem`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          imageUrl,
+          category,
+          name: itemName,
+          brand: brandName,
+          price: price
+        }),
       });
+  
+      const data = await response.json();
+  
+      if (data.success) {
+        // Store item locally as well
+        storeItemLocally(category, data.item);
+        
+        // Show success message
+        statusMessage.textContent = `Your item has been crushed and added to your ${category} collection!`;
+        statusMessage.className = 'status-message success';
+  
+        // Show preview if available
+        if (data.item && data.item.filename) {
+          previewContainer.style.display = 'block';
+          imagePreview.style.backgroundImage = `url(/images/${data.item.filename})`;
+        }
+  
+        // Clear the form
+        wishlistForm.reset();
+  
+      } else {
+        // Show error
+        statusMessage.textContent = data.error || 'Failed to add item. Please try again.';
+        statusMessage.className = 'status-message error';
+      }
+    } catch (error) {
+      console.error('Error adding item:', error);
+      statusMessage.textContent = 'An error occurred. Please try again.';
+      statusMessage.className = 'status-message error';
+    }
+  });
+});
+
+// Sync items with server
+async function syncItemsToServer() {
+  const userId = localStorage.getItem('userId');
+  if (!userId) return;
+  
+  try {
+    // Retrieve any locally stored items
+    const localTops = JSON.parse(localStorage.getItem('tops') || '[]');
+    const localBottoms = JSON.parse(localStorage.getItem('bottoms') || '[]');
+    const localDresses = JSON.parse(localStorage.getItem('dresses') || '[]');
+    const localShoes = JSON.parse(localStorage.getItem('shoes') || '[]');
+    const localAccessories = JSON.parse(localStorage.getItem('accessories') || '[]');
+    const localCrushes = JSON.parse(localStorage.getItem('outfitCrushes') || '[]');
+    
+    console.log('Local items for sync:', {
+      tops: localTops.length,
+      bottoms: localBottoms.length,
+      dresses: localDresses.length,
+      shoes: localShoes.length,
+      accessories: localAccessories.length,
+      crushes: localCrushes.length
     });
+    
+    // Prepare data for sync
+    const syncData = {
+      items: {
+        tops: localTops,
+        bottoms: localBottoms,
+        dresses: localDresses,
+        shoes: localShoes,
+        accessories: localAccessories
+      },
+      crushes: localCrushes
+    };
+    
+    // Send to server
+    const response = await fetch(`/users/${userId}/sync`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(syncData)
+    });
+    
+    const result = await response.json();
+    console.log('Sync result:', result);
+    
+    return result;
+  } catch (error) {
+    console.error('Error syncing items:', error);
+    return null;
+  }
+}
+
+// Store item locally function
+function storeItemLocally(category, item) {
+  try {
+    let items = JSON.parse(localStorage.getItem(category) || '[]');
+    
+    // Check if the item already exists
+    const exists = items.some(existingItem => 
+      existingItem._id === item._id || existingItem.filename === item.filename);
+      
+    if (!exists) {
+      items.push(item);
+      localStorage.setItem(category, JSON.stringify(items));
+      console.log(`Stored ${category} item locally, total: ${items.length}`);
+    }
+  } catch (error) {
+    console.error(`Error storing ${category} locally:`, error);
+  }
+}
   </script>
 </body>
 </html>
