@@ -1,20 +1,111 @@
+/* General Styles */
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f3d5e6; /* Light pink */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     margin: 0;
+    padding: 5px;
+    font-family: 'Irish Grover', cursive;
+    background-color: #F2CBEF; /* Light pink background */
 }
 
+/* Navbar Styling */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #F2CBEF; /* Soft pastel pink */
+    padding: 10px 20px;
+}
+
+/* Logo */
+.logo img {
+    height: 40px; /* Adjust size as needed */
+}
+
+/* Navigation Links */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;  /* Space between links */
+    margin-left: auto;  /* Pushes links to the right */
+    /* margin: 0;
+    padding: 0; */
+}
+
+.nav-links li {
+    display: inline-block;
+}
+
+.nav-links a {
+    text-decoration: none;
+    font-size: 18px;
+    color: #000000;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #BA56AE; /* Change text color to match your theme */
+}
+
+/* Right Section (Buttons & User Icon) */
+.right-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Add Button */
+.add-button {
+    color: #BA56AE;
+    border: none;
+    background: none;
+    font-size: 40px;
+    font-weight: bold;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+.my-crushes:hover {
+    background-color: #a35287;
+}
+
+/* My Crushes Button */
+.my-crushes {
+    font-family: 'Irish Grover', cursive;
+    background-color: #BA56AE;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    width: auto;
+    white-space: nowrap;
+    font-size: 16px;
+    border-radius: 10px;
+}
+
+.my-crushes:hover {
+    background-color: #a35287;
+}
+
+/* User Icon */
+.user-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Centered Container */
 .container {
     background-color: white;
-    padding: 20px;
+    padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 350px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    width: 400px;
+    margin: 50px auto; /* Centers horizontally with space from the top */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 h2 {
@@ -36,6 +127,7 @@ input, select {
 
 button {
     background-color: #ba56ae;
+    font-family: 'Irish Grover', cursive;
     color: white;
     width: 100%;
     padding: 10px;
@@ -70,3 +162,8 @@ button:hover {
 input[type="radio"]:checked + .bg-preview {
     border-color: #ba56ae;
 }
+
+.hidden {
+    display: none;
+}
+

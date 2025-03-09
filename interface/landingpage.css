@@ -64,6 +64,10 @@ body {
     cursor: pointer;
 }
 
+.my-crushes:hover {
+    background-color: #a35287;
+}
+
 /* My Crushes Button */
 .my-crushes {
     font-family: 'Irish Grover', cursive;

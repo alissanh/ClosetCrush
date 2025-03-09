@@ -26,20 +26,20 @@
             <div class="right-section">
                 <button class="add-button">+</button>
                 <button class="my-crushes">My Crushes</button>
-                <img src="images/" alt="User Icon" class="user-icon">
+                <img src="images/profile.png" alt="User Icon" class="user-icon">
              </div>
         </nav>
     </header>
 
     <div class="container">
-        <h2>Select an Option</h2>
+        <h2>Welcome, Please Select an Option</h2>
         <div class="toggle-buttons">
             <button id="show-signin">Sign In</button>
             <button id="show-signup">Create Account</button>
         </div>
 
         <!-- Sign-In Form -->
-        <form id="signin-form" class="form-section">
+        <form id="signin-form" class="form-section hidden">
             <label for="signin-email">Email or Username:</label>
             <input type="text" id="signin-email" required>
 
@@ -86,15 +86,15 @@
             <div class="background-options">
                 <label>
                     <input type="radio" name="background" value="bg1.jpg" checked>
-                    <img src="bg1.jpg" alt="Background 1" class="bg-preview">
+                    <img src="images/backgrounds/finalcheetahbckgrnd.jpeg" alt="Background 1" class="bg-preview">
                 </label>
                 <label>
                     <input type="radio" name="background" value="bg2.jpg">
-                    <img src="bg2.jpg" alt="Background 2" class="bg-preview">
+                    <img src="images/backgrounds/finalcleanbckgrnd.png" alt="Background 2" class="bg-preview">
                 </label>
                 <label>
                     <input type="radio" name="background" value="bg3.jpg">
-                    <img src="bg3.jpg" alt="Background 3" class="bg-preview">
+                    <img src="images/backgrounds/finalhangerbckgrnd.png" alt="Background 3" class="bg-preview">
                 </label>
             </div>
 
@@ -104,6 +104,31 @@
         <p id="message"></p>
     </div>
 
-    <script src="script.js"></script>
+    <!-- JavaScript at the End -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const signinForm = document.getElementById("signin-form");
+            const signupForm = document.getElementById("signup-form");
+            const signinButton = document.getElementById("show-signin");
+            const signupButton = document.getElementById("show-signup");
+
+            // Initially hide both forms
+            signinForm.classList.add("hidden");
+            signupForm.classList.add("hidden");
+
+            // Show sign-in form and hide sign-up form
+            signinButton.addEventListener("click", function () {
+                signinForm.classList.remove("hidden");
+                signupForm.classList.add("hidden");
+            });
+
+            // Show sign-up form and hide sign-in form
+            signupButton.addEventListener("click", function () {
+                signupForm.classList.remove("hidden");
+                signinForm.classList.add("hidden");
+            });
+        });
+    </script>
+
 </body>
 </html>
