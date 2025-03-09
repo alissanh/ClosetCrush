@@ -98,56 +98,246 @@
 
   <!-- JavaScript for cycling profile images and persisting choice -->
   <script>
-    // Array of profile image paths
-    const bratzImages = [
-      'images/bratzOneNoBg.png',
-      'images/bratzTwoNoBg.png',
-      'images/bratzThreeNoBg.png'
+// Array of profile image paths
+const bratzImages = [
+  'images/bratzOneNoBg.png',
+  'images/bratzTwoNoBg.png',
+  'images/bratzThreeNoBg.png'
+];
+
+let currentIndex = 0;  // We will update this from localStorage if available
+
+function loadSavedIndex() {
+  const savedIndex = localStorage.getItem('bratzIndex');
+  if (savedIndex !== null) {
+    currentIndex = parseInt(savedIndex, 10);
+    // Ensure it's still in range
+    if (isNaN(currentIndex) || currentIndex < 0 || currentIndex >= bratzImages.length) {
+      currentIndex = 0; // fallback if out of range
+    }
+  }
+}
+
+function saveIndex(index) {
+  localStorage.setItem('bratzIndex', index.toString());
+}
+
+function showImage(index) {
+  document.getElementById('profile-pic').src = bratzImages[index];
+  document.getElementById('icon-pic').src = bratzImages[index];
+  saveIndex(index); // Save the new choice
+}
+
+// Go to the previous image
+function prevImage() {
+  currentIndex = (currentIndex - 1 + bratzImages.length) % bratzImages.length;
+  showImage(currentIndex);
+}
+
+// Go to the next image
+function nextImage() {
+  currentIndex = (currentIndex + 1) % bratzImages.length;
+  showImage(currentIndex);
+}
+
+// Load saved outfits/crushes and display them
+async function loadSavedOutfits() {
+  const userId = localStorage.getItem('userId');
+  if (!userId) {
+    window.location.href = "signinpage.html";
+    return;
+  }
+
+  // Set welcome message with user's email
+  const userEmail = localStorage.getItem('userEmail');
+  if (userEmail) {
+    const profileTitle = document.querySelector('.profile-title');
+    if (profileTitle) {
+      profileTitle.textContent = `Hey ${userEmail.split('@')[0]}!`;
+    }
+  }
+
+  // Container for crush cards
+  const crushCardsContainer = document.querySelector('.crush-cards');
+  
+  try {
+    // Create mock outfits for testing (since your API might not be working)
+    const mockOutfits = [
+      {
+        outfit: {
+          tops: "top1.png",
+          bottoms: "bottom1.png",
+          shoes: "shoes1.png"
+        },
+        date: new Date().toISOString()
+      },
+      {
+        outfit: {
+          dresses: "dress1.png",
+          accessories: "accessory1.png"
+        },
+        date: new Date().toISOString()
+      }
     ];
     
-    let currentIndex = 0;  // We will update this from localStorage if available
-
-    // 1) Attempt to load the saved index from localStorage (if any)
-    function loadSavedIndex() {
-      const savedIndex = localStorage.getItem('bratzIndex');
-      if (savedIndex !== null) {
-        currentIndex = parseInt(savedIndex, 10);
-        // Ensure it's still in range
-        if (isNaN(currentIndex) || currentIndex < 0 || currentIndex >= bratzImages.length) {
-          currentIndex = 0; // fallback if out of range
+    // Try to fetch from API first
+    let outfitsToShow = [];
+    try {
+      const response = await fetch(`/users/${userId}/crushes`);
+      
+      if (response.ok) {
+        const data = await response.json();
+        if (data && data.length > 0) {
+          outfitsToShow = data.slice(0, 6);
+        }
+      }
+    } catch (apiError) {
+      console.log("API error, falling back to localStorage:", apiError);
+    }
+    
+    // If API failed, try localStorage
+    if (outfitsToShow.length === 0) {
+      const localCrushes = localStorage.getItem('outfitCrushes');
+      if (localCrushes) {
+        try {
+          const crushes = JSON.parse(localCrushes);
+          if (crushes && crushes.length > 0) {
+            outfitsToShow = crushes.slice(0, 6);
+          }
+        } catch (localError) {
+          console.log("LocalStorage parse error:", localError);
         }
       }
     }
-
-    // 2) Save the current index to localStorage
-    function saveIndex(index) {
-      localStorage.setItem('bratzIndex', index.toString());
+    
+    // If still no outfits, use mock data for testing
+    if (outfitsToShow.length === 0) {
+      console.log("Using mock outfits for testing");
+      outfitsToShow = mockOutfits;
     }
-
-    // Updates both the main profile-pic and the icon-pic
-    function showImage(index) {
-      document.getElementById('profile-pic').src = bratzImages[index];
-      document.getElementById('icon-pic').src = bratzImages[index];
-      saveIndex(index); // Save the new choice
+    
+    // Clear placeholder content
+    crushCardsContainer.innerHTML = '';
+    
+    // Check if there are any crushes
+    if (outfitsToShow.length === 0) {
+      const emptyMessage = document.createElement('p');
+      emptyMessage.className = 'empty-message';
+      emptyMessage.textContent = 'No crushes yet! Go create some outfit crushes.';
+      crushCardsContainer.appendChild(emptyMessage);
+      return;
     }
-
-    // Go to the previous image
-    function prevImage() {
-      currentIndex = (currentIndex - 1 + bratzImages.length) % bratzImages.length;
-      showImage(currentIndex);
-    }
-
-    // Go to the next image
-    function nextImage() {
-      currentIndex = (currentIndex + 1) % bratzImages.length;
-      showImage(currentIndex);
-    }
-
-    // 3) Load the saved index (if any) as soon as the page loads, then show that image
-    document.addEventListener('DOMContentLoaded', function() {
-      loadSavedIndex();
-      showImage(currentIndex);
+    
+    // Display the outfits
+    outfitsToShow.forEach((outfit, index) => {
+      const crushCard = document.createElement('div');
+      crushCard.className = 'crush-card';
+      
+      // Format the date
+      const outfitDate = new Date(outfit.date);
+      const formattedDate = outfitDate.toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: 'numeric' 
+      });
+      
+      // Create the outfit container
+      const outfitDisplay = document.createElement('div');
+      outfitDisplay.className = 'outfit-display';
+      
+      // Debug info
+      console.log(`Rendering outfit ${index+1}:`, outfit.outfit);
+      
+      // Decide whether to show dress or top/bottom combo
+      if (outfit.outfit.dresses) {
+        // Show dress
+        const dressElement = document.createElement('div');
+        dressElement.className = 'outfit-item outfit-dress';
+        dressElement.style.backgroundImage = `url(images/${outfit.outfit.dresses})`;
+        outfitDisplay.appendChild(dressElement);
+        console.log(`Added dress: ${outfit.outfit.dresses}`);
+      } else {
+        // Show top and bottom
+        if (outfit.outfit.tops) {
+          const topElement = document.createElement('div');
+          topElement.className = 'outfit-item outfit-top';
+          topElement.style.backgroundImage = `url(images/${outfit.outfit.tops})`;
+          outfitDisplay.appendChild(topElement);
+          console.log(`Added top: ${outfit.outfit.tops}`);
+        }
+        
+        if (outfit.outfit.bottoms) {
+          const bottomElement = document.createElement('div');
+          bottomElement.className = 'outfit-item outfit-bottom';
+          bottomElement.style.backgroundImage = `url(images/${outfit.outfit.bottoms})`;
+          outfitDisplay.appendChild(bottomElement);
+          console.log(`Added bottom: ${outfit.outfit.bottoms}`);
+        }
+      }
+      
+      // Add shoes if present
+      if (outfit.outfit.shoes) {
+        const shoesElement = document.createElement('div');
+        shoesElement.className = 'outfit-item outfit-shoes';
+        shoesElement.style.backgroundImage = `url(images/${outfit.outfit.shoes})`;
+        outfitDisplay.appendChild(shoesElement);
+        console.log(`Added shoes: ${outfit.outfit.shoes}`);
+      }
+      
+      // Add accessories if present
+      if (outfit.outfit.accessories) {
+        const accessoriesElement = document.createElement('div');
+        accessoriesElement.className = 'outfit-item outfit-accessories';
+        accessoriesElement.style.backgroundImage = `url(images/${outfit.outfit.accessories})`;
+        outfitDisplay.appendChild(accessoriesElement);
+        console.log(`Added accessories: ${outfit.outfit.accessories}`);
+      }
+      
+      // Add a fallback image if the outfit is empty
+      if (!outfit.outfit.dresses && !outfit.outfit.tops && !outfit.outfit.bottoms && 
+          !outfit.outfit.shoes && !outfit.outfit.accessories) {
+        const emptyOutfit = document.createElement('div');
+        emptyOutfit.className = 'outfit-item outfit-dress';
+        emptyOutfit.style.backgroundImage = `url(images/empty_outfit.png)`;
+        emptyOutfit.textContent = 'No items';
+        emptyOutfit.style.display = 'flex';
+        emptyOutfit.style.justifyContent = 'center';
+        emptyOutfit.style.alignItems = 'center';
+        emptyOutfit.style.color = '#999';
+        outfitDisplay.appendChild(emptyOutfit);
+        console.log(`Added empty outfit placeholder`);
+      }
+      
+      // Create description
+      const description = document.createElement('p');
+      description.textContent = `Outfit crushed on ${formattedDate}`;
+      
+      // Add everything to the crush card
+      crushCard.appendChild(outfitDisplay);
+      crushCard.appendChild(description);
+      
+      crushCardsContainer.appendChild(crushCard);
     });
+    
+  } catch (error) {
+    console.error('Error in loadSavedOutfits:', error);
+    crushCardsContainer.innerHTML = '<p class="empty-message">Error loading outfits. Please try again.</p>';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  loadSavedIndex();
+  showImage(currentIndex);
+  loadSavedOutfits();
+  
+  // Add click handler for My Crushes button
+  const myCrushesBtn = document.querySelector('.my-crushes');
+  if (myCrushesBtn) {
+    myCrushesBtn.addEventListener('click', () => {
+      // Already on profile page, could refresh the crushes
+      loadSavedOutfits();
+    });
+  }
+});
   </script>
 </body>
 </html>
