@@ -1,62 +1,90 @@
-/* Basic Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Use Irish Grover throughout */
+/* General Styles */
 body {
+  margin: 0;
+  padding: 5px;
   font-family: 'Irish Grover', cursive;
-  background-image: url(images/backgrounds/finalcleanbckgrnd.png);
-  background-repeat: repeat;
+  background-color: #F2CBEF; /* Light pink background */
 }
 
-/* Container for the page’s main content */
-.items-container {
-  max-width: 1200px;
-  margin: 2rem auto; 
-  padding: 0 1rem;  
-  text-align: center;
+/* Navbar Styling */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #F2CBEF; /* Soft pastel pink */
+  padding: 10px 20px;
 }
 
-/* Generic "Items" title */
-.items-title {
-  font-size: 2.5rem;
-  margin-bottom: 1.5rem;
+/* Logo */
+.logo img {
+  height: 40px; /* Adjust size as needed */
 }
 
-/* Grid layout for cards */
-.items-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 1.5rem;
-  justify-items: center; /* center each card in its grid cell */
+/* Navigation Links */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;  /* Space between links */
+  margin-left: auto;  /* Pushes links to the right */
+  /* margin: 0;
+  padding: 0; */
 }
 
-/* Card styling */
-.item-card {
-  background-color: #AF5992; /* Purple/pink tone (modify as needed) */
-  width: 180px;
-  border-radius: 12px;
-  padding: 1rem;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+.nav-links li {
+  display: inline-block;
 }
 
-/* The black silhouette area (image placeholder) */
-.item-image {
-  width: 100%;
-  height: 200px;
-  background-color: #000; /* black silhouette background */
-  border-radius: 8px;
-  margin-bottom: 0.5rem;
+.nav-links a {
+  text-decoration: none;
+  font-size: 18px;
+  color: #000000;
+  font-weight: bold;
+  transition: color 0.3s ease;
 }
 
-/* Text inside the card */
-.store, .price, .name {
-  color: #fff;
-  margin: 0.3rem 0;
-  font-size: 1rem;
+.nav-links a:hover {
+  color: #BA56AE; /* Change text color to match your theme */
 }
 
+/* Right Section (Buttons & User Icon) */
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Add Button */
+.add-button {
+  color: #BA56AE;
+  border: none;
+  background: none;
+  font-size: 40px;
+  font-weight: bold;
+  padding: 8px 15px;
+  cursor: pointer;
+}
+
+/* My Crushes Button */
+.my-crushes {
+  font-family: 'Irish Grover', cursive;
+  background-color: #BA56AE;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  width: auto;
+  white-space: nowrap;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+.my-crushes:hover {
+  background-color: #a35287;
+}
+
+/* User Icon */
+.user-icon {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+}
