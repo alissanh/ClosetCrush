@@ -103,11 +103,7 @@
           return;
         }
         
-        // Display items
-        data[category].forEach(filename => {
-          // Extract information from filename (format: brand_category_timestamp.png)
-          const filenameParts = filename.split('_');
-          
+        data[category].forEach(item => {
           // Create item card
           const itemCard = document.createElement('div');
           itemCard.className = 'item-card';
@@ -115,16 +111,32 @@
           // Create image container
           const itemImage = document.createElement('div');
           itemImage.className = 'item-image';
-          itemImage.style.backgroundImage = `url(images/${filename})`;
+          itemImage.style.backgroundImage = `url(images/${item.filename})`;
           
-          // Create date added element
-          const nameElement = document.createElement('p');
-          nameElement.className = 'name';
-          nameElement.textContent = `Added: ${new Date(parseInt(filenameParts[2])).toLocaleDateString()}`;
+          // Create item details
+          if (item.name) {
+            const nameElement = document.createElement('p');
+            nameElement.className = 'name';
+            nameElement.textContent = `Name: ${item.name}`;
+            itemCard.appendChild(nameElement);
+          }
+          
+          if (item.brand) {
+            const brandElement = document.createElement('p');
+            brandElement.className = 'store';
+            brandElement.textContent = `Brand: ${item.brand}`;
+            itemCard.appendChild(brandElement);
+          }
+          
+          if (item.price) {
+            const priceElement = document.createElement('p');
+            priceElement.className = 'price';
+            priceElement.textContent = `Price: ${item.price}`;
+            itemCard.appendChild(priceElement);
+          }
           
           // Add elements to card
           itemCard.appendChild(itemImage);
-          itemCard.appendChild(nameElement);
           
           // Add delete button
           const deleteButton = document.createElement('button');
@@ -133,7 +145,7 @@
           deleteButton.setAttribute('aria-label', 'Delete item');
           deleteButton.addEventListener('click', (e) => {
             e.stopPropagation();
-            deleteItem(userId, category, filename, itemCard);
+            deleteItem(userId, category, item._id, itemCard);
           });
           
           itemCard.appendChild(deleteButton);
@@ -149,7 +161,7 @@
       }
     }
     
-    async function deleteItem(userId, category, filename, itemCard) {
+    async function deleteItem(userId, category, itemId, itemCard) {
       if (!confirm('Are you sure you want to delete this item?')) {
         return;
       }
@@ -162,10 +174,9 @@
           },
           body: JSON.stringify({
             category,
-            filename
+            itemId
           }),
         });
-        
         const data = await response.json();
         
         if (data.success) {
