@@ -8,30 +8,42 @@
     font-family: 'Irish Grover', cursive;
   }
   
-  /* Leopard background (adjust if you prefer hangers or a solid color) */
+  /* Leopard background */
   body {
     background: url('interface/images/backgrounds/finalcheetahbckgrnd.jpeg') no-repeat center center;
     background-size: cover;
   }
   
-  /* Navbar (similar to your existing style) */
+  /* ===============================
+     NAVBAR (Copied from items.css)
+     =============================== */
   .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #F2CBEF;
+    background-color: #F2CBEF; /* Soft pastel pink */
     padding: 10px 20px;
   }
+  
+  /* Logo */
   .logo img {
     height: 40px;
   }
+  
+  /* Navigation Links */
   .nav-links {
     list-style: none;
     display: flex;
     gap: 20px;
-    margin: 0;
-    padding: 0;
+    margin-left: auto; /* Ensure nav links push to the right, as in items.css */
+    /* or margin: 0 if you prefer them centered */
   }
+  
+  /* For each link item */
+  .nav-links li {
+    display: inline-block; /* as in items.css */
+  }
+  
   .nav-links a {
     text-decoration: none;
     font-size: 18px;
@@ -39,26 +51,48 @@
     font-weight: bold;
     transition: color 0.3s ease;
   }
+  
   .nav-links a:hover {
     color: #BA56AE;
   }
-  /* Right side of the nav */
+  
+  /* Right Section (Buttons & User Icon) */
   .right-section {
     display: flex;
     align-items: center;
     gap: 15px;
   }
+  
+  /* Add Button — from items.css */
+  .add-button {
+    color: #BA56AE;
+    border: none;
+    background: none;
+    font-size: 40px;
+    font-weight: bold;
+    padding: 8px 15px;
+    cursor: pointer;
+    text-decoration: none; /* ensures link text isn't underlined if it's an <a> */
+  }
+  
+  /* My Crushes Button */
   .my-crushes {
+    font-family: 'Irish Grover', cursive;
     background-color: #BA56AE;
     color: white;
     border: none;
     padding: 12px 30px;
+    width: auto;
+    white-space: nowrap;
+    font-size: 16px;
     border-radius: 10px;
     cursor: pointer;
   }
   .my-crushes:hover {
     background-color: #a35287;
   }
+  
+  /* User Icon */
   .user-icon {
     width: 35px;
     height: 35px;
@@ -66,9 +100,11 @@
     cursor: pointer;
   }
   
-  /* Main Container for the form page */
+  /* ===============================
+     MAIN CONTENT (Wishlist Section)
+     =============================== */
   .wishlist-container {
-    min-height: calc(100vh - 60px); /* fill screen minus nav+footer */
+    min-height: calc(100vh - 60px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -116,56 +152,48 @@
   }
   
   /* Category Section */
-  /* Keep your existing .category-section and h3 styles */
   .category-section {
-      background-color: #BA56AE;
-      padding: 10px;
-      border-radius: 10px;
-      color: white;
-      max-width: 400px;
-      margin: 0 auto;
-    }
-    
-    .category-section h3 {
-      margin: 0 0 10px 0;
-      font-size: 24px;
-      font-family: 'Irish Grover', cursive;
-    }
-    
-    /* Hide or remove the category-buttons styles if not using them anymore */
-    .category-buttons {
-      display: none; /* or just remove this block */
-    }
-    
-    /* =============================
-       New dropdown styling 
-       ============================= */
-    .category-select {
-      width: 100%;
-      padding: 10px;
-      border: 2px solid #F2CBEF; /* or #BA56AE if you prefer */
-      border-radius: 8px;
-      font-size: 16px;
-      font-family: 'Irish Grover', cursive;
-      color: #0a0a0a; 
-      background-color: #F2CBEF;
-      cursor: pointer;
-      outline: none;
-      /* Optionally hide default arrow (appearance property might need vendor prefixes) */
-      appearance: none;
-    }
-    
-    /* Ensure the placeholder & all options keep the same font */
-    .category-select option {
-      font-family: 'Irish Grover', cursive;
-      color: #080808; 
-    }
-    
-    /* Style the disabled 'Choose a Category' placeholder differently if you'd like */
-    .category-select option:disabled {
-      color: #999; /* Light grey to show it's not selectable */
-    }
-    /* get nme out of here */
+    background-color: #BA56AE;
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .category-section h3 {
+    margin: 0 0 10px 0;
+    font-size: 24px;
+    font-family: 'Irish Grover', cursive;
+  }
+  
+  .category-buttons {
+    display: none; /* or remove entirely if not used */
+  }
+  
+  /* New dropdown styling */
+  .category-select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #F2CBEF;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: 'Irish Grover', cursive;
+    color: #0a0a0a;
+    background-color: #F2CBEF;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+  }
+  .category-select option {
+    font-family: 'Irish Grover', cursive;
+    color: #080808;
+  }
+  .category-select option:disabled {
+    color: #999;
+  }
+  
+  /* Submit section */
   .submit-section {
     text-align: center;
     margin-top: 15px;
@@ -189,4 +217,5 @@
     text-align: center;
     padding: 10px;
   }
+  
   
