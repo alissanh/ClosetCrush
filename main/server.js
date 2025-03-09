@@ -105,6 +105,41 @@ if (!useLocalStorage) {
   console.log('Using local storage mode for development');
 }
 
+// Function to ensure user exists with all collections initialized
+function ensureUserItems(userId) {
+  // Find user in local storage
+  let userData = null;
+  let userEmail = null;
+  
+  for (const email in localDb.users) {
+    if (localDb.users[email]._id === userId) {
+      userData = localDb.users[email];
+      userEmail = email;
+      break;
+    }
+  }
+  
+  // If user not found, create it with the userId
+  if (!userData && userId) {
+    userEmail = `user_${userId}@example.com`;
+    localDb.users[userEmail] = {
+      _id: userId,
+      email: userEmail,
+      tops: [],
+      bottoms: [],
+      shoes: [],
+      accessories: [],
+      dresses: [],
+      outfits: [],
+      crushes: []
+    };
+    userData = localDb.users[userEmail];
+    console.log(`Created user for ID ${userId}`);
+  }
+  
+  return userData;
+}
+
 // Background removal function
 const replicate = new Replicate({ auth: process.env.REPLICATE_API_TOKEN });
 const REMBG_MODEL_VERSION =
@@ -156,17 +191,8 @@ app.post('/users/:id/addItem', async (req, res) => {
 
     // For local storage mode
     if (useLocalStorage) {
-      // Find user in local storage
-      let userData = null;
-      let userEmail = null;
-      
-      for (const email in localDb.users) {
-        if (localDb.users[email]._id === userId) {
-          userData = localDb.users[email];
-          userEmail = email;
-          break;
-        }
-      }
+      // Find user in local storage or create if not found
+      const userData = ensureUserItems(userId);
       
       if (!userData) {
         return res.status(404).json({ error: 'User not found' });
@@ -188,7 +214,8 @@ app.post('/users/:id/addItem', async (req, res) => {
       
       userData[category].push(newItem);
       
-      console.log(`Added item to ${category} for user ${userEmail}`);
+      console.log(`Added item to ${category} for user ${userData.email}`);
+      console.log(`User now has ${userData[category].length} items in ${category}`);
       
       return res.json({
         success: true,
@@ -496,14 +523,7 @@ app.post('/users/:id/saveOutfit', async (req, res) => {
     // Handle local storage mode
     if (useLocalStorage) {
       // Find user in local storage
-      let userData = null;
-      
-      for (const email in localDb.users) {
-        if (localDb.users[email]._id === userId) {
-          userData = localDb.users[email];
-          break;
-        }
-      }
+      const userData = ensureUserItems(userId);
       
       if (!userData) {
         return res.status(404).json({ error: 'User not found' });
@@ -572,14 +592,7 @@ app.post('/users/:id/crushOutfit', async (req, res) => {
     // Handle local storage mode
     if (useLocalStorage) {
       // Find user in local storage
-      let userData = null;
-      
-      for (const email in localDb.users) {
-        if (localDb.users[email]._id === userId) {
-          userData = localDb.users[email];
-          break;
-        }
-      }
+      const userData = ensureUserItems(userId);
       
       if (!userData) {
         return res.status(404).json({ error: 'User not found' });
@@ -600,6 +613,8 @@ app.post('/users/:id/crushOutfit', async (req, res) => {
         date: date || new Date(),
         _id: Date.now().toString()
       });
+      
+      console.log(`Added crush outfit for user ${userData.email}, total crushes: ${userData.crushes.length}`);
       
       return res.json({
         success: true,
@@ -635,6 +650,260 @@ app.post('/users/:id/crushOutfit', async (req, res) => {
 
   } catch (error) {
     console.error('Error adding outfit to crushes:', error);
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/users/:id/crushes', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    
+    // Handle local storage mode
+    if (useLocalStorage) {
+      // Find user in local storage
+      let userData = null;
+      
+      for (const email in localDb.users) {
+        if (localDb.users[email]._id === userId) {
+          userData = localDb.users[email];
+          break;
+        }
+      }
+      
+      if (!userData) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      
+      // Transform the data format to match what frontend expects
+      const crushes = userData.crushes || [];
+      const formattedCrushes = crushes.map(crush => ({
+        outfit: {
+          tops: crush.tops,
+          bottoms: crush.bottoms,
+          dresses: crush.dresses,
+          shoes: crush.shoes,
+          accessories: crush.accessories
+        },
+        date: crush.date
+      }));
+      
+      return res.json(formattedCrushes);
+    }
+
+    // MongoDB mode
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    // Transform the data format
+    const formattedCrushes = (user.crushes || []).map(crush => ({
+      outfit: {
+        tops: crush.tops,
+        bottoms: crush.bottoms,
+        dresses: crush.dresses,
+        shoes: crush.shoes,
+        accessories: crush.accessories
+      },
+      date: crush.date
+    }));
+
+    return res.json(formattedCrushes);
+  } catch (error) {
+    console.error('Error getting crushes:', error);
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+// Add debug endpoints
+app.get('/debug/database', (req, res) => {
+  if (!useLocalStorage) {
+    return res.json({ message: 'Not using local storage mode' });
+  }
+  
+  // Create a sanitized copy to avoid exposing too much data
+  const sanitizedDb = {};
+  
+  for (const email in localDb.users) {
+    sanitizedDb[email] = {
+      _id: localDb.users[email]._id,
+      email: localDb.users[email].email,
+      tops: localDb.users[email].tops.length,
+      bottoms: localDb.users[email].bottoms.length,
+      shoes: localDb.users[email].shoes.length,
+      accessories: localDb.users[email].accessories.length,
+      dresses: localDb.users[email].dresses.length,
+      outfits: localDb.users[email].outfits.length,
+      crushes: localDb.users[email].crushes.length
+    };
+  }
+  
+  res.json({
+    userCount: Object.keys(localDb.users).length,
+    users: sanitizedDb
+  });
+});
+
+// Add a more detailed user debug endpoint
+app.get('/debug/user/:id', (req, res) => {
+  if (!useLocalStorage) {
+    return res.json({ message: 'Not using local storage mode' });
+  }
+  
+  const userId = req.params.id;
+  let userData = null;
+  
+  for (const email in localDb.users) {
+    if (localDb.users[email]._id === userId) {
+      userData = localDb.users[email];
+      break;
+    }
+  }
+  
+  if (!userData) {
+    return res.status(404).json({ error: 'User not found' });
+  }
+  
+  res.json(userData);
+});
+
+// Serve admin interface
+app.get('/admin', (req, res) => {
+  if (!useLocalStorage) {
+    return res.send('Admin interface only available in local storage mode');
+  }
+  const adminPath = path.join(frontendPath, 'admin.html');
+  res.sendFile(adminPath);
+});
+
+// Add admin data endpoint - FIXED PATH from /admin.html/add-data to /admin/add-data
+app.post('/admin/add-data', (req, res) => {
+  console.log('Admin add-data endpoint called:', req.body);
+  
+  if (!useLocalStorage) {
+    return res.status(400).json({ error: 'This endpoint only works in local storage mode' });
+  }
+  
+  const { email, data } = req.body;
+  
+  if (!email || !data) {
+    return res.status(400).json({ error: 'Email and data are required' });
+  }
+  
+  // Find or create user
+  if (!localDb.users[email]) {
+    localDb.users[email] = {
+      _id: Date.now().toString(),
+      email,
+      tops: [],
+      bottoms: [],
+      shoes: [],
+      accessories: [],
+      dresses: [],
+      outfits: [],
+      crushes: []
+    };
+  }
+  
+  // Add data to specified collection
+  const { collection, items } = data;
+  if (!collection || !items || !Array.isArray(items)) {
+    return res.status(400).json({ error: 'Valid collection and items array required' });
+  }
+  
+  if (['tops', 'bottoms', 'shoes', 'accessories', 'dresses', 'outfits', 'crushes'].includes(collection)) {
+    // Add each item to the collection
+    items.forEach(item => {
+      if (!item._id) {
+        item._id = Date.now().toString() + Math.random().toString(36).substring(2, 10);
+      }
+      localDb.users[email][collection].push(item);
+    });
+    
+    console.log(`Added ${items.length} items to ${collection} for ${email}`);
+    
+    return res.json({ 
+      success: true, 
+      message: `Added ${items.length} items to ${collection}`,
+      user: localDb.users[email]
+    });
+  } else {
+    return res.status(400).json({ error: 'Invalid collection' });
+  }
+});
+
+// Add a synchronization endpoint to load localStorage items into server
+app.post('/users/:id/sync', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { items, crushes } = req.body;
+    
+    if (!useLocalStorage) {
+      return res.status(400).json({ error: 'Sync only available in local storage mode' });
+    }
+    
+    // Ensure user exists
+    const userData = ensureUserItems(userId);
+    
+    if (!userData) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    // Sync items if provided
+    if (items) {
+      const categories = ['tops', 'bottoms', 'shoes', 'accessories', 'dresses'];
+      
+      categories.forEach(category => {
+        if (items[category] && Array.isArray(items[category])) {
+          // Add any items not already in the collection
+          items[category].forEach(item => {
+            const exists = userData[category].some(existing => 
+              existing.filename === item.filename || existing._id === item._id);
+              
+            if (!exists) {
+              userData[category].push({
+                ...item,
+                _id: item._id || Date.now().toString() + Math.random().toString(36).substring(2, 10)
+              });
+            }
+          });
+          
+          console.log(`Synced ${items[category].length} ${category} for user ${userData.email}`);
+        }
+      });
+    }
+    
+    // Sync crushes if provided
+    if (crushes && Array.isArray(crushes)) {
+      crushes.forEach(crush => {
+        const exists = userData.crushes.some(existing => 
+          (existing._id && existing._id === crush._id) || 
+          (existing.date && crush.date && new Date(existing.date).getTime() === new Date(crush.date).getTime()));
+          
+        if (!exists) {
+          userData.crushes.push({
+            ...crush,
+            _id: crush._id || Date.now().toString() + Math.random().toString(36).substring(2, 10)
+          });
+        }
+      });
+      
+      console.log(`Synced ${crushes.length} crushes for user ${userData.email}`);
+    }
+    
+    return res.json({
+      success: true,
+      userData: {
+        _id: userData._id,
+        email: userData.email,
+        tops: userData.tops.length,
+        bottoms: userData.bottoms.length,
+        shoes: userData.shoes.length,
+        accessories: userData.accessories.length,
+        dresses: userData.dresses.length,
+        crushes: userData.crushes.length
+      }
+    });
+  } catch (error) {
+    console.error('Error syncing data:', error);
     return res.status(500).json({ error: error.message });
   }
 });
