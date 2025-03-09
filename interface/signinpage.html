@@ -128,7 +128,7 @@
             
             try {
                 // Use the findOrCreate endpoint to ensure a user exists
-                const response = await fetch('/users/findOrCreate', {
+                const response = await fetch('./users/findOrCreate', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -136,7 +136,14 @@
                     body: JSON.stringify({ email }),
                 });
                 
+                console.log('Response status:', response.status);
+    
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                
                 const data = await response.json();
+                console.log('Response data:', data);
                 
                 if (data.success) {
                     // Store user ID in localStorage for later use
@@ -155,8 +162,8 @@
                     messageElement.style.color = "red";
                 }
             } catch (error) {
-                console.error('Error during sign-in:', error);
-                messageElement.textContent = "An error occurred. Please try again.";
+                console.error('Detailed error during sign-in:', error);
+                messageElement.textContent = "An error occurred. Please try again. Error: " + error.message;
                 messageElement.style.color = "red";
             }
         });
