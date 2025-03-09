@@ -57,21 +57,9 @@
         </div>
 
         <div class="crush-cards">
-            <div class="crush-card">
-                <h2 class="profile-subheading">My top crushes &lt;3</h2>
-                <div class="crush-card">
-                    <img src="images/dress.png" alt="Dress" />
-                    <p>perf fit for brunch</p>
-                </div>
-                <div class="crush-card">
-                    <img src="images/dress.png" alt="Dress" />
-                    <p>perf fit for brunch</p>
-                </div>
-                <div class="crush-card">
-                    <img src="images/dress.png" alt="Dress" />
-                    <p>perf fit for brunch</p>
-                </div>
-            </div>
+            <h2 class="profile-subheading">My top crushes &lt;3</h2>
+            <!-- Crush cards will be loaded here by JavaScript -->
+            <div class="loading-message">Loading your crushes...</div>
         </div>
       </div>
 
@@ -159,37 +147,29 @@ async function loadSavedOutfits() {
 
   // Container for crush cards
   const crushCardsContainer = document.querySelector('.crush-cards');
+  if (!crushCardsContainer) {
+    console.error('Crush cards container not found');
+    return;
+  }
+  
+  // Show loading message
+  crushCardsContainer.innerHTML = '<div class="loading-message">Loading your crushes...</div>';
   
   try {
-    // Create mock outfits for testing (since your API might not be working)
-    const mockOutfits = [
-      {
-        outfit: {
-          tops: "top1.png",
-          bottoms: "bottom1.png",
-          shoes: "shoes1.png"
-        },
-        date: new Date().toISOString()
-      },
-      {
-        outfit: {
-          dresses: "dress1.png",
-          accessories: "accessory1.png"
-        },
-        date: new Date().toISOString()
-      }
-    ];
-    
     // Try to fetch from API first
     let outfitsToShow = [];
     try {
+      console.log('Fetching crushes from API...');
       const response = await fetch(`/users/${userId}/crushes`);
       
       if (response.ok) {
         const data = await response.json();
+        console.log('Crushes data received:', data);
         if (data && data.length > 0) {
-          outfitsToShow = data.slice(0, 6);
+          outfitsToShow = data.slice(0, 6); // Limit to 6 crushes
         }
+      } else {
+        console.error('API error:', await response.text());
       }
     } catch (apiError) {
       console.log("API error, falling back to localStorage:", apiError);
@@ -197,10 +177,12 @@ async function loadSavedOutfits() {
     
     // If API failed, try localStorage
     if (outfitsToShow.length === 0) {
+      console.log('No crushes from API, checking localStorage...');
       const localCrushes = localStorage.getItem('outfitCrushes');
       if (localCrushes) {
         try {
           const crushes = JSON.parse(localCrushes);
+          console.log('LocalStorage crushes:', crushes);
           if (crushes && crushes.length > 0) {
             outfitsToShow = crushes.slice(0, 6);
           }
@@ -212,12 +194,28 @@ async function loadSavedOutfits() {
     
     // If still no outfits, use mock data for testing
     if (outfitsToShow.length === 0) {
-      console.log("Using mock outfits for testing");
-      outfitsToShow = mockOutfits;
+      console.log("No crushes found, using mock data");
+      outfitsToShow = [
+        {
+          outfit: {
+            tops: "top1.png",
+            bottoms: "bottom1.png",
+            shoes: "shoes1.png"
+          },
+          date: new Date().toISOString()
+        },
+        {
+          outfit: {
+            dresses: "dress1.png",
+            accessories: "accessory1.png"
+          },
+          date: new Date().toISOString()
+        }
+      ];
     }
     
-    // Clear placeholder content
-    crushCardsContainer.innerHTML = '';
+    // Clear loading message
+    crushCardsContainer.innerHTML = '<h2 class="profile-subheading">My top crushes &lt;3</h2>';
     
     // Check if there are any crushes
     if (outfitsToShow.length === 0) {
@@ -229,12 +227,14 @@ async function loadSavedOutfits() {
     }
     
     // Display the outfits
-    outfitsToShow.forEach((outfit, index) => {
+    outfitsToShow.forEach((outfitData, index) => {
+      console.log(`Rendering outfit ${index+1}:`, outfitData);
+      
       const crushCard = document.createElement('div');
       crushCard.className = 'crush-card';
       
       // Format the date
-      const outfitDate = new Date(outfit.date);
+      const outfitDate = new Date(outfitData.date);
       const formattedDate = outfitDate.toLocaleDateString('en-US', { 
         month: 'short', 
         day: 'numeric' 
@@ -244,60 +244,59 @@ async function loadSavedOutfits() {
       const outfitDisplay = document.createElement('div');
       outfitDisplay.className = 'outfit-display';
       
-      // Debug info
-      console.log(`Rendering outfit ${index+1}:`, outfit.outfit);
+      // Get the outfit data - ensure we handle both formats
+      const outfit = outfitData.outfit || outfitData;
       
       // Decide whether to show dress or top/bottom combo
-      if (outfit.outfit.dresses) {
+      if (outfit.dresses) {
         // Show dress
         const dressElement = document.createElement('div');
         dressElement.className = 'outfit-item outfit-dress';
-        dressElement.style.backgroundImage = `url(images/${outfit.outfit.dresses})`;
+        dressElement.style.backgroundImage = `url(images/${outfit.dresses})`;
         outfitDisplay.appendChild(dressElement);
-        console.log(`Added dress: ${outfit.outfit.dresses}`);
+        console.log(`Added dress: ${outfit.dresses}`);
       } else {
         // Show top and bottom
-        if (outfit.outfit.tops) {
+        if (outfit.tops) {
           const topElement = document.createElement('div');
           topElement.className = 'outfit-item outfit-top';
-          topElement.style.backgroundImage = `url(images/${outfit.outfit.tops})`;
+          topElement.style.backgroundImage = `url(images/${outfit.tops})`;
           outfitDisplay.appendChild(topElement);
-          console.log(`Added top: ${outfit.outfit.tops}`);
+          console.log(`Added top: ${outfit.tops}`);
         }
         
-        if (outfit.outfit.bottoms) {
+        if (outfit.bottoms) {
           const bottomElement = document.createElement('div');
           bottomElement.className = 'outfit-item outfit-bottom';
-          bottomElement.style.backgroundImage = `url(images/${outfit.outfit.bottoms})`;
+          bottomElement.style.backgroundImage = `url(images/${outfit.bottoms})`;
           outfitDisplay.appendChild(bottomElement);
-          console.log(`Added bottom: ${outfit.outfit.bottoms}`);
+          console.log(`Added bottom: ${outfit.bottoms}`);
         }
       }
       
       // Add shoes if present
-      if (outfit.outfit.shoes) {
+      if (outfit.shoes) {
         const shoesElement = document.createElement('div');
         shoesElement.className = 'outfit-item outfit-shoes';
-        shoesElement.style.backgroundImage = `url(images/${outfit.outfit.shoes})`;
+        shoesElement.style.backgroundImage = `url(images/${outfit.shoes})`;
         outfitDisplay.appendChild(shoesElement);
-        console.log(`Added shoes: ${outfit.outfit.shoes}`);
+        console.log(`Added shoes: ${outfit.shoes}`);
       }
       
       // Add accessories if present
-      if (outfit.outfit.accessories) {
+      if (outfit.accessories) {
         const accessoriesElement = document.createElement('div');
         accessoriesElement.className = 'outfit-item outfit-accessories';
-        accessoriesElement.style.backgroundImage = `url(images/${outfit.outfit.accessories})`;
+        accessoriesElement.style.backgroundImage = `url(images/${outfit.accessories})`;
         outfitDisplay.appendChild(accessoriesElement);
-        console.log(`Added accessories: ${outfit.outfit.accessories}`);
+        console.log(`Added accessories: ${outfit.accessories}`);
       }
       
       // Add a fallback image if the outfit is empty
-      if (!outfit.outfit.dresses && !outfit.outfit.tops && !outfit.outfit.bottoms && 
-          !outfit.outfit.shoes && !outfit.outfit.accessories) {
+      if (!outfit.dresses && !outfit.tops && !outfit.bottoms && 
+          !outfit.shoes && !outfit.accessories) {
         const emptyOutfit = document.createElement('div');
-        emptyOutfit.className = 'outfit-item outfit-dress';
-        emptyOutfit.style.backgroundImage = `url(images/empty_outfit.png)`;
+        emptyOutfit.className = 'outfit-item outfit-empty';
         emptyOutfit.textContent = 'No items';
         emptyOutfit.style.display = 'flex';
         emptyOutfit.style.justifyContent = 'center';
@@ -320,7 +319,7 @@ async function loadSavedOutfits() {
     
   } catch (error) {
     console.error('Error in loadSavedOutfits:', error);
-    crushCardsContainer.innerHTML = '<p class="empty-message">Error loading outfits. Please try again.</p>';
+    crushCardsContainer.innerHTML = '<h2 class="profile-subheading">My top crushes &lt;3</h2><p class="error-message">Error loading outfits. Please try again.</p>';
   }
 }
 
