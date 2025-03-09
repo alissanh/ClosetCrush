@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign In or Create Account</title>
-  <link rel="stylesheet" href="signinpage.css">
-  <link rel="stylesheet" href="landingpage.css">
+  <link rel="stylesheet" href="/interface/signinpage.css">
+  <link rel="stylesheet" href="/interface/landingpage.css">
   <link rel="icon" href="" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet">
 </head>
@@ -107,27 +107,42 @@
     <!-- JavaScript at the End -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const signinForm = document.getElementById("signin-form");
-            const signupForm = document.getElementById("signup-form");
-            const signinButton = document.getElementById("show-signin");
-            const signupButton = document.getElementById("show-signup");
+        const signinForm = document.getElementById("signin-form");
+        const signupForm = document.getElementById("signup-form");
+        const signinButton = document.getElementById("show-signin");
+        const signupButton = document.getElementById("show-signup");
 
-            // Initially hide both forms
-            signinForm.classList.add("hidden");
+        // Initially hide both forms
+        signinForm.classList.add("hidden");
+        signupForm.classList.add("hidden");
+
+        // Show sign-in form and hide sign-up form
+        signinButton.addEventListener("click", function () {
+            signinForm.classList.remove("hidden");
             signupForm.classList.add("hidden");
-
-            // Show sign-in form and hide sign-up form
-            signinButton.addEventListener("click", function () {
-                signinForm.classList.remove("hidden");
-                signupForm.classList.add("hidden");
-            });
-
-            // Show sign-up form and hide sign-in form
-            signupButton.addEventListener("click", function () {
-                signupForm.classList.remove("hidden");
-                signinForm.classList.add("hidden");
-            });
         });
+
+        // Show sign-up form and hide sign-in form
+        signupButton.addEventListener("click", function () {
+            signupForm.classList.remove("hidden");
+            signinForm.classList.add("hidden");
+        });
+
+        // Redirect after sign-in form submission
+        signinForm.addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent default form submission behavior
+            console.log("Sign-in form submitted"); // Debugging
+            window.location.href = "landingpage.html"; // Redirect to landing page
+        });
+
+        // Redirect after sign-up form submission
+        signupForm.addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent default form submission behavior
+            console.log("Sign-up form submitted"); // Debugging
+            window.location.href = "landingpage.html"; // Redirect to landing page
+        });
+    });
+
     </script>
 
 </body>

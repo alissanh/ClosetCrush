@@ -51,15 +51,24 @@ body {
 footer {
   text-align: center;
   width: 100%;
-  padding: 10px 0;
-  position: absolute; /* Change to fixed if you want it always at the bottom */
+  padding: 20px 0;
+  position: absolute;
   bottom: 0;
   left: 0;
+  display: flex;
+  flex-direction: column; /* Ensures vertical stacking */
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-logo img {
+  max-width: 150px; /* Adjust size as needed */
+  display: block;
+  margin-bottom: 10px; /* Space between logo and text */
 }
 
 footer p {
-  margin: 0 auto;
-  display: inline-block;
+  margin: 0;
 }
 
 

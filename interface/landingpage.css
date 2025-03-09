@@ -1,14 +1,19 @@
-/* General Styles */
-body {
-    margin: 0;
-    padding: 5px;
-    font-family: 'Irish Grover', cursive;
-    background-color: #F2CBEF; /* Light pink background */
-}
-
-/* Navbar Styling */
-.navbar {
+/* Main Content Layout */
+.main-content {
     display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    gap: 30px;
+    justify-content: center;
+  }
+  
+  /* Outfit Preview Section */
+  .outfit-preview {
+    flex: 1;
+    min-width: 300px;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
     background-color: #F2CBEF; /* Soft pastel pink */
@@ -49,21 +54,31 @@ body {
 footer {
     text-align: center;
     width: 100%;
-    padding: 10px 0;
-    position: absolute; /* Change to fixed if you want it always at the bottom */
+    padding: 20px 0;
+    position: absolute;
     bottom: 0;
     left: 0;
+    display: flex;
+    flex-direction: column; /* Ensures vertical stacking */
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-logo img {
+    max-width: 150px; /* Adjust size as needed */
+    display: block;
+    margin-bottom: 10px; /* Space between logo and text */
 }
 
 footer p {
-    margin: 0 auto;
-    display: inline-block;
+    margin: 0;
 }
 
 
 /* Right Section (Buttons & User Icon) */
 .right-section {
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 15px;
 }
@@ -90,20 +105,109 @@ footer p {
     color: white;
     border: none;
     padding: 12px 30px;
-    width: auto;
-    white-space: nowrap;
     font-size: 16px;
     border-radius: 10px;
-}
-
-.my-crushes:hover {
-    background-color: #a35287;
-}
-
-/* User Icon */
-.user-icon {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
     cursor: pointer;
-}
+    width: 80%;
+    margin-top: 10px;
+  }
+  
+  .save-outfit-btn:hover {
+    background-color: #a35287;
+  }
+  
+  /* Closet Selector Section */
+  .closet-selector {
+    flex: 2;
+    min-width: 300px;
+  }
+  
+  .category-section {
+    background-color: white;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .category-section h3 {
+    font-family: 'Irish Grover', cursive;
+    color: #BA56AE;
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #F2CBEF;
+  }
+  
+  .items-scroll {
+    display: flex;
+    overflow-x: auto;
+    padding: 10px 0;
+    gap: 15px;
+  }
+  
+  .closet-item {
+    min-width: 100px;
+    height: 100px;
+    border: 3px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: transform 0.3s;
+  }
+  
+  .closet-item:hover {
+    transform: scale(1.05);
+    border-color: #F2CBEF;
+  }
+  
+  .closet-item.selected {
+    border-color: #BA56AE;
+    box-shadow: 0 0 8px #BA56AE;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .main-content {
+      flex-direction: column;
+    }
+    
+    .outfit-preview, .closet-selector {
+      min-width: 100%;
+    }
+    
+    .mannequin {
+      width: 250px;
+      height: 400px;
+    }
+    
+    .preview-top {
+      top: 30px;
+      left: 35px;
+      width: 180px;
+      height: 130px;
+    }
+    
+    .preview-bottom {
+      top: 160px;
+      left: 35px;
+      width: 180px;
+      height: 130px;
+    }
+    
+    .preview-shoes {
+      bottom: 0;
+      left: 60px;
+      width: 130px;
+      height: 130px;
+    }
+    
+    .preview-accessories {
+      top: 15px;
+      right: 25px;
+      width: 70px;
+      height: 70px;
+    }
+  }
