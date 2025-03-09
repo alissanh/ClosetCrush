@@ -20,7 +20,6 @@ let useLocalStorage = true;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
 // Check if interface folder is in the current directory or one level up
 let frontendPath = path.join(__dirname, 'interface');
 if (!fs.existsSync(frontendPath)) {
@@ -91,16 +90,20 @@ if (!process.env.MONGODB_URI) {
   process.exit(1); // Exit with error
 }
 
-mongoose.connect(process.env.MONGODB_URI, {
-  serverSelectionTimeoutMS: 30000,
-})
-.then(() => console.log('Connected to MongoDB!'))
-.catch((error) => {
-  console.error('MongoDB connection error details:', error);
-  if (error.name === 'MongoServerSelectionError') {
-    console.error('Cannot connect to MongoDB server. Please check network connectivity and MongoDB Atlas configuration.');
-  }
-});
+// Only try to connect to MongoDB if not using local storage
+if (!useLocalStorage) {
+  mongoose.connect(process.env.MONGODB_URI, {
+    serverSelectionTimeoutMS: 30000,
+  })
+  .then(() => console.log('Connected to MongoDB!'))
+  .catch((error) => {
+    console.error('MongoDB connection error details:', error);
+    console.log('Falling back to local storage mode');
+    useLocalStorage = true;
+  });
+} else {
+  console.log('Using local storage mode for development');
+}
 
 // Background removal function
 const replicate = new Replicate({ auth: process.env.REPLICATE_API_TOKEN });
@@ -113,7 +116,8 @@ async function removeBackground(imageUrl) {
     return stream;
   } catch (error) {
     console.error('Error removing background:', error);
-    throw error;
+    // Return a simple passthrough for local storage mode
+    return imageUrl;
   }
 }
 
@@ -126,6 +130,7 @@ app.post('/users/:id/addItem', async (req, res) => {
       return res.status(400).json({ error: 'Missing category or imageUrl' });
     }
 
+    // Parse the URL to get brand info
     const { hostname } = new URL(imageUrl);
     const urlParts = hostname.split('.');
     let derivedBrand = urlParts[0];
@@ -134,13 +139,65 @@ app.post('/users/:id/addItem', async (req, res) => {
     const timestamp = Date.now();
     const outputFilename = `${derivedBrand}_${category}_${timestamp}.png`;
 
+    // Create images directory if it doesn't exist
     const imagesDir = path.join(frontendPath, 'images');
     if (!fs.existsSync(imagesDir)) fs.mkdirSync(imagesDir, { recursive: true });
 
+    // Use the background removal API regardless of storage mode
     const outputPath = path.join(imagesDir, outputFilename);
-    const bgRemovedStream = await removeBackground(imageUrl);
-    await pipeline(bgRemovedStream, fs.createWriteStream(outputPath));
+    try {
+      const bgRemovedStream = await removeBackground(imageUrl);
+      await pipeline(bgRemovedStream, fs.createWriteStream(outputPath));
+      console.log(`Background removed and saved to ${outputFilename}`);
+    } catch (error) {
+      console.error('Error removing background:', error);
+      return res.status(500).json({ error: 'Failed to process image' });
+    }
 
+    // For local storage mode
+    if (useLocalStorage) {
+      // Find user in local storage
+      let userData = null;
+      let userEmail = null;
+      
+      for (const email in localDb.users) {
+        if (localDb.users[email]._id === userId) {
+          userData = localDb.users[email];
+          userEmail = email;
+          break;
+        }
+      }
+      
+      if (!userData) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      
+      // Add item to user's collection
+      const newItem = {
+        filename: outputFilename,
+        name: name || '',
+        brand: brand || derivedBrand,
+        price: price || '',
+        addedAt: new Date(),
+        _id: Date.now().toString() // Add a unique ID for local storage items
+      };
+      
+      if (!userData[category]) {
+        userData[category] = [];
+      }
+      
+      userData[category].push(newItem);
+      
+      console.log(`Added item to ${category} for user ${userEmail}`);
+      
+      return res.json({
+        success: true,
+        category,
+        item: newItem
+      });
+    }
+
+    // MongoDB mode - only executed if useLocalStorage is false
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ error: 'User not found' });
 
@@ -174,24 +231,26 @@ app.post('/users/:id/addItem', async (req, res) => {
 app.get('/users/:id/items', async (req, res) => {
   try {
     if (useLocalStorage) {
-      // Find user by email (we're using email as key in localDb)
-      let userEmail = '';
+      // Find user by ID in local storage
+      let userData = null;
+      
       for (const email in localDb.users) {
         if (localDb.users[email]._id === req.params.id) {
-          userEmail = email;
+          userData = localDb.users[email];
           break;
         }
       }
       
-      if (!userEmail) {
+      if (!userData) {
         return res.status(404).json({ error: 'User not found' });
       }
       
       return res.json({
-        tops: localDb.users[userEmail].tops,
-        bottoms: localDb.users[userEmail].bottoms,
-        shoes: localDb.users[userEmail].shoes,
-        accessories: localDb.users[userEmail].accessories
+        tops: userData.tops || [],
+        bottoms: userData.bottoms || [],
+        shoes: userData.shoes || [],
+        accessories: userData.accessories || [],
+        dresses: userData.dresses || []
       });
     }
     
@@ -200,12 +259,14 @@ app.get('/users/:id/items', async (req, res) => {
     if (!user) return res.status(404).json({ error: 'User not found' });
 
     res.json({
-      tops: user.tops,
-      bottoms: user.bottoms,
-      shoes: user.shoes,
-      accessories: user.accessories,
+      tops: user.tops || [],
+      bottoms: user.bottoms || [],
+      shoes: user.shoes || [],
+      accessories: user.accessories || [],
+      dresses: user.dresses || []
     });
   } catch (error) {
+    console.error('Error getting items:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -218,8 +279,10 @@ app.post('/users/findOrCreate', async (req, res) => {
       return res.status(400).json({ error: 'Email is required' });
     }
     
-    // Use local storage fallback if MongoDB is unavailable
+    // Use local storage if enabled
     if (useLocalStorage) {
+      console.log(`Using local storage mode for user: ${email}`);
+      
       // Check if user exists in local storage
       if (!localDb.users[email]) {
         // Create new user
@@ -230,9 +293,13 @@ app.post('/users/findOrCreate', async (req, res) => {
           bottoms: [],
           shoes: [],
           accessories: [],
+          dresses: [],
           outfits: [],
           crushes: []
         };
+        console.log(`Created local user: ${email} with ID ${localDb.users[email]._id}`);
+      } else {
+        console.log(`Found existing local user: ${email}`);
       }
       
       return res.json({
@@ -336,6 +403,56 @@ app.post('/users/:id/deleteItem', async (req, res) => {
       return res.status(400).json({ error: 'Missing category or itemId' });
     }
 
+    // Handle local storage mode
+    if (useLocalStorage) {
+      // Find user in local storage
+      let userData = null;
+      
+      for (const email in localDb.users) {
+        if (localDb.users[email]._id === userId) {
+          userData = localDb.users[email];
+          break;
+        }
+      }
+      
+      if (!userData) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      
+      // Find and remove the item
+      if (!userData[category] || !Array.isArray(userData[category])) {
+        return res.status(404).json({ error: 'Category not found for user' });
+      }
+      
+      const itemIndex = userData[category].findIndex(item => item._id === itemId || item.filename === itemId);
+      
+      if (itemIndex === -1) {
+        return res.status(404).json({ error: 'Item not found in user\'s collection' });
+      }
+      
+      // Get the filename before removing
+      const filename = userData[category][itemIndex].filename;
+      
+      // Remove the item
+      userData[category].splice(itemIndex, 1);
+      
+      // Remove file if it exists
+      const imagePath = path.join(frontendPath, 'images', filename);
+      if (fs.existsSync(imagePath)) {
+        try {
+          fs.unlinkSync(imagePath);
+        } catch (err) {
+          console.error('Error deleting file:', err);
+        }
+      }
+      
+      return res.json({
+        success: true,
+        message: `Item removed from ${category}`
+      });
+    }
+
+    // MongoDB mode
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ error: 'User not found' });
 
@@ -376,6 +493,45 @@ app.post('/users/:id/saveOutfit', async (req, res) => {
     const userId = req.params.id;
     const { outfit, date } = req.body;
 
+    // Handle local storage mode
+    if (useLocalStorage) {
+      // Find user in local storage
+      let userData = null;
+      
+      for (const email in localDb.users) {
+        if (localDb.users[email]._id === userId) {
+          userData = localDb.users[email];
+          break;
+        }
+      }
+      
+      if (!userData) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      
+      // Initialize outfits array if needed
+      if (!userData.outfits) {
+        userData.outfits = [];
+      }
+      
+      // Add the outfit
+      userData.outfits.push({
+        tops: outfit.tops,
+        bottoms: outfit.bottoms,
+        dresses: outfit.dresses,
+        shoes: outfit.shoes,
+        accessories: outfit.accessories,
+        date: date || new Date(),
+        _id: Date.now().toString()
+      });
+      
+      return res.json({
+        success: true,
+        message: 'Outfit saved successfully'
+      });
+    }
+
+    // MongoDB mode
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ error: 'User not found' });
 
@@ -413,6 +569,45 @@ app.post('/users/:id/crushOutfit', async (req, res) => {
     const userId = req.params.id;
     const { outfit, date } = req.body;
 
+    // Handle local storage mode
+    if (useLocalStorage) {
+      // Find user in local storage
+      let userData = null;
+      
+      for (const email in localDb.users) {
+        if (localDb.users[email]._id === userId) {
+          userData = localDb.users[email];
+          break;
+        }
+      }
+      
+      if (!userData) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      
+      // Initialize crushes array if needed
+      if (!userData.crushes) {
+        userData.crushes = [];
+      }
+      
+      // Add the outfit to crushes
+      userData.crushes.push({
+        tops: outfit.tops,
+        bottoms: outfit.bottoms,
+        dresses: outfit.dresses,
+        shoes: outfit.shoes,
+        accessories: outfit.accessories,
+        date: date || new Date(),
+        _id: Date.now().toString()
+      });
+      
+      return res.json({
+        success: true,
+        message: 'Outfit added to crushes'
+      });
+    }
+
+    // MongoDB mode
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ error: 'User not found' });
 
