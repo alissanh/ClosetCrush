@@ -1,8 +1,8 @@
 /* General Styles */
 html, body {
   margin: 0;
-  padding: 0;  /* no extra padding at all */
-  height: 107%;  /* good practice if you want a sticky footer approach */
+  padding: 0;  
+  height: 107%;  
 }
 
 body {
@@ -71,7 +71,7 @@ h1, h2, h3 {
 }
 
   .wrapper {
-    flex: 1; /* This makes the wrapper expand and push the footer down */
+    flex: 1; 
   }
 /* Right Section (Buttons & User Icon) */
 .right-section {
@@ -416,7 +416,7 @@ h1, h2, h3 {
 
 
 /* Stage image scaling might need adjustment for very large screens */
-@media (min-width: 2000px) {
+@media (min-width: 1800px) {
   .stage-container, .stage-wrapper {
     width: 100%;
   }
