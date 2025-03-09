@@ -227,7 +227,7 @@ body {
 /* Stage Image */
 .stage {
     width: 100%; /* Adjust size as needed */
-    max-width: 600px;
+    max-width: 800px;
     display: block;
 }
 
@@ -266,6 +266,18 @@ body {
 .outfit-button:hover img {
     transform: scale(1.1); /* Slight zoom effect on hover */
 }
+
+/* Style for the Welcome message */
+#welcome-message {
+    display: block;
+    text-align: center;
+    font-family: 'Irish Grover', cursive; /* Matches your main font */
+    font-size: 3rem;                     /* Large, playful size */
+    color: #ffffff;                      /* White text (adjust if you want another color) */
+    text-shadow: 2px 2px 4px #000000;    /* Slight shadow for contrast on busy backgrounds */
+    margin-top: 30px;                    /* Spacing above the stage */
+    margin-bottom: 20px;                 /* Spacing below the text */
+  }
 
 /* Footer Styling */
 .footer {
