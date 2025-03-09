@@ -7,9 +7,16 @@
   
   /* Body styling similar to items.css */
   body {
+    margin: 0;
+    padding: 0;
     background: url('images/backgrounds/finalhangerbckgrnd.png') no-repeat center center;
     background-size: cover;
+    box-sizing: border-box;
+    font-family: 'Irish Grover', cursive;
+    background-color: #fff;
+    color: #000;
   }
+  
   
   /* HEADER, matching your items.css structure */
   .navbar {
@@ -84,12 +91,14 @@
   }
   
   /* HEADINGS */
-  .profile-title {
-    font-size: 32px;
-    margin-bottom: 10px;
-    text-align: center;
-    color: #000;
+  .intro-panel {
+    background-color: #F2CBEF;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px; /* space below the panel */
+    text-align: center;  /* center the text, if you like */
   }
+  
   
   .profile-subtitle {
     text-align: center;
