@@ -184,6 +184,7 @@ async function syncItemsToServer() {
 
 // Load saved outfits/crushes and display them
 // Load saved outfits/crushes and display them
+// Load saved outfits/crushes and display them
 async function loadSavedOutfits() {
   const userId = localStorage.getItem('userId');
   if (!userId) {
@@ -216,6 +217,8 @@ async function loadSavedOutfits() {
   try {
     // Try to fetch from API first
     let outfitsToShow = [];
+    let apiSuccess = false;
+    
     try {
       console.log('Fetching crushes from API...');
       const response = await fetch(`/users/${userId}/crushes`);
@@ -225,6 +228,7 @@ async function loadSavedOutfits() {
         console.log('Crushes data received:', data);
         if (data && data.length > 0) {
           outfitsToShow = data.slice(0, 6); // Limit to 6 crushes
+          apiSuccess = true;
         }
       } else {
         console.error('API error:', await response.text());
@@ -233,8 +237,8 @@ async function loadSavedOutfits() {
       console.log("API error, falling back to localStorage:", apiError);
     }
     
-    // If API failed, try localStorage
-    if (outfitsToShow.length === 0) {
+    // If API failed, try localStorage (only if API didn't succeed)
+    if (!apiSuccess && outfitsToShow.length === 0) {
       console.log('No crushes from API, checking localStorage...');
       const localCrushes = localStorage.getItem('outfitCrushes');
       if (localCrushes) {
@@ -270,9 +274,25 @@ async function loadSavedOutfits() {
     // Clear loading message
     crushCardsSection.innerHTML = '<h2 class="profile-subheading">My top crushes &lt;3</h2>';
     
+    // Ensure no duplicates by tracking already shown outfit items
+    const shownOutfits = new Set();
+    
     // Display the outfits
     outfitsToShow.forEach((outfitData, index) => {
       console.log(`Rendering outfit ${index+1}:`, outfitData);
+      
+      // Create a unique key for this outfit to prevent duplicates
+      const outfit = outfitData.outfit || outfitData;
+      const outfitKey = `${outfit.tops || ''}-${outfit.bottoms || ''}-${outfit.dresses || ''}-${outfit.shoes || ''}-${outfit.accessories || ''}`;
+      
+      // Skip if this outfit has already been shown
+      if (shownOutfits.has(outfitKey)) {
+        console.log(`Skipping duplicate outfit: ${outfitKey}`);
+        return;
+      }
+      
+      // Add to tracking set
+      shownOutfits.add(outfitKey);
       
       const crushCard = document.createElement('div');
       crushCard.className = 'crush-card';
@@ -287,9 +307,6 @@ async function loadSavedOutfits() {
       // Create the outfit container
       const outfitDisplay = document.createElement('div');
       outfitDisplay.className = 'outfit-display';
-      
-      // Get the outfit data - ensure we handle both formats
-      const outfit = outfitData.outfit || outfitData;
       
       // Decide whether to show dress or top/bottom combo
       if (outfit.dresses) {

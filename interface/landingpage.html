@@ -415,29 +415,51 @@
         }
         
         // Helper function to save crush to localStorage
-        function saveOutfitToLocalStorage(outfit) {
-            // Get existing crushes from localStorage
-            let crushes = [];
-            const existingCrushes = localStorage.getItem('outfitCrushes');
-            
-            if (existingCrushes) {
-                crushes = JSON.parse(existingCrushes);
-            }
-            
-            // Add the new crush
-            crushes.unshift({
-                outfit: outfit,
-                date: new Date().toISOString()
-            });
-            
-            // Keep only the most recent 20 crushes
-            if (crushes.length > 20) {
-                crushes = crushes.slice(0, 20);
-            }
-            
-            // Save back to localStorage
-            localStorage.setItem('outfitCrushes', JSON.stringify(crushes));
+// Helper function to save crush to localStorage
+function saveOutfitToLocalStorage(outfit) {
+    // Skip if outfit is empty (has no items)
+    if (!outfit.tops && !outfit.bottoms && !outfit.dresses && 
+        !outfit.shoes && !outfit.accessories) {
+        console.log('Skipping empty outfit');
+        return;
+    }
+    
+    // Get existing crushes from localStorage
+    let crushes = [];
+    const existingCrushes = localStorage.getItem('outfitCrushes');
+    
+    if (existingCrushes) {
+        try {
+            crushes = JSON.parse(existingCrushes);
+        } catch (e) {
+            console.error('Error parsing existing crushes:', e);
+            crushes = [];
         }
+    }
+    
+    // Create a clean copy of the outfit, removing any null/undefined values
+    const cleanOutfit = {};
+    Object.keys(outfit).forEach(key => {
+        if (outfit[key]) {
+            cleanOutfit[key] = outfit[key];
+        }
+    });
+    
+    // Add the new crush
+    crushes.unshift({
+        outfit: cleanOutfit, // Use the cleaned outfit object
+        date: new Date().toISOString()
+    });
+    
+    // Keep only the most recent 20 crushes
+    if (crushes.length > 20) {
+        crushes = crushes.slice(0, 20);
+    }
+    
+    // Save back to localStorage
+    localStorage.setItem('outfitCrushes', JSON.stringify(crushes));
+    console.log('Saved outfit to localStorage, total crushes:', crushes.length);
+}
     });
   </script>
 </body>

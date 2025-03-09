@@ -181,19 +181,19 @@ h1, h2, h3 {
 }
 
 .preview-top {
-  top: 15%;
+  top: 14%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 30%;
-  height: 30%;
+  width: 38%;
+  height: 38%;
 }
 
 .preview-bottom {
-  top: 45%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 40%;
-  height: 40%;
+  width: 45%;
+  height: 45%;
 }
 
 .preview-dress {
@@ -214,7 +214,7 @@ h1, h2, h3 {
 
 .preview-accessories {
   top: 20%;
-  left: 15%;
+  left: 25%;
   width: 30%;
   height: 30%;
 }
