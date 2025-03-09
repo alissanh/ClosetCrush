@@ -1,94 +1,235 @@
-/* General Styles */
-body {
-    margin: 0;
-    padding: 5px;
-    font-family: 'Irish Grover', cursive;
-    background-color: #F2CBEF; /* Light pink background */
+/* Main Content Styles */
+.main-content {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+  gap: 30px;
+  margin-bottom: 40px;
 }
 
-/* Navbar Styling */
-.navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #F2CBEF; /* Soft pastel pink */
-    padding: 10px 20px;
+/* Outfit Preview Section */
+.outfit-preview {
+  flex: 1;
+  min-width: 300px;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Logo */
-.logo img {
-    height: 40px; /* Adjust size as needed */
+.outfit-preview h2 {
+  font-family: 'Irish Grover', cursive;
+  color: #BA56AE;
+  text-align: center;
+  margin-bottom: 15px;
 }
 
-/* Navigation Links */
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 20px;  /* Space between links */
-    margin-left: auto;  /* Pushes links to the right */
-    /* margin: 0;
-    padding: 0; */
+.mannequin-container {
+  background-color: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
-.nav-links li {
-    display: inline-block;
+.mannequin {
+  position: relative;
+  width: 300px;
+  height: 500px;
+  margin-bottom: 20px;
+  background-color: #f8f8f8;
+  border-radius: 10px;
 }
 
-.nav-links a {
-    text-decoration: none;
-    font-size: 18px;
-    color: #000000;
-    font-weight: bold;
-    transition: color 0.3s ease;
+.mannequin-base {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
-.nav-links a:hover {
-    color: #BA56AE; /* Change text color to match your theme */
+.preview-item {
+  position: absolute;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
-/* Right Section (Buttons & User Icon) */
-.right-section {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+.preview-top {
+  top: 50px;
+  left: 50px;
+  width: 200px;
+  height: 150px;
 }
 
-/* Add Button */
-.add-button {
-    color: #BA56AE;
-    border: none;
-    background: none;
-    font-size: 40px;
-    font-weight: bold;
-    padding: 8px 15px;
-    cursor: pointer;
+.preview-bottom {
+  top: 200px;
+  left: 50px;
+  width: 200px;
+  height: 150px;
 }
 
-.my-crushes:hover {
-    background-color: #a35287;
+.preview-shoes {
+  bottom: 0;
+  left: 75px;
+  width: 150px;
+  height: 150px;
+  background-position: center bottom;
+  z-index: 20;
 }
 
-/* My Crushes Button */
-.my-crushes {
-    font-family: 'Irish Grover', cursive;
-    background-color: #BA56AE;
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    width: auto;
-    white-space: nowrap;
-    font-size: 16px;
-    border-radius: 10px;
+.preview-accessories {
+  top: 20px;
+  right: 30px;
+  width: 80px;
+  height: 80px;
 }
 
-.my-crushes:hover {
-    background-color: #a35287;
+.save-outfit-btn {
+  font-family: 'Irish Grover', cursive;
+  background-color: #BA56AE;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 80%;
+  margin-top: 10px;
 }
 
-/* User Icon */
-.user-icon {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    cursor: pointer;
+.save-outfit-btn:hover {
+  background-color: #a35287;
+}
+
+/* Closet Selector Section */
+.closet-selector {
+  flex: 2;
+  min-width: 300px;
+}
+
+.category-section {
+  background-color: white;
+  border-radius: 15px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.category-section h3 {
+  font-family: 'Irish Grover', cursive;
+  color: #BA56AE;
+  margin-top: 0;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #F2CBEF;
+}
+
+.items-scroll {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px 0;
+  gap: 15px;
+  min-height: 120px;
+}
+
+.closet-item {
+  min-width: 100px;
+  height: 100px;
+  border: 3px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: transform 0.3s;
+  background-color: #f8f8f8;
+}
+
+.closet-item:hover {
+  transform: scale(1.05);
+  border-color: #F2CBEF;
+}
+
+.closet-item.selected {
+  border-color: #BA56AE;
+  box-shadow: 0 0 8px #BA56AE;
+}
+
+.loading-message, .empty-message, .error-message {
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-style: italic;
+}
+
+.error-message {
+  color: #cc0000;
+}
+
+/* Footer styling */
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #F2CBEF;
+  margin-top: auto;
+}
+
+.footer .logo img {
+  height: 30px;
+  margin-bottom: 10px;
+}
+
+.footer p {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column;
+  }
+  
+  .outfit-preview, .closet-selector {
+    min-width: 100%;
+  }
+  
+  .mannequin {
+    width: 250px;
+    height: 400px;
+  }
+  
+  .preview-top {
+    top: 30px;
+    left: 35px;
+    width: 180px;
+    height: 130px;
+  }
+  
+  .preview-bottom {
+    top: 160px;
+    left: 35px;
+    width: 180px;
+    height: 130px;
+  }
+  
+  .preview-shoes {
+    bottom: 0;
+    left: 60px;
+    width: 130px;
+    height: 130px;
+  }
+  
+  .preview-accessories {
+    top: 15px;
+    right: 25px;
+    width: 70px;
+    height: 70px;
+  }
 }
