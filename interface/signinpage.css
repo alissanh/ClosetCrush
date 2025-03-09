@@ -4,7 +4,8 @@ body {
     margin: 0;
     padding: 5px;
     font-family: 'Irish Grover', cursive;
-    background-color: #F2CBEF; /* Light pink background */
+    background-image: url(images/backgrounds/finalhangerbckgrnd.png);
+    background-size: cover;
 }
 
 /* Navbar Styling */
@@ -12,7 +13,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-image: url:"images/backgrounds/finalhangerbckgrnd.png";
+    background-color: #F2CBEF; /* Soft pastel pink */
     padding: 10px 20px;
 }
 
@@ -48,6 +49,30 @@ body {
     color: #BA56AE; /* Change text color to match your theme */
 }
 
+footer {
+    background-color:#F2CBEF;
+    text-align: center;
+    width: 100%;
+    padding: 20px 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column; /* Ensures vertical stacking */
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .footer-logo img {
+    max-width: 150px; /* Adjust size as needed */
+    display: block;
+    margin-bottom: 10px; /* Space between logo and text */
+  }
+  
+  footer p {
+    margin: 0;
+  }
+
 /* Right Section (Buttons & User Icon) */
 .right-section {
     display: flex;
@@ -57,6 +82,7 @@ body {
 
 /* Add Button */
 .add-button {
+    text-decoration: none;
     color: #BA56AE;
     border: none;
     background: none;

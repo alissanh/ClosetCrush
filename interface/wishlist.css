@@ -65,6 +65,7 @@ body {
 
 /* Add Button — from items.css */
 .add-button {
+  text-decoration: none;
   color: #BA56AE;
   border: none;
   background: none;
