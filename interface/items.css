@@ -3,7 +3,8 @@ body {
   margin: 0;
   padding: 5px;
   font-family: 'Irish Grover', cursive;
-  background-color: #F2CBEF; /* Light pink background */
+  background-image: url(images/backgrounds/finalcleanbckgrnd.png);
+  background-repeat: repeat;
 }
 
 /* Navbar Styling */
@@ -87,4 +88,52 @@ body {
   height: 35px;
   border-radius: 50%;
   cursor: pointer;
+}
+
+/* Container for the page’s main content */
+.items-container {
+  max-width: 1200px;
+  margin: 2rem auto; 
+  padding: 0 1rem;  
+  text-align: center;
+}
+
+/* Generic "Items" title */
+.items-title {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Grid layout for cards */
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+  justify-items: center; /* center each card in its grid cell */
+}
+
+/* Card styling */
+.item-card {
+  background-color: #AF5992; /* Purple/pink tone (modify as needed) */
+  width: 180px;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* The black silhouette area (image placeholder) */
+.item-image {
+  width: 100%;
+  height: 200px;
+  background-color: #F2CBEF; /* black silhouette background */
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+/* Text inside the card */
+.store, .price, .name {
+  color: #fff;
+  margin: 0.3rem 0;
+  font-size: 1rem;
 }
