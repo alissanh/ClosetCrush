@@ -47,20 +47,6 @@ h1, h2, h3 {
 .logo img {
   height: 40px; /* Adjust size as needed */
 }
-
-/* Navbar Styling */
-.navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #F2CBEF; /* Soft pastel pink */
-    padding: 10px 20px;
-  }
-  
-  /* Logo */
-  .logo img {
-    height: 40px; /* Adjust size as needed */
-  }
   
   /* Navigation Links */
   .nav-links {
@@ -88,10 +74,9 @@ h1, h2, h3 {
     color: #BA56AE; /* Change text color to match your theme */
   }
 
-.nav-links a:hover {
-  color: #BA56AE; /* Change text color to match your theme */
-}
-
+  .wrapper {
+    flex: 1; /* This makes the wrapper expand and push the footer down */
+  }
 /* Right Section (Buttons & User Icon) */
 .right-section {
   display: flex;
@@ -109,7 +94,6 @@ h1, h2, h3 {
     font-weight: bold;
     padding: 8px 15px;
     cursor: pointer;
-    text-decoration: none;
   }
 
 /* My Crushes Button */
@@ -143,7 +127,6 @@ h1, h2, h3 {
   background-color: #F2CBEF;
   text-align: center;
   padding: 20px;
-  margin-top: 40px;
 }
 
 footer {
