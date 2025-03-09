@@ -249,6 +249,43 @@ app.get('/images/:imageName', (req, res) => {
   }
 });
 
+app.post('/users/:id/deleteItem', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { category, filename } = req.body;
+
+    if (!category || !filename) {
+      return res.status(400).json({ error: 'Missing category or filename' });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    // Remove the filename from the user's category array
+    const index = user[category].indexOf(filename);
+    if (index !== -1) {
+      user[category].splice(index, 1);
+      await user.save();
+      
+      // Optionally delete the file from the filesystem
+      const imagePath = path.join(frontendPath, 'images', filename);
+      if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
+      }
+      
+      return res.json({
+        success: true,
+        message: `Item removed from ${category}`
+      });
+    } else {
+      return res.status(404).json({ error: 'Item not found in user\'s collection' });
+    }
+
+  } catch (error) {
+    console.error('Error deleting item:', error);
+    return res.status(500).json({ error: error.message });
+  }
+});
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

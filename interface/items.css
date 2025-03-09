@@ -52,13 +52,13 @@ footer {
   text-align: center;
   width: 100%;
   padding: 20px 0;
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  background-color: #F2CBEF;
   display: flex;
   flex-direction: column; /* Ensures vertical stacking */
   align-items: center;
   justify-content: center;
+  margin-top: 40px;
+  position: relative; /* Changed from absolute to relative */
 }
 
 .footer-logo img {
@@ -70,7 +70,6 @@ footer {
 footer p {
   margin: 0;
 }
-
 
 /* Right Section (Buttons & User Icon) */
 .right-section {
@@ -89,6 +88,7 @@ footer p {
   font-weight: bold;
   padding: 8px 15px;
   cursor: pointer;
+  text-decoration: none;
 }
 
 /* My Crushes Button */
@@ -116,18 +116,20 @@ footer p {
   cursor: pointer;
 }
 
-/* Container for the page’s main content */
+/* Container for the page's main content */
 .items-container {
   max-width: 1200px;
   margin: 2rem auto; 
   padding: 0 1rem;  
   text-align: center;
+  min-height: 60vh; /* Ensure container has minimum height */
 }
 
 /* Generic "Items" title */
 .items-title {
   font-size: 2.5rem;
   margin-bottom: 1.5rem;
+  color: #BA56AE;
 }
 
 /* Grid layout for cards */
@@ -146,15 +148,25 @@ footer p {
   padding: 1rem;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  position: relative; /* Added for delete button positioning */
+  transition: transform 0.2s ease;
+}
+
+.item-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
 
 /* The black silhouette area (image placeholder) */
 .item-image {
   width: 100%;
   height: 200px;
-  background-color: #F2CBEF; /* black silhouette background */
+  background-color: #F2CBEF; /* Light pink background */
   border-radius: 8px;
   margin-bottom: 0.5rem;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* Text inside the card */
@@ -162,4 +174,107 @@ footer p {
   color: #fff;
   margin: 0.3rem 0;
   font-size: 1rem;
+}
+
+/* NEW ADDITIONS FOR FUNCTIONALITY */
+
+/* Loading, empty state, and error messages */
+.loading-indicator, .empty-state, .error-message {
+  width: 100%;
+  padding: 30px;
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+  grid-column: 1 / -1; /* Span all columns */
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 30px;
+  border-radius: 15px;
+  margin: 20px auto;
+  max-width: 400px;
+}
+
+.add-item-link {
+  margin-top: 15px;
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #BA56AE;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-family: 'Irish Grover', cursive;
+}
+
+.add-item-link:hover {
+  background-color: #a35287;
+}
+
+.error-message {
+  color: #c62828;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  margin: 20px auto;
+  max-width: 400px;
+}
+
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #BA56AE;
+  font-weight: bold;
+}
+
+/* Delete button styling */
+.delete-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid #BA56AE;
+  color: #BA56AE;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s, background-color 0.3s;
+}
+
+.item-card:hover .delete-button {
+  opacity: 1;
+}
+
+.delete-button:hover {
+  background-color: #BA56AE;
+  color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .items-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+  
+  .item-card {
+    width: 150px;
+  }
+  
+  .item-image {
+    height: 150px;
+  }
+  
+  .items-title {
+    font-size: 2rem;
+  }
 }
