@@ -114,6 +114,9 @@
         itemImage.className = 'item-image';
         itemImage.style.backgroundImage = `url(images/${item.filename})`;
         
+        // Add elements to card
+        itemCard.appendChild(itemImage);
+        
         // Create item details
         if (item.name) {
           const nameElement = document.createElement('p');
@@ -135,9 +138,7 @@
           priceElement.textContent = `Price: ${item.price}`;
           itemCard.appendChild(priceElement);
         }
-        
-        // Add elements to card
-        itemCard.appendChild(itemImage);
+      
         
         // Add delete button
         const deleteButton = document.createElement('button');
