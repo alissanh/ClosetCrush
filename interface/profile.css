@@ -23,7 +23,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #d191c8;
+    background-color: #F2CBEF;
     padding: 15px;
   }
   
@@ -34,7 +34,9 @@
   .nav-links {
     list-style: none;
     display: flex;
-    gap: 15px;
+    gap: 20px; 
+    margin-left: auto;  /* Pushes links to the right */
+    padding: 10px 20px;
   }
   
   .nav-links li a {
@@ -63,13 +65,19 @@
   }
   
   .my-crushes {
-    background-color: #8a3e85;
+    font-family: 'Irish Grover', cursive;
+    background-color: #BA56AE;
     color: white;
-    padding: 10px 20px;
     border: none;
-    border-radius: 15px;
-    cursor: pointer;
+    padding: 12px 30px;
+    width: auto;
+    white-space: nowrap;
     font-size: 16px;
+    border-radius: 10px;
+}
+
+  .my-crushes:hover {
+    background-color: #a35287;
   }
   
   .profile-link {
@@ -139,10 +147,11 @@
     flex-wrap: wrap;
     gap: 20px;
     justify-content: flex-start;
+    color: #000
   }
   
   .crush-card {
-    background-color: #d191c8;
+    background-color: #F2CBEF;
     border-radius: 10px;
     padding: 15px;
     text-align: center;
