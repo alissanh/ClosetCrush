@@ -1,21 +1,33 @@
 /* General Styles */
 
-body {
+html, body {
+    height: 107%; /* Ensure full viewport height */
     margin: 0;
-    padding: 0px;
-    font-family: 'Irish Grover', cursive;
-    background-image: url(images/backgrounds/finalhangerbckgrnd.png);
-    background-size: cover;
+    padding: 0; /* good practice if ydou want a sticky footer approach */
+  }
+
+body {
+  font-family: 'Irish Grover', cursive;
+  background-image: url('images/backgrounds/finalhangerbckgrnd.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
 }
+
+.wrapper {
+    flex: 1; /* This makes the wrapper expand and push the footer down */
+  }
 
 /* Navbar Styling */
 .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #F2CBEF; /* Soft pastel pink */
+    background-color: #F2CBEF; /* Soft pasl pink */
     padding: 10px 20px;
-}
+  }
 
 /* Logo */
 .logo img {
@@ -28,49 +40,23 @@ body {
     display: flex;
     gap: 20px;  /* Space between links */
     margin-left: auto;  /* Pushes links to the right */
-    padding: 10px 20px;
     /* margin: 0;
     padding: 0; */
 }
 
-/* Navigation Links */
-/* Navbar Styling */
-.navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #F2CBEF; /* Soft pastel pink */
-    padding: 10px 20px;
-  }
-  
-  /* Logo */
-  .logo img {
-    height: 40px; /* Adjust size as needed */
-  }
-  
-  /* Navigation Links */
-  .nav-links {
-    list-style: none;
-    display: flex;
-    gap: 20px;  /* Space between links */
-    margin-left: auto;  /* Pushes links to the right */
-    /* margin: 0;
-    padding: 0; */
-  }
-  
-  .nav-links li {
+.nav-links li {
     display: inline-block;
-  }
-  
-  .nav-links a {
+}
+
+.nav-links a {
     text-decoration: none;
     font-size: 18px;
     color: #000000;
     font-weight: bold;
     transition: color 0.3s ease;
-  }
-  
-  .nav-links a:hover {
+}
+
+.nav-links a:hover {
     color: #BA56AE; /* Change text color to match your theme */
   }
 
@@ -115,12 +101,8 @@ footer {
     font-weight: bold;
     padding: 8px 15px;
     cursor: pointer;
-    text-decoration: none;
-  }
-
-.my-crushes:hover {
-    background-color: #a35287;
 }
+
 
 /* My Crushes Button */
 .my-crushes {
@@ -133,11 +115,13 @@ footer {
     white-space: nowrap;
     font-size: 16px;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .my-crushes:hover {
     background-color: #a35287;
 }
+
 
 /* User Icon */
 .user-icon {
@@ -194,6 +178,28 @@ button:hover {
     background-color: #872e69;
 }
 
+footer {
+    text-align: center;
+    width: 100%;
+    padding: 20px 0;
+    background-color: #F2CBEF;
+    display: flex;
+    flex-direction: column; /* Ensures vertical stacking */
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+    position: relative; /* Changed from absolute to relative */
+  }
+  
+  .footer-logo img {
+    max-width: 150px; /* Adjust size as needed */
+    display: block;
+    margin-bottom: 10px; /* Space between logo and text */
+  }
+  
+  footer p {
+    margin: 0;
+  }
 /* ✅ Background Selection Styling */
 .background-options {
     display: flex;

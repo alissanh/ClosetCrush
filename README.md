@@ -1,20 +1,3 @@
-# cmd-f
+Cmd-f Hackathon 2025
 
-link
--> get html image of each item via webscrape
--> store based on webscrape
-
-front end
--> pretty
-
-functionality
-social
--> make a profile
--> 
-
-save a wishlist link
--> scrape html, info and image
-
-cataloging
--> folders and whatnot
- 
+Introducing ClosetCrush, an all-in-one online-shopping wishlist. Save your favourite finds, mix & match pieces, and preview oufits you yearn for. Be confident about your purchases with ClosetCrush.
