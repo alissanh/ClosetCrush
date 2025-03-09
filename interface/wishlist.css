@@ -1,0 +1,193 @@
+/* Reset / Basic Styles */
+* {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Irish Grover', cursive;
+  }
+  
+  /* Leopard background (adjust if you prefer hangers or a solid color) */
+  body {
+    background: url('interface/images/backgrounds/finalcheetahbckgrnd.jpeg') no-repeat center center;
+    background-size: cover;
+  }
+  
+  /* Navbar (similar to your existing style) */
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #F2CBEF;
+    padding: 10px 20px;
+  }
+  .logo img {
+    height: 40px;
+  }
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-links a {
+    text-decoration: none;
+    font-size: 18px;
+    color: #000000;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  .nav-links a:hover {
+    color: #BA56AE;
+  }
+  /* Right side of the nav */
+  .right-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  .my-crushes {
+    background-color: #BA56AE;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .my-crushes:hover {
+    background-color: #a35287;
+  }
+  .user-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  /* Main Container for the form page */
+  .wishlist-container {
+    min-height: calc(100vh - 60px); /* fill screen minus nav+footer */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+  }
+  
+  /* The box that holds the form */
+  .wishlist-box {
+    background-color: #F2CBEF;
+    width: 90%;
+    max-width: 600px;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  }
+  .wishlist-box h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  
+  /* Form styling */
+  #wishlistForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 0 auto;
+  }
+  .form-group {
+    text-align: left;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 18px;
+  }
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #BA56AE;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+  
+  /* Category Section */
+  /* Keep your existing .category-section and h3 styles */
+  .category-section {
+      background-color: #BA56AE;
+      padding: 10px;
+      border-radius: 10px;
+      color: white;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    
+    .category-section h3 {
+      margin: 0 0 10px 0;
+      font-size: 24px;
+      font-family: 'Irish Grover', cursive;
+    }
+    
+    /* Hide or remove the category-buttons styles if not using them anymore */
+    .category-buttons {
+      display: none; /* or just remove this block */
+    }
+    
+    /* =============================
+       New dropdown styling 
+       ============================= */
+    .category-select {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #F2CBEF; /* or #BA56AE if you prefer */
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: 'Irish Grover', cursive;
+      color: #0a0a0a; 
+      background-color: #F2CBEF;
+      cursor: pointer;
+      outline: none;
+      /* Optionally hide default arrow (appearance property might need vendor prefixes) */
+      appearance: none;
+    }
+    
+    /* Ensure the placeholder & all options keep the same font */
+    .category-select option {
+      font-family: 'Irish Grover', cursive;
+      color: #080808; 
+    }
+    
+    /* Style the disabled 'Choose a Category' placeholder differently if you'd like */
+    .category-select option:disabled {
+      color: #999; /* Light grey to show it's not selectable */
+    }
+    
+  /* Submit Section */
+  .submit-section {
+    text-align: center;
+    margin-top: 15px;
+  }
+  .submit-btn {
+    background-color: #8a3e85;
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  .submit-btn:hover {
+    background-color: #722c6d;
+  }
+  
+  /* Footer */
+  .footer {
+    background-color: #F2CBEF;
+    text-align: center;
+    padding: 10px;
+  }
+  
