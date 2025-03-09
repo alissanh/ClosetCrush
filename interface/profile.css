@@ -5,14 +5,14 @@
     box-sizing: border-box;
   }
   
-  /* Body uses the same or similar styling as items.css */
+  /* Body styling similar to items.css */
   body {
     font-family: 'Irish Grover', cursive;
-    background-color: #fff; /* Or your chosen background/color */
+    background-color: #fff; /* or your chosen background */
     color: #000;
   }
   
-  /* HEADER: same layout as in tops.html */
+  /* HEADER, matching your items.css structure */
   .navbar {
     display: flex;
     justify-content: space-between;
@@ -21,12 +21,10 @@
     padding: 15px;
   }
   
-  /* Logo in header */
   .logo img {
     height: 50px;
   }
   
-  /* Nav links */
   .nav-links {
     list-style: none;
     display: flex;
@@ -39,7 +37,6 @@
     font-size: 18px;
   }
   
-  /* Right section: wishlist + my crushes + profile */
   .right-section {
     display: flex;
     align-items: center;
@@ -56,7 +53,7 @@
     height: 40px;
     text-align: center;
     line-height: 40px;
-    text-decoration: none; /* so it looks like a button if it's an <a> */
+    text-decoration: none; /* so it appears like a button */
   }
   
   .my-crushes {
@@ -66,6 +63,7 @@
     border: none;
     border-radius: 15px;
     cursor: pointer;
+    font-size: 16px;
   }
   
   .profile-link {
@@ -78,14 +76,15 @@
     border-radius: 50%;
   }
   
-  /* MAIN CONTAINER: replicate .items-container style */
+  /* MAIN CONTAINER */
   .profile-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    /* Similar to .items-container approach */
   }
   
-  /* Page Title & Subtitle: replicate .items-title or so */
+  /* HEADINGS */
   .profile-title {
     font-size: 32px;
     margin-bottom: 10px;
@@ -107,19 +106,30 @@
     color: #555;
   }
   
-  /* GRID: replicate .items-grid style */
+  /* TWO-COLUMN LAYOUT (like .items-grid, but for profile) */
   .profile-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* left column for crush-cards, right for carousel */
+    grid-template-columns: 1fr 1fr; 
+    gap: 40px; 
+  }
+  
+  .left-column {
+    display: flex;
+    flex-direction: column;
     gap: 20px;
   }
   
-  /* CRUSH CARDS: replicate .item-card approach */
+  .right-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* LEFT COLUMN: crush-cards */
   .crush-cards {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    align-items: flex-start;
     justify-content: flex-start;
   }
   
@@ -128,7 +138,7 @@
     border-radius: 10px;
     padding: 15px;
     text-align: center;
-    width: 150px; /* or whatever size you prefer */
+    width: 150px;
     color: #000;
   }
   
@@ -138,8 +148,8 @@
     margin-bottom: 10px;
   }
   
-  /* CAROUSEL: replicate a card style or custom */
-  .profile-carousel {
+  /* Right column: carousel */
+.profile-carousel {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -158,11 +168,13 @@
   }
   
   #profile-pic {
-    max-width: 200px;
+    /* Make the Bratz doll bigger */
+    max-width: 1200px; 
+    width: 100%;
     height: auto;
   }
   
-  /* FOOTER: same layout as items.css */
+  /* FOOTER, matching items.css structure */
   footer {
     background-color: #d191c8;
     padding: 20px;
