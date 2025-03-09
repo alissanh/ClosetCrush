@@ -44,44 +44,7 @@
 
     <!-- Stage with Avatar -->
     <div class="stage-container">
-        <div class="stage-wrapper">
-            <img src="images/stage.png" alt="Stage" class="stage">
-            
-            <!-- Outfit Display (preview items on the stage) -->
-            <div class="outfit-preview">
-                <div id="previewTop" class="preview-item preview-top"></div>
-                <div id="previewBottom" class="preview-item preview-bottom"></div>
-                <div id="previewDress" class="preview-item preview-dress"></div>
-                <div id="previewShoes" class="preview-item preview-shoes"></div>
-                <div id="previewAccessories" class="preview-item preview-accessories"></div>
-            </div>
-            
-            <!-- Outfit Category Buttons - Positioned vertically on the right -->
-            <div class="outfit-options">
-              <button class="outfit-button" data-category="tops">
-                  <img src="images/buttons/shirt_resized.png" alt="Tops">
-              </button>
-              <button class="outfit-button" data-category="bottoms">
-                  <img src="images/buttons/skirt_resized.png" alt="Bottoms">
-              </button>
-              <button class="outfit-button" data-category="dresses">
-                  <img src="images/buttons/dress_resized.png" alt="Dresses">
-              </button>
-              <button class="outfit-button" data-category="shoes">
-                  <img src="images/buttons/heel_resized.png" alt="Shoes">
-              </button>
-              <button class="outfit-button" data-category="accessories">
-                  <img src="images/buttons/accessory_resized.png" alt="Accessories">
-              </button>
-            </div>
-        </div>
-
-        <!-- Outfit Actions -->
-        <div class="outfit-actions">
-            <button id="crushOutfitBtn" class="action-button crush-button">♥ Crush</button>
-        </div>
-
-        <!-- Item Carousels -->
+        <!-- Item Carousels now on the left -->
         <div class="item-carousels">
             <div id="topsCarousel" class="item-carousel" style="display: none;">
                 <h3>Select a Top</h3>
@@ -136,6 +99,46 @@
                     </div>
                     <button class="carousel-nav next">&gt;</button>
                 </div>
+            </div>
+        </div>
+
+        <!-- Stage and actions wrapper -->
+        <div class="stage-and-actions">
+            <div class="stage-wrapper">
+                <img src="images/stage.png" alt="Stage" class="stage">
+                
+                <!-- Outfit Display (preview items on the stage) -->
+                <div class="outfit-preview">
+                    <div id="previewTop" class="preview-item preview-top"></div>
+                    <div id="previewBottom" class="preview-item preview-bottom"></div>
+                    <div id="previewDress" class="preview-item preview-dress"></div>
+                    <div id="previewShoes" class="preview-item preview-shoes"></div>
+                    <div id="previewAccessories" class="preview-item preview-accessories"></div>
+                </div>
+                
+                <!-- Outfit Category Buttons - Positioned vertically on the right -->
+                <div class="outfit-options">
+                  <button class="outfit-button" data-category="tops">
+                      <img src="images/buttons/shirt_resized.png" alt="Tops">
+                  </button>
+                  <button class="outfit-button" data-category="bottoms">
+                      <img src="images/buttons/skirt_resized.png" alt="Bottoms">
+                  </button>
+                  <button class="outfit-button" data-category="dresses">
+                      <img src="images/buttons/dress_resized.png" alt="Dresses">
+                  </button>
+                  <button class="outfit-button" data-category="shoes">
+                      <img src="images/buttons/heel_resized.png" alt="Shoes">
+                  </button>
+                  <button class="outfit-button" data-category="accessories">
+                      <img src="images/buttons/accessory_resized.png" alt="Accessories">
+                  </button>
+                </div>
+            </div>
+
+            <!-- Outfit Actions -->
+            <div class="outfit-actions">
+                <button id="crushOutfitBtn" class="action-button crush-button">♥ Crush</button>
             </div>
         </div>
     </div>
@@ -208,7 +211,7 @@
         // My Crushes button
         if (myCrushesBtn) {
             myCrushesBtn.addEventListener('click', () => {
-                window.location.href = "crushes.html";
+                window.location.href = "profile.html";
             });
         }
         
@@ -392,6 +395,9 @@
                 const data = await response.json();
                 
                 if (data.success) {
+                    // Also save to localStorage as backup/offline storage
+                    saveOutfitToLocalStorage(currentOutfit);
+                    
                     alert('Outfit crushed! ❤️');
                     crushOutfitBtn.classList.add('crushed');
                 } else {
@@ -399,8 +405,38 @@
                 }
             } catch (error) {
                 console.error('Error crushing outfit:', error);
-                alert('Failed to crush outfit. Please try again.');
+                
+                // If API call fails, save to localStorage as fallback
+                saveOutfitToLocalStorage(currentOutfit);
+                
+                alert('Saved outfit to local storage');
+                crushOutfitBtn.classList.add('crushed');
             }
+        }
+        
+        // Helper function to save crush to localStorage
+        function saveOutfitToLocalStorage(outfit) {
+            // Get existing crushes from localStorage
+            let crushes = [];
+            const existingCrushes = localStorage.getItem('outfitCrushes');
+            
+            if (existingCrushes) {
+                crushes = JSON.parse(existingCrushes);
+            }
+            
+            // Add the new crush
+            crushes.unshift({
+                outfit: outfit,
+                date: new Date().toISOString()
+            });
+            
+            // Keep only the most recent 20 crushes
+            if (crushes.length > 20) {
+                crushes = crushes.slice(0, 20);
+            }
+            
+            // Save back to localStorage
+            localStorage.setItem('outfitCrushes', JSON.stringify(crushes));
         }
     });
   </script>
