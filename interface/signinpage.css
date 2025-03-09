@@ -2,6 +2,10 @@
 
 body {
     margin: 0;
+<<<<<<< HEAD
+=======
+    padding: 0px;
+>>>>>>> e8156919b146bd8ab4fa9402d59803200ef3cf25
     font-family: 'Irish Grover', cursive;
     background-image: url(images/backgrounds/finalhangerbckgrnd.png);
     background-size: cover;
@@ -18,7 +22,7 @@ body {
 
 /* Logo */
 .logo img {
-    height: 40px; /* Adjust size as needed */
+    height: 50px; /* Adjust size as needed */
 }
 
 /* Navigation Links */
@@ -81,14 +85,16 @@ footer {
 
 /* Add Button */
 .add-button {
-    text-decoration: none;
-    color: #BA56AE;
+    background-color: #a653a0;
+    color: white;
+    font-size: 24px;
     border: none;
-    background: none;
-    font-size: 40px;
-    font-weight: bold;
-    padding: 8px 15px;
-    cursor: pointer;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    text-decoration: none; /* so it appears like a button */
 }
 
 .my-crushes:hover {
