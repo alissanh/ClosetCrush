@@ -81,6 +81,7 @@ footer p {
 
 /* Add Button */
 .add-button {
+  text-decoration: none;
   color: #BA56AE;
   border: none;
   background: none;
