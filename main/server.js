@@ -19,6 +19,17 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static(frontendPath));
 
+app.use((req, res, next) => {
+  console.log(`Request for: ${req.url}`);
+  next();
+});
+
+
+app.use(express.static(frontendPath));
+console.log(`Serving static files from: ${frontendPath}`);
+
+
+
 console.log('MongoDB URI:', process.env.MONGODB_URI);
 
 if (!process.env.MONGODB_URI) {
