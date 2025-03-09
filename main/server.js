@@ -12,7 +12,7 @@ import User from './data.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const frontendPath = path.join(__dirname, '..', 'interface');
+const frontendPath = path.join(__dirname, 'interface');
 
 const app = express();
 app.use(express.json());
@@ -143,23 +143,18 @@ app.post('/users/findOrCreate', async (req, res) => {
   }
 });
 
-// Set up the root route to serve landingpage.html
-app.get('/', (req, res) => {
-    res.sendFile(path.join(frontendPath, 'landingpage.html'));
-});
-
-// Catch-all route to redirect any unmatched routes to the landing page
-app.get('*', (req, res) => {
-    // Exclude API routes and static files from the redirect
-    if (!req.path.startsWith('/users') && !req.path.includes('.')) {
-        res.redirect('/');
-    } else {
-        // For API routes and static files that don't exist, let Express handle it
-        res.status(404).send('Not found');
-    }
-});
-
 const PORT = process.env.PORT || 8080;
+
+app.use(express.static(__dirname));
+
+app.use(express.static(path.join(__dirname, 'interface')));
+
+
+app.get('/signin', (req, res) => {
+  res.sendFile(path.join(frontendPath, 'signinpage.html'));
+});
+
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
