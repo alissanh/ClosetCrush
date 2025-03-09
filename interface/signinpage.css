@@ -1,0 +1,72 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f3d5e6; /* Light pink */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 350px;
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+input, select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    background-color: #ba56ae;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #872e69;
+}
+
+/* ✅ Background Selection Styling */
+.background-options {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.background-options label {
+    cursor: pointer;
+}
+
+.bg-preview {
+    width: 70px;
+    height: 50px;
+    border-radius: 5px;
+    border: 2px solid transparent;
+}
+
+input[type="radio"]:checked + .bg-preview {
+    border-color: #ba56ae;
+}

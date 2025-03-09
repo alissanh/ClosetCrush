@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In or Create Account</title>
+  <link rel="stylesheet" href="signinpage.css">
+  <link rel="stylesheet" href="landingpage.css">
+  <link rel="icon" href="" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <a href="landingpage.html" class="logo">
+                <img src="images/logo.png" alt="ClosetCrush Logo">
+            </a>
+            <ul class="nav-links">
+              <li><a href="tops.html">Tops</a></li>
+              <li><a href="bottoms.html">Bottoms</a></li>
+              <li><a href="dresses.html">Dresses</a></li>
+              <li><a href="shoes.html">Shoes</a></li>
+              <li><a href="accessories.html">Accessories</a></li>
+            </ul>
+            <div class="right-section">
+                <button class="add-button">+</button>
+                <button class="my-crushes">My Crushes</button>
+                <img src="images/" alt="User Icon" class="user-icon">
+             </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Select an Option</h2>
+        <div class="toggle-buttons">
+            <button id="show-signin">Sign In</button>
+            <button id="show-signup">Create Account</button>
+        </div>
+
+        <!-- Sign-In Form -->
+        <form id="signin-form" class="form-section">
+            <label for="signin-email">Email or Username:</label>
+            <input type="text" id="signin-email" required>
+
+            <label for="signin-password">Password:</label>
+            <input type="password" id="signin-password" required>
+
+            <button type="submit">Sign In</button>
+        </form>
+
+        <!-- Sign-Up Form -->
+        <form id="signup-form" class="form-section hidden">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" required>
+
+            <label for="signup-email">Email:</label>
+            <input type="email" id="signup-email" required>
+
+            <label for="signup-username">Username:</label>
+            <input type="text" id="signup-username" required>
+
+            <label for="signup-password">Password:</label>
+            <input type="password" id="signup-password" required>
+
+            <label for="confirm-password">Confirm Password:</label>
+            <input type="password" id="confirm-password" required>
+
+            <label for="skin-color">Skin Color:</label>
+            <select id="skin-color">
+                <option value="fair">Fair</option>
+                <option value="medium">Medium</option>
+                <option value="dark">Dark</option>
+            </select>
+
+            <label for="hair-color">Hair Color:</label>
+            <select id="hair-color">
+                <option value="black">Black</option>
+                <option value="brown">Brown</option>
+                <option value="blonde">Blonde</option>
+                <option value="red">Red</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="background">Choose Your Background:</label>
+            <div class="background-options">
+                <label>
+                    <input type="radio" name="background" value="bg1.jpg" checked>
+                    <img src="bg1.jpg" alt="Background 1" class="bg-preview">
+                </label>
+                <label>
+                    <input type="radio" name="background" value="bg2.jpg">
+                    <img src="bg2.jpg" alt="Background 2" class="bg-preview">
+                </label>
+                <label>
+                    <input type="radio" name="background" value="bg3.jpg">
+                    <img src="bg3.jpg" alt="Background 3" class="bg-preview">
+                </label>
+            </div>
+
+            <button type="submit">Create Account</button>
+        </form>
+
+        <p id="message"></p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
