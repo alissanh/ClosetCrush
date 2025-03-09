@@ -3,14 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Add to Closet</title>
+  <title>Add to Wishlist</title>
 
-  <!-- Link to your CSS files -->
+  <!-- Link to your wishlist.css file -->
   <link rel="stylesheet" href="/wishlist.css">
-  <link rel="stylesheet" href="/landingpage.css">
-  
+
   <!-- Font & Icon (if desired) -->
   <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet" />
+  
+  <style>
+    /* Adding just the necessary extra styling for functionality */
+    .status-message {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .status-message.success {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #c8e6c9;
+    }
+    .status-message.error {
+      background-color: #ffebee;
+      color: #c62828;
+      border: 1px solid #ffcdd2;
+    }
+    .status-message.loading {
+      background-color: #e3f2fd;
+      color: #1565c0;
+      border: 1px solid #bbdefb;
+    }
+    .preview-container {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: white;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .image-preview {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    small {
+      display: block;
+      margin-top: 5px;
+      color: #666;
+      font-style: italic;
+    }
+  </style>
 </head>
 <body>
   <!-- Header (optional) -->
@@ -37,28 +82,33 @@
   <!-- Main Content: 'Add to Wishlist' Form -->
   <main class="wishlist-container">
     <div class="wishlist-box">
-      <h2>Let's Add to Your Closet</h2>
+      <h2>Let's Add to the Wishlist</h2>
       <form id="wishlistForm">
         <div class="form-group">
           <label>Name:</label>
-          <input type="text" placeholder="Name of the item" name="itemName">
+          <input type="text" placeholder="__________" name="itemName">
         </div>
 
         <div class="form-group">
           <label>Brand:</label>
-          <input type="text" placeholder="Brand name" name="brandName">
+          <input type="text" placeholder="__________" name="brandName">
         </div>
 
         <div class="form-group">
-          <label>Image URL:</label>
-          <input type="text" placeholder="Paste image link with plain background" name="imageUrl" required>
-          <small>The background will be automatically removed</small>
+          <label>Price:</label>
+          <input type="text" placeholder="__________" name="price">
+        </div>
+
+        <div class="form-group">
+          <label>Paste Image Link:</label>
+          <input type="text" placeholder="__________" name="imageLink">
+          <small>Image should have a plain background for best results</small>
         </div>
 
         <!-- Category as a dropdown -->
-        <div class="form-group">
+        <div class="category-select">
           <label>Category:</label>
-          <select name="category" id="categorySelect" required>
+          <select name="category" id="categorySelect">
             <option value="" disabled selected>Choose a Category</option>
             <option value="tops">Tops</option>
             <option value="bottoms">Bottoms</option>
@@ -68,9 +118,15 @@
           </select>
         </div>
 
+        <div class="category-select" id="newCategorySection" style="display: none;">
+          <label>New Category Name:</label>
+          <input type="text" id="newCategoryInput" placeholder="Enter category name">
+          <button type="button" id="addCategoryBtn">Add Category</button>
+        </div>
+
         <!-- Submit button -->
         <div class="submit-section">
-          <button type="submit" class="submit-btn">Add to Closet</button>
+          <button type="submit" class="submit-btn">Add to Wishlist</button>
         </div>
       </form>
       
@@ -88,7 +144,6 @@
     </a>
     <p>@ 2025 SL, JK, HH & AH. All Rights Reserved</p>
   </footer>
-
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -112,12 +167,12 @@
         const formData = new FormData(wishlistForm);
         const itemName = formData.get('itemName').trim();
         const brandName = formData.get('brandName').trim();
-        const imageUrl = formData.get('imageUrl').trim();
+        const imageUrl = formData.get('imageLink').trim(); // Changed to match your original form
         const category = formData.get('category');
     
-        // Check required fields
-        if (!imageUrl || !category) {
-          statusMessage.textContent = 'Image URL and category are required!';
+        // Check if any required field is empty
+        if (!itemName || !brandName || !imageUrl || !category) {
+          statusMessage.textContent = 'Please fill out all fields!';
           statusMessage.className = 'status-message error';
           return;
         }
@@ -134,7 +189,7 @@
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              imageUrl,
+              imageUrl: imageUrl, // Using the image link from your form
               category,
               name: itemName,
               brand: brandName
@@ -145,7 +200,7 @@
     
           if (data.success) {
             // Show success message
-            statusMessage.textContent = `Item added to your ${category} collection!`;
+            statusMessage.textContent = `Your item has been crushed and added to your ${category} collection!`;
             statusMessage.className = 'status-message success';
     
             // Show preview if available
@@ -157,10 +212,6 @@
             // Clear the form
             wishlistForm.reset();
     
-            // Optional: Redirect after a delay
-            setTimeout(() => {
-              window.location.href = '/landing';
-            }, 3000);
           } else {
             // Show error
             statusMessage.textContent = data.error || 'Failed to add item. Please try again.';
@@ -174,6 +225,5 @@
       });
     });
   </script>
-  
 </body>
 </html>
