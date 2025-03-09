@@ -30,7 +30,8 @@ h1, h2, h3 {
   text-align: center;
   margin: 20px 0;
   font-size: 32px;
-  color: #BA56AE;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px #000000;
 }
 
 /* Navbar Styling */
@@ -149,14 +150,14 @@ footer {
   flex-direction: column;
   width: 100%;
   margin-top: 20px;
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
 /* Stage and Outfit Display */
 .stage-wrapper {
   position: relative;
-  max-width: 600px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
@@ -223,19 +224,19 @@ footer {
 /* Position Outfit Selection Buttons on the Right Side of the Stage */
 .outfit-options {
   position: absolute;
-  right: 34%; /* Adjust to move buttons inside the stage */
+  right: 37%; /* Adjust to move buttons inside the stage */
   top: 35%;
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  gap: 1px; /* Adjust spacing between buttons */
+  gap: 17px; /* Adjust spacing between buttons */
   z-index: 10; /* Ensure buttons are above the stage */
 }
 
 /* Outfit Button Styling */
 .outfit-button {
-  width: 65px; /* Make all buttons the same size */
-  height: 45px;
+  width: 25px; /* Make all buttons the same size */
+  height: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -251,7 +252,7 @@ footer {
 }
 
 .outfit-button img {
-  max-width: 60px;
+  max-width: 42px;
   height: auto;
 }
 
@@ -280,7 +281,7 @@ footer {
 }
 
 .crush-button {
-  background-color: #ff6b6b;
+  background-color: #BA56AE;
 }
 
 .crush-button.crushed {
@@ -392,7 +393,7 @@ footer {
 }
 
 /* Responsive Adjustments */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
   .navbar {
       flex-direction: column;
       gap: 10px;
@@ -415,4 +416,4 @@ footer {
       min-width: 80px;
       height: 80px;
   }
-}
+} */
