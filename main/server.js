@@ -223,6 +223,19 @@ app.get('/landing', (req, res) => {
   }
 });
 
+app.get('/wishlist.css', (req, res) => {
+  const cssPath = path.join(frontendPath, 'wishlist.css');
+  console.log(`Serving wishlist.css from: ${cssPath}`);
+  console.log(`File exists: ${fs.existsSync(cssPath)}`);
+  
+  if (fs.existsSync(cssPath)) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(cssPath);
+  } else {
+    res.status(404).send('CSS file not found');
+  }
+});
+
 // Serve image files with specific logging
 app.get('/images/:imageName', (req, res) => {
   const imagePath = path.join(frontendPath, 'images', req.params.imageName);
@@ -235,6 +248,7 @@ app.get('/images/:imageName', (req, res) => {
     res.status(404).send('Image not found');
   }
 });
+
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
