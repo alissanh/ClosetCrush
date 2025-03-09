@@ -27,6 +27,7 @@ body {
     display: flex;
     gap: 20px;  /* Space between links */
     margin-left: auto;  /* Pushes links to the right */
+    padding: 10px 20px;
     /* margin: 0;
     padding: 0; */
 }
