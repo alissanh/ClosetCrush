@@ -77,20 +77,21 @@ body {
 }
 
 /* My Crushes Button */
+/* My Crushes Button */
 .my-crushes {
-  font-family: 'Irish Grover', cursive;
-  background-color: #BA56AE;
-  color: white;
-  border: none;
-  padding: 12px 30px;
-  width: auto;
-  white-space: nowrap;
-  font-size: 16px;
-  border-radius: 10px;
-  cursor: pointer;
+    font-family: 'Irish Grover', cursive;
+    background-color: #BA56AE;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    width: auto;
+    white-space: nowrap;
+    font-size: 16px;
+    border-radius: 10px;
 }
+
 .my-crushes:hover {
-  background-color: #a35287;
+    background-color: #a35287;
 }
 
 /* User Icon */
