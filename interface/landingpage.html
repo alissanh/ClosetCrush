@@ -6,12 +6,10 @@
   <meta name="keywords" content="Closet, Wishlist">
   <meta name="description" content="Closet Crush">
   <title>ClosetCrush</title>
-  <link rel="stylesheet" href="landingpage.css">
+  <link rel="stylesheet" href="/landingpage.css">
+  <link rel="stylesheet" href="/signinpage.css"> <!-- Include signin page CSS for consistent header styling -->
   <link rel="icon" href="" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet">
-
-
-  
 </head>
 <body>
   <!-- Header Section -->
@@ -28,13 +26,65 @@
           <li><a href="accessories.html">Accesories</a></li>
         </ul>
         <div class="right-section">
-            <button class="add-button">+</button>
+            <button id="addItemBtn" class="add-button">+</button>
             <button class="my-crushes">My Crushes</button>
             <img src="images/profile.png" alt="User Icon" class="user-icon">
          </div>
     </nav>
   </header>
 
+  <!-- Main Content: Outfit Creator -->
+  <main class="main-content">
+    <!-- Outfit Preview Section -->
+    <div class="outfit-preview">
+      <h2>Your Look</h2>
+      <div class="mannequin-container">
+        <div class="mannequin">
+          <div class="mannequin-base"></div>
+          <div id="previewTop" class="preview-item preview-top"></div>
+          <div id="previewBottom" class="preview-item preview-bottom"></div>
+          <div id="previewShoes" class="preview-item preview-shoes"></div>
+          <div id="previewAccessories" class="preview-item preview-accessories"></div>
+        </div>
+        <button id="saveOutfitBtn" class="save-outfit-btn">Save This Outfit</button>
+      </div>
+    </div>
+
+    <!-- Closet Selection Section -->
+    <div class="closet-selector">
+      <div class="category-section">
+        <h3>Tops</h3>
+        <div id="topsContainer" class="items-scroll">
+          <!-- Tops will appear here dynamically -->
+          <div class="loading-message">Loading your tops...</div>
+        </div>
+      </div>
+      
+      <div class="category-section">
+        <h3>Bottoms</h3>
+        <div id="bottomsContainer" class="items-scroll">
+          <!-- Bottoms will appear here dynamically -->
+          <div class="loading-message">Loading your bottoms...</div>
+        </div>
+      </div>
+      
+      <div class="category-section">
+        <h3>Shoes</h3>
+        <div id="shoesContainer" class="items-scroll">
+          <!-- Shoes will appear here dynamically -->
+          <div class="loading-message">Loading your shoes...</div>
+        </div>
+      </div>
+      
+      <div class="category-section">
+        <h3>Accessories</h3>
+        <div id="accessoriesContainer" class="items-scroll">
+          <!-- Accessories will appear here dynamically -->
+          <div class="loading-message">Loading your accessories...</div>
+        </div>
+      </div>
+    </div>
+  </main>
 
   <!-- Footer -->
   <footer class="footer">
@@ -44,6 +94,187 @@
     <p>@ 2025 SL, JK, HH & AH. All Rights Reserved</p>
   </footer>
 
-<script src=""></script>
+  <!-- Script to handle outfit functionality -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Check if user is logged in
+      const userId = localStorage.getItem('userId');
+      if (!userId) {
+        // Redirect to sign-in page if no user is logged in
+        window.location.href = "/signin";
+        return;
+      }
+      
+      // Add event listeners
+      const addItemBtn = document.getElementById('addItemBtn');
+      if (addItemBtn) {
+        addItemBtn.addEventListener('click', () => {
+          window.location.href = "wishlist.html";
+        });
+      }
+      
+      const saveOutfitBtn = document.getElementById('saveOutfitBtn');
+      if (saveOutfitBtn) {
+        saveOutfitBtn.addEventListener('click', saveOutfit);
+      }
+      
+      // Load user's closet items
+      loadUserCloset(userId);
+    });
+
+    // Current outfit selection
+    let currentOutfit = {
+      tops: null,
+      bottoms: null,
+      shoes: null,
+      accessories: null
+    };
+
+    // Function to load user's closet items
+    async function loadUserCloset(userId) {
+      try {
+        const response = await fetch(`/users/${userId}/items`);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        // Clear loading messages
+        clearLoadingMessages();
+        
+        // Update the UI with the user's items
+        if (data.tops && data.tops.length > 0) {
+          data.tops.forEach(filename => {
+            addItemToContainer('tops', filename);
+          });
+        } else {
+          displayEmptyMessage('topsContainer');
+        }
+        
+        if (data.bottoms && data.bottoms.length > 0) {
+          data.bottoms.forEach(filename => {
+            addItemToContainer('bottoms', filename);
+          });
+        } else {
+          displayEmptyMessage('bottomsContainer');
+        }
+        
+        if (data.shoes && data.shoes.length > 0) {
+          data.shoes.forEach(filename => {
+            addItemToContainer('shoes', filename);
+          });
+        } else {
+          displayEmptyMessage('shoesContainer');
+        }
+        
+        if (data.accessories && data.accessories.length > 0) {
+          data.accessories.forEach(filename => {
+            addItemToContainer('accessories', filename);
+          });
+        } else {
+          displayEmptyMessage('accessoriesContainer');
+        }
+      } catch (error) {
+        console.error('Error loading closet:', error);
+        clearLoadingMessages();
+        displayErrorMessages();
+      }
+    }
+
+    // Clear loading messages
+    function clearLoadingMessages() {
+      const loadingMessages = document.querySelectorAll('.loading-message');
+      loadingMessages.forEach(msg => msg.remove());
+    }
+
+    // Display empty message
+    function displayEmptyMessage(containerId) {
+      const container = document.getElementById(containerId);
+      if (container) {
+        const emptyMsg = document.createElement('div');
+        emptyMsg.className = 'empty-message';
+        emptyMsg.textContent = 'No items found. Click + to add items!';
+        container.appendChild(emptyMsg);
+      }
+    }
+
+    // Display error messages
+    function displayErrorMessages() {
+      const containers = ['topsContainer', 'bottomsContainer', 'shoesContainer', 'accessoriesContainer'];
+      containers.forEach(containerId => {
+        const container = document.getElementById(containerId);
+        if (container) {
+          container.innerHTML = '<div class="error-message">Failed to load items. Please try again later.</div>';
+        }
+      });
+    }
+
+    // Function to add an item to its container
+    function addItemToContainer(category, filename) {
+      const container = document.getElementById(`${category}Container`);
+      if (!container) return;
+      
+      const itemElement = document.createElement('div');
+      itemElement.className = 'closet-item';
+      itemElement.style.backgroundImage = `url(images/${filename})`;
+      itemElement.dataset.filename = filename;
+      
+      // Add click event for selecting items
+      itemElement.addEventListener('click', () => {
+        // Remove selected class from all items in this category
+        const items = container.querySelectorAll('.closet-item');
+        items.forEach(item => item.classList.remove('selected'));
+        
+        // Add selected class to this item
+        itemElement.classList.add('selected');
+        
+        // Update current outfit and preview
+        currentOutfit[category] = filename;
+        updatePreview(category, filename);
+      });
+      
+      container.appendChild(itemElement);
+    }
+
+    // Function to update preview
+    function updatePreview(category, filename) {
+      let previewElement;
+      
+      // Handle different categories
+      if (category === 'tops') {
+        previewElement = document.getElementById('previewTop');
+      } else if (category === 'bottoms') {
+        previewElement = document.getElementById('previewBottom');
+      } else if (category === 'shoes') {
+        previewElement = document.getElementById('previewShoes');
+      } else if (category === 'accessories') {
+        previewElement = document.getElementById('previewAccessories');
+      }
+      
+      if (previewElement) {
+        previewElement.style.backgroundImage = `url(images/${filename})`;
+      }
+    }
+
+    // Save current outfit
+    function saveOutfit() {
+      const userId = localStorage.getItem('userId');
+      if (!userId) return;
+      
+      // Check if at least one item is selected
+      if (!currentOutfit.tops && !currentOutfit.bottoms && !currentOutfit.shoes && !currentOutfit.accessories) {
+        alert('Please select at least one item for your outfit');
+        return;
+      }
+      
+      // In a real application, we would save this to the database
+      console.log('Saving outfit:', currentOutfit);
+      
+      // For now, we'll simulate success
+      alert('Outfit saved successfully!');
+    }
+  </script>
 </body>
 </html>
