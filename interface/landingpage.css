@@ -39,7 +39,7 @@ h1, h2, h3 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #F2CBEF; /* Soft pasl pink */
+  background-color: #F2CBEF; /* Soft pastel pink */
   padding: 10px 20px;
 }
 
@@ -48,45 +48,27 @@ h1, h2, h3 {
   height: 40px; /* Adjust size as needed */
 }
 
-/* Navbar Styling */
-.navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #F2CBEF; /* Soft pastel pink */
-    padding: 10px 20px;
-  }
-  
-  /* Logo */
-  .logo img {
-    height: 40px; /* Adjust size as needed */
-  }
-  
-  /* Navigation Links */
-  .nav-links {
-    list-style: none;
-    display: flex;
-    gap: 20px;  /* Space between links */
-    margin-left: auto;  /* Pushes links to the right */
-    /* margin: 0;
-    padding: 0; */
-  }
-  
-  .nav-links li {
-    display: inline-block;
-  }
-  
-  .nav-links a {
-    text-decoration: none;
-    font-size: 18px;
-    color: #000000;
-    font-weight: bold;
-    transition: color 0.3s ease;
-  }
-  
-  .nav-links a:hover {
-    color: #BA56AE; /* Change text color to match your theme */
-  }
+/* Navigation Links */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;  /* Space between links */
+  margin-left: auto;  /* Pushes links to the right */
+  /* margin: 0;
+  padding: 0; */
+}
+
+.nav-links li {
+  display: inline-block;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-size: 18px;
+  color: #000000;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
 
   .wrapper {
     flex: 1; /* This makes the wrapper expand and push the footer down */
@@ -100,16 +82,17 @@ h1, h2, h3 {
 
 /* Add Button */
 .add-button {
-    text-decoration: none;
-    color: #BA56AE;
-    border: none;
-    background: none;
-    font-size: 40px;
-    font-weight: bold;
-    padding: 8px 15px;
-    cursor: pointer;
-    text-decoration: none;
-  }
+  background-color: #BA56AE;
+  color: white;
+  font-size: 24px;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  text-decoration: none; /* so it appears like a button */
+}
 
 /* My Crushes Button */
 .my-crushes {
