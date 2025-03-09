@@ -170,17 +170,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 0px;
   }
   
   .profile-carousel button {
-    background-color: #a653a0;
-    color: #fff;
+    background-color: #F2CBEF;
+    color: #000000;
     border: none;
     border-radius: 50%;
-    width: 40px;
+    width:60px;
     height: 40px;
-    font-size: 20px;
+    font-size: 25px;
     cursor: pointer;
   }
   
