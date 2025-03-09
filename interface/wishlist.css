@@ -65,16 +65,16 @@ body {
 
 /* Add Button — from items.css */
 .add-button {
-  text-decoration: none;
-  color: #BA56AE;
-  border: none;
-  background: none;
-  font-size: 40px;
-  font-weight: bold;
-  padding: 8px 15px;
-  cursor: pointer;
-  text-decoration: none; /* ensures link text isn't underlined if it's an <a> */
-}
+    text-decoration: none;
+    color: #BA56AE;
+    border: none;
+    background: none;
+    font-size: 40px;
+    font-weight: bold;
+    padding: 8px 15px;
+    cursor: pointer;
+    text-decoration: none;
+  }
 
 /* My Crushes Button */
 /* My Crushes Button */

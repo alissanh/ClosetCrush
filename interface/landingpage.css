@@ -83,17 +83,16 @@ h1, h2, h3 {
 
 /* Add Button */
 .add-button {
-  background-color: #BA56AE;
-  color: white;
-  font-size: 24px;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  text-align: center;
-  line-height: 40px;
-  text-decoration: none; /* so it appears like a button */
-}
+    text-decoration: none;
+    color: #BA56AE;
+    border: none;
+    background: none;
+    font-size: 40px;
+    font-weight: bold;
+    padding: 8px 15px;
+    cursor: pointer;
+    text-decoration: none;
+  }
 
 /* My Crushes Button */
 .my-crushes {
