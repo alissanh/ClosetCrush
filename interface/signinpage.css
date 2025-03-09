@@ -1,25 +1,15 @@
 /* General Styles */
 
 html, body {
-<<<<<<< HEAD
     height: 107%; /* Ensure full viewport height */
-=======
-    height: 100%; /* Ensure full viewport height */
->>>>>>> 6c8333ad8323b04cae62790041ae9241d704256c
     margin: 0;
     padding: 0; /* good practice if ydou want a sticky footer approach */
   }
 
 body {
-<<<<<<< HEAD
   font-family: 'Irish Grover', cursive;
   background-image: url('images/backgrounds/finalhangerbckgrnd.png');
   background-size: cover;
-=======
-    font-family: 'Irish Grover', cursive;
-    background-image: url(images/backgrounds/finalhangerbckgrnd.png);
-    background-size: cover;
->>>>>>> 6c8333ad8323b04cae62790041ae9241d704256c
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
@@ -66,18 +56,10 @@ body {
     transition: color 0.3s ease;
 }
 
-<<<<<<< HEAD
 .nav-links a:hover {
     color: #BA56AE; /* Change text color to match your theme */
   }
 
-=======
-<<<<<<< HEAD
-.nav-links a:hover {
-    color: #BA56AE; /* Change text color to match your theme */
-}
-=======
->>>>>>> 6c8333ad8323b04cae62790041ae9241d704256c
 footer {
     background-color:#F2CBEF;
     text-align: center;
@@ -101,10 +83,6 @@ footer {
   footer p {
     margin: 0;
   }
-<<<<<<< HEAD
-=======
->>>>>>> 9cdee164bbec0a1936223d12a41cb72c0b057038
->>>>>>> 6c8333ad8323b04cae62790041ae9241d704256c
 
 /* Right Section (Buttons & User Icon) */
 .right-section {
