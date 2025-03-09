@@ -1,169 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <title>ClosetCrush</title>
-    <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet">
-    <style>
-        body {
-            background-color: #F2CBEF;
-            font-family: 'Irish Grover', cursive;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <title>ClosetCrush - Profile</title>
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #D191C8;
-            padding: 15px;
-        }
+  <!-- Irish Grover Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap"
+    rel="stylesheet"
+  />
 
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 15px;
-            padding: 0;
-            margin: 0;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: black;
-            font-size: 18px;
-        }
-
-        .actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .add-btn {
-            background-color: #A653A0;
-            color: white;
-            font-size: 24px;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-        }
-
-        .crushes-btn {
-            background-color: #8A3E85;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 15px;
-            cursor: pointer;
-        }
-
-        .user-greeting {
-            background-color: #E5A9D1;
-            padding: 20px;
-            margin: 20px;
-            border-radius: 10px;
-            font-size: 24px;
-        }
-
-        .avatar-display {
-            display: flex;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .avatar {
-            background-color: #E5A9D1;
-            width: 200px;
-            height: 250px;
-            border-radius: 10px;
-        }
-
-        .top-crushes {
-            padding: 20px;
-            text-align: center;
-        }
-
-        .crush-list {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .crush-card {
-            background-color: #D191C8;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            width: 150px;
-        }
-
-        .crush-card img {
-            width: 100px;
-            height: auto;
-        }
-
-        footer {
-            background-color: #D191C8;
-            padding: 20px;
-            text-align: center;
-        }
-    </style>
+  <!-- Link to external CSS (structure similar to items.css) -->
+  <link rel="stylesheet" href="profile.css" />
 </head>
 <body>
-    <header>
-        <div class="logo">CLOSETCRUSH</div>
-        <nav>
-            <ul>
-                <li><a href="#">Tops</a></li>
-                <li><a href="#">Bottoms</a></li>
-                <li><a href="#">Dresses</a></li>
-                <li><a href="#">Shoes</a></li>
-                <li><a href="#">Accessories</a></li>
-            </ul>
-        </nav>
-        <div class="actions">
-            <button class="add-btn">+</button>
-            <button class="crushes-btn">//</button>
-            <div class="profile-icon"></div>
-        </div>
-    </header>
-    <main>
-        <section class="user-greeting">
-            <h1>Hey Sophia!</h1>
-            <p>Love ur outfit!</p>
-        </section>
-        <section class="avatar-display">
-            <div class="avatar"></div>
-        </section>
-        <section class="top-crushes">
-            <h2>My top crushes &lt;3</h2>
-            <div class="crush-list">
-                <div class="crush-card"> <img src="dress.png" alt="Dress"> <p>perf fit for brunch</p></div>
-                <div class="crush-card"> <img src="dress.png" alt="Dress"> <p>perf fit for brunch</p></div>
-                <div class="crush-card"> <img src="dress.png" alt="Dress"> <p>perf fit for brunch</p></div>
-            </div>
-        </section>
-    </main>
+  <!-- HEADER (identical to tops.html) -->
+  <header>
+    <nav class="navbar">
+      <a href="landingpage.html" class="logo">
+        <img src="images/logo.png" alt="ClosetCrush Logo" />
+      </a>
+      <ul class="nav-links">
+        <li><a href="tops.html">Tops</a></li>
+        <li><a href="bottoms.html">Bottoms</a></li>
+        <li><a href="dresses.html">Dresses</a></li>
+        <li><a href="shoes.html">Shoes</a></li>
+        <li><a href="accessories.html">Accesories</a></li>
+      </ul>
+      <div class="right-section">
+        <a href="wishlist.html" class="add-button">+</a>
+        <button class="my-crushes">My Crushes</button>
+        <a href="profile.html" class="profile-link">
+          <img src="images/profile.png" alt="User Icon" class="user-icon" />
+        </a>
+      </div>
+    </nav>
+  </header>
 
-    <!-- Footer -->
+  <!-- MAIN CONTENT (mirroring the .items-container approach) -->
+  <div class="profile-container">
+    <!-- Title and subtitle for the Profile page -->
+    <h1 class="profile-title">Hey Sophia!</h1>
+    <p class="profile-subtitle">Love your outfit!</p>
+
+    <!-- Subheading for top crushes -->
+    <h2 class="profile-subheading">My top crushes &lt;3</h2>
+
+    <!-- Wrapper for both the crush cards and the carousel, similar to .items-grid -->
+    <div class="profile-grid">
+
+      <!-- Left side: crush cards -->
+      <div class="crush-cards">
+        <div class="crush-card">
+          <img src="images/dress.png" alt="Dress" />
+          <p>perf fit for brunch</p>
+        </div>
+        <div class="crush-card">
+          <img src="images/dress.png" alt="Dress" />
+          <p>perf fit for brunch</p>
+        </div>
+        <div class="crush-card">
+          <img src="images/dress.png" alt="Dress" />
+          <p>perf fit for brunch</p>
+        </div>
+      </div>
+
+      <!-- Right side: Bratz doll carousel -->
+      <div class="profile-carousel">
+        <button id="prev-btn" onclick="prevImage()">&lt;</button>
+        <img
+          id="profile-pic"
+          src="images/bratzOneNoBg.png"
+          alt="Profile Picture"
+        />
+        <button id="next-btn" onclick="nextImage()">&gt;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER (identical to tops.html) -->
   <footer>
     <div class="footer-logo">
-        <img src="images/logo.png" alt="ClosetCrush Logo">
+      <img src="images/logo.png" alt="ClosetCrush Logo" />
     </div>
     <p>© 2025 SL, JK, HH & AH. All Rights Reserved</p>
-</footer>
+  </footer>
 
+  <!-- JavaScript for cycling profile images -->
+  <script>
+    // Array of profile image paths
+    const bratzImages = [
+      'images/bratzOneNoBg.png',
+      'images/bratzTwoNoBg.png',
+      'images/bratzThreeNoBg.png'
+    ];
+    let currentIndex = 0;
 
+    function showImage(index) {
+      document.getElementById('profile-pic').src = bratzImages[index];
+    }
+
+    function prevImage() {
+      currentIndex = (currentIndex - 1 + bratzImages.length) % bratzImages.length;
+      showImage(currentIndex);
+    }
+
+    function nextImage() {
+      currentIndex = (currentIndex + 1) % bratzImages.length;
+      showImage(currentIndex);
+    }
+  </script>
 </body>
 </html>
