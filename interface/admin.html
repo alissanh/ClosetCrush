@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ClosetCrush Admin</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+    form { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+    input, select, button { margin: 5px 0; padding: 8px; }
+    button { background: #BA56AE; color: white; border: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>ClosetCrush Admin</h1>
+  
+  <form id="addDataForm">
+    <h2>Add Items to User</h2>
+    <div>
+      <label>Email: <input type="email" id="email" required></label>
+    </div>
+    <div>
+      <label>Collection: 
+        <select id="collection">
+          <option value="tops">Tops</option>
+          <option value="bottoms">Bottoms</option>
+          <option value="dresses">Dresses</option>
+          <option value="shoes">Shoes</option>
+          <option value="accessories">Accessories</option>
+          <option value="crushes">Crushes</option>
+        </select>
+      </label>
+    </div>
+    <div>
+      <label>Item Data (JSON):<br>
+        <textarea id="itemData" rows="10" cols="50">[
+  {
+    "filename": "example_item.png",
+    "name": "Example Item",
+    "brand": "Brand Name",
+    "price": "$24.99"
+  }
+]</textarea>
+      </label>
+    </div>
+    <button type="submit">Add Items</button>
+  </form>
+  
+  <div id="result"></div>
+  
+  <script>
+    document.getElementById('addDataForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const collection = document.getElementById('collection').value;
+      let items;
+      
+      try {
+        items = JSON.parse(document.getElementById('itemData').value);
+      } catch (error) {
+        document.getElementById('result').innerHTML = `<p style="color: red">Error parsing JSON: ${error.message}</p>`;
+        return;
+      }
+      
+      try {
+        const response = await fetch('/admin/add-data', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ email, data: { collection, items } })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          document.getElementById('result').innerHTML = `
+            <p style="color: green">${result.message}</p>
+            <pre>${JSON.stringify(result.user, null, 2)}</pre>
+          `;
+        } else {
+          document.getElementById('result').innerHTML = `<p style="color: red">Error: ${result.error}</p>`;
+        }
+      } catch (error) {
+        document.getElementById('result').innerHTML = `<p style="color: red">Error: ${error.message}</p>`;
+      }
+    });
+  </script>
+</body>
+</html>

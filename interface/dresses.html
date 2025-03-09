@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="keywords" content="">
   <meta name="description" content="">
-  <title>My Items</title>
+  <title>My Dresses</title>
   <link rel="stylesheet" href="items.css">
   <link rel="icon" href="" type="image/png">
   <!-- Irish Grover font -->
   <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet">
 </head>
 <body>
-
+  
   <header>
     <nav class="navbar">
         <a href="landingpage.html" class="logo">
@@ -36,43 +36,33 @@
                   class="user-icon"
                 />
               </a>
-          </div> 
+          </div>
     </nav>
   </header>
-  
+
+  <!-- Generic container for items -->
+  <div class="items-container">
+    <h1 class="items-title">Dresses</h1>
     
-    <!-- Generic container for items -->
-    <div class="items-container">
-      <h1 class="items-title">Dresses</h1>
+    <!-- Items grid - will be populated dynamically -->
+    <div id="items-grid" class="items-grid">
+      <!-- Loading indicator -->
+      <div id="loading-indicator" class="loading-indicator">
+        Loading your dresses...
+      </div>
       
-      <!-- Must be populated with data from user -->
-      <div class="items-grid">
-
-        <div class="item-card">
-          <div class="item-image"></div>
-          <p class="store">Store: Example Store</p>
-          <p class="price">Price: $XX</p>
-          <p class="name">Name: Sample Item</p>
-        </div>
-
-        <div class="item-card">
-          <div class="item-image"></div>
-          <p class="store">Store: Example Store</p>
-          <p class="price">Price: $XX</p>
-          <p class="name">Name: Sample Item</p>
-        </div>
-
-        <div class="item-card">
-          <div class="item-image"></div>
-          <p class="store">Store: Example Store</p>
-          <p class="price">Price: $XX</p>
-          <p class="name">Name: Sample Item</p>
-        </div>
-        
-        <!-- Repeat or dynamically render more cards as needed -->
-
+      <!-- Empty state message (hidden by default) -->
+      <div id="empty-state" class="empty-state" style="display: none;">
+        <p>You don't have any dresses yet.</p>
+        <a href="wishlist.html" class="add-item-link">Add some items</a>
+      </div>
+      
+      <!-- Error message (hidden by default) -->
+      <div id="error-message" class="error-message" style="display: none;">
+        There was a problem loading your items. Please try again.
       </div>
     </div>
+  </div>
 
   <!-- Footer -->
   <footer>
@@ -80,9 +70,8 @@
         <img src="images/logo.png" alt="ClosetCrush Logo">
     </div>
     <p>© 2025 SL, JK, HH & AH. All Rights Reserved</p>
-</footer>
+  </footer>
 
-  
+  <script src="items_scrypt.js"></script>
 </body>
 </html>
-
