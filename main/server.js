@@ -1,4 +1,5 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
+dotenv.config({ path: './main/.env' });
 import express from 'express';
 import cors from 'cors';
 import Replicate from 'replicate';
@@ -18,9 +19,18 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static(frontendPath));
 
+console.log('MongoDB URI:', process.env.MONGODB_URI);
+
+if (!process.env.MONGODB_URI) {
+  console.error('ERROR: MONGODB_URI environment variable is not set!');
+  console.error('Please check your .env file or set this environment variable.');
+  process.exit(1); // Exit with error
+}
+
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB!'))
   .catch((error) => console.error('MongoDB connection error:', error));
+
 
 const replicate = new Replicate({ auth: process.env.REPLICATE_API_TOKEN });
 const REMBG_MODEL_VERSION =
