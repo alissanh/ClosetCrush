@@ -48,6 +48,21 @@ body {
   color: #BA56AE; /* Change text color to match your theme */
 }
 
+footer {
+  text-align: center;
+  width: 100%;
+  padding: 10px 0;
+  position: relative; /* Change to fixed if you want it always at the bottom */
+  bottom: 0;
+  left: 0;
+}
+
+footer p {
+  margin: 0 auto;
+  display: inline-block;
+}
+
+
 /* Right Section (Buttons & User Icon) */
 .right-section {
   display: flex;
