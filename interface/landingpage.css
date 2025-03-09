@@ -2,7 +2,7 @@
 html, body {
   margin: 0;
   padding: 0;  
-  height: 107%;  
+  height: 130%;  
 }
 
 body {
@@ -30,8 +30,8 @@ h1, h2, h3 {
   text-align: center;
   margin: 20px 0;
   font-size: 32px;
-  color: #ffffff;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  color: #ffd1f4;
+  text-shadow: 2px 2px 4px #ff3dce;
 }
 
 /* Navbar Styling */
@@ -39,7 +39,7 @@ h1, h2, h3 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #F2CBEF; /* Soft pasl pink */
+  background-color: #F2CBEF; /* Soft pastel pink */
   padding: 10px 20px;
 }
 
@@ -69,10 +69,6 @@ h1, h2, h3 {
   font-weight: bold;
   transition: color 0.3s ease;
 }
-  
-  .nav-links a:hover {
-    color: #BA56AE; /* Change text color to match your theme */
-  }
 
   .wrapper {
     flex: 1; 
@@ -86,15 +82,17 @@ h1, h2, h3 {
 
 /* Add Button */
 .add-button {
-    text-decoration: none;
-    color: #BA56AE;
-    border: none;
-    background: none;
-    font-size: 40px;
-    font-weight: bold;
-    padding: 8px 15px;
-    cursor: pointer;
-  }
+  background-color: #BA56AE;
+  color: white;
+  font-size: 24px;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  text-decoration: none; /* so it appears like a button */
+}
 
 /* My Crushes Button */
 .my-crushes {
@@ -129,51 +127,35 @@ h1, h2, h3 {
   padding: 20px;
 }
 
-footer {
-    background-color: #F2CBEF;
-    padding: 20px;
-    text-align: center;
-    color: #000;
-  }
-  
-  .footer-logo img {
-    height: 50px;
-    margin-bottom: 10px;
-  }
+.footer .logo img {
+  height: 40px;
+  margin-bottom: 10px;
+}
 
-/* Center the stage */
+.footer p {
+  color: #666;
+  font-size: 14px;
+}
 .stage-container {
-    /* Previously had flex-direction: column, remove that so items go side by side */
-    position: relative;
-    display: flex;
-    justify-content: flex-start; /* or center, or space-between */
-    align-items: flex-start;     /* keep them aligned at the top */
-    width: 100%;
-    max-width: 2000px;
-    margin: 20px auto 0 auto;    /* top margin of 20px */
-  }
-  
-  /* Make the carousels panel take up fixed width on the left side */
-  .item-carousels {
-    width: 300px;        /* pick a nice fixed width for your side panel */
-    margin-right: 20px;  /* spacing between carousels and the stage */
-  }
-  
-  /* Let the stage and its actions fill the remaining space on the right */
-  .stage-and-actions {
-    flex: 1;
-    position: relative;
-  }
-  
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 20px;
+  max-width: 1500px;
+  margin: 0 auto;
+}
 
 .stage-wrapper {
   position: relative;
-  max-width: 1800px;
+  max-width: 1500px;
   margin: 0 auto;
 }
 
 .stage {
-  width: 150%;
+  width: 90%;
   height: auto;
   display: block;
   position: relative;
@@ -197,19 +179,19 @@ footer {
 }
 
 .preview-top {
-  top: 15%;
+  top: 14%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 30%;
-  height: 30%;
+  width: 38%;
+  height: 38%;
 }
 
 .preview-bottom {
-  top: 45%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 40%;
-  height: 40%;
+  width: 45%;
+  height: 45%;
 }
 
 .preview-dress {
@@ -230,7 +212,7 @@ footer {
 
 .preview-accessories {
   top: 20%;
-  left: 15%;
+  left: 25%;
   width: 30%;
   height: 30%;
 }
@@ -302,6 +284,11 @@ footer {
   background-color: #ff0000;
 }
 
+/* Item Carousels */
+.item-carousels {
+  max-width: 800px;
+  margin: 0 auto;
+}
 
 .item-carousel {
   background-color: #f8f8f8;
