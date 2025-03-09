@@ -184,7 +184,6 @@ async function syncItemsToServer() {
 
 // Load saved outfits/crushes and display them
 // Load saved outfits/crushes and display them
-// Load saved outfits/crushes and display them
 async function loadSavedOutfits() {
   const userId = localStorage.getItem('userId');
   if (!userId) {
@@ -215,44 +214,41 @@ async function loadSavedOutfits() {
   crushCardsSection.innerHTML = '<div class="loading-message">Loading your crushes...</div>';
   
   try {
-    // Try to fetch from API first
+    // Only load from localStorage
     let outfitsToShow = [];
-    let apiSuccess = false;
+    const localCrushes = localStorage.getItem('outfitCrushes');
     
-    try {
-      console.log('Fetching crushes from API...');
-      const response = await fetch(`/users/${userId}/crushes`);
+    if (localCrushes) {
+      try {
+        const crushes = JSON.parse(localCrushes);
+        console.log('LocalStorage crushes:', crushes);
+        if (crushes && crushes.length > 0) {
+          outfitsToShow = crushes;
+        }
+      } catch (localError) {
+        console.log("LocalStorage parse error:", localError);
+      }
+    }
+    
+    // Filter out any empty outfits
+    outfitsToShow = outfitsToShow.filter(outfitData => {
+      // First check if outfit property exists and has actual properties
+      const outfit = outfitData.outfit || outfitData;
       
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Crushes data received:', data);
-        if (data && data.length > 0) {
-          outfitsToShow = data.slice(0, 6); // Limit to 6 crushes
-          apiSuccess = true;
-        }
-      } else {
-        console.error('API error:', await response.text());
-      }
-    } catch (apiError) {
-      console.log("API error, falling back to localStorage:", apiError);
-    }
+      // Check if the outfit has any actual properties (not just the prototype)
+      const hasProperties = Object.keys(outfit).length > 0;
+      
+      // Check if any of the expected outfit item properties exist
+      const hasItems = outfit.tops || outfit.bottoms || outfit.dresses || 
+                      outfit.shoes || outfit.accessories;
+      
+      return hasProperties && hasItems;
+    });
     
-    // If API failed, try localStorage (only if API didn't succeed)
-    if (!apiSuccess && outfitsToShow.length === 0) {
-      console.log('No crushes from API, checking localStorage...');
-      const localCrushes = localStorage.getItem('outfitCrushes');
-      if (localCrushes) {
-        try {
-          const crushes = JSON.parse(localCrushes);
-          console.log('LocalStorage crushes:', crushes);
-          if (crushes && crushes.length > 0) {
-            outfitsToShow = crushes.slice(0, 6);
-          }
-        } catch (localError) {
-          console.log("LocalStorage parse error:", localError);
-        }
-      }
-    }
+    console.log("After filtering empty outfits:", outfitsToShow.length);
+    
+    // Limit to 6 crushes
+    outfitsToShow = outfitsToShow.slice(0, 6);
     
     // Check if there are any crushes before doing anything else
     console.log("Outfits to show count:", outfitsToShow ? outfitsToShow.length : 0);
@@ -281,13 +277,21 @@ async function loadSavedOutfits() {
     outfitsToShow.forEach((outfitData, index) => {
       console.log(`Rendering outfit ${index+1}:`, outfitData);
       
-      // Create a unique key for this outfit to prevent duplicates
+      // Get the outfit data - ensure we handle both formats
       const outfit = outfitData.outfit || outfitData;
+      
+      // Skip if outfit is an empty object
+      if (Object.keys(outfit).length === 0) {
+        console.log("Skipping empty outfit object");
+        return;
+      }
+      
+      // Create a unique key for this outfit to prevent duplicates
       const outfitKey = `${outfit.tops || ''}-${outfit.bottoms || ''}-${outfit.dresses || ''}-${outfit.shoes || ''}-${outfit.accessories || ''}`;
       
-      // Skip if this outfit has already been shown
-      if (shownOutfits.has(outfitKey)) {
-        console.log(`Skipping duplicate outfit: ${outfitKey}`);
+      // Skip if this outfit has already been shown or has no items
+      if (shownOutfits.has(outfitKey) || outfitKey === '----') {
+        console.log(`Skipping duplicate or empty outfit: ${outfitKey}`);
         return;
       }
       
@@ -353,20 +357,6 @@ async function loadSavedOutfits() {
         console.log(`Added accessories: ${outfit.accessories}`);
       }
       
-      // Add a fallback image if the outfit is empty
-      if (!outfit.dresses && !outfit.tops && !outfit.bottoms && 
-          !outfit.shoes && !outfit.accessories) {
-        const emptyOutfit = document.createElement('div');
-        emptyOutfit.className = 'outfit-item outfit-empty';
-        emptyOutfit.textContent = 'No items';
-        emptyOutfit.style.display = 'flex';
-        emptyOutfit.style.justifyContent = 'center';
-        emptyOutfit.style.alignItems = 'center';
-        emptyOutfit.style.color = '#999';
-        outfitDisplay.appendChild(emptyOutfit);
-        console.log(`Added empty outfit placeholder`);
-      }
-      
       // Create description
       const description = document.createElement('p');
       description.textContent = `Outfit crushed on ${formattedDate}`;
@@ -383,6 +373,7 @@ async function loadSavedOutfits() {
     crushCardsSection.innerHTML = '<h2 class="profile-subheading">My top crushes &lt;3</h2><p class="error-message">Error loading outfits. Please try again.</p>';
   }
 }
+    
 
 document.addEventListener('DOMContentLoaded', function() {
   loadSavedIndex();
