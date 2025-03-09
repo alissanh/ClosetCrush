@@ -91,147 +91,43 @@
     <!-- JavaScript at the End -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const signinForm = document.getElementById("signin-form");
-            const signupForm = document.getElementById("signup-form");
-            const signinButton = document.getElementById("show-signin");
-            const signupButton = document.getElementById("show-signup");
-            const messageElement = document.getElementById("message");
+        const signinForm = document.getElementById("signin-form");
+        const signupForm = document.getElementById("signup-form");
+        const signinButton = document.getElementById("show-signin");
+        const signupButton = document.getElementById("show-signup");
 
-            // Initially hide both forms
-            signinForm.classList.add("hidden");
-            signupForm.classList.add("hidden");
+        // Initially hide both forms
+        signinForm.classList.add("hidden");
+        signupForm.classList.add("hidden");
 
-            // Show sign-in form initially
+        // Show sign-in form and hide sign-up form
+        signinButton.addEventListener("click", function () {
             signinForm.classList.remove("hidden");
-
-            // Show sign-in form and hide sign-up form
-            signinButton.addEventListener("click", function () {
-                signinForm.classList.remove("hidden");
-                signupForm.classList.add("hidden");
-                messageElement.textContent = ""; // Clear any messages
-            });
-
-            // Show sign-up form and hide sign-in form
-            signupButton.addEventListener("click", function () {
-                signupForm.classList.remove("hidden");
-                signinForm.classList.add("hidden");
-                messageElement.textContent = ""; // Clear any messages
-            });
-
-            // Handle sign-in form submission
-            signinForm.addEventListener("submit", async function (event) {
-                event.preventDefault(); // Prevent default form submission behavior
-                
-                const email = document.getElementById("signin-email").value;
-                const password = document.getElementById("signin-password").value;
-                
-                // You can add password validation in a production app
-                
-                try {
-                    const response = await fetch('/users/findOrCreate', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ email }),
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (data.success) {
-                        // Store user ID in localStorage for later use
-                        localStorage.setItem('userId', data.user._id);
-                        localStorage.setItem('userEmail', data.user.email);
-                        
-                        messageElement.textContent = "Sign-in successful! Redirecting...";
-                        messageElement.style.color = "green";
-                        
-                        // Redirect to landing page after a short delay
-                        setTimeout(() => {
-                            window.location.href = "landingpage.html";
-                        }, 1000);
-                    } else {
-                        messageElement.textContent = data.error || "Sign-in failed. Please try again.";
-                        messageElement.style.color = "red";
-                    }
-                } catch (error) {
-                    console.error('Error during sign-in:', error);
-                    messageElement.textContent = "An error occurred. Please try again.";
-                    messageElement.style.color = "red";
-                }
-            });
-
-            // Handle sign-up form submission
-            signupForm.addEventListener("submit", async function (event) {
-                event.preventDefault(); // Prevent default form submission behavior
-                
-                const name = document.getElementById("name").value;
-                const email = document.getElementById("signup-email").value;
-                const username = document.getElementById("signup-username").value;
-                const password = document.getElementById("signup-password").value;
-                const confirmPassword = document.getElementById("confirm-password").value;
-                const skinColor = document.getElementById("skin-color").value;
-                const hairColor = document.getElementById("hair-color").value;
-                const backgroundRadios = document.getElementsByName("background");
-                let background = "";
-                
-                // Get selected background
-                for (let i = 0; i < backgroundRadios.length; i++) {
-                    if (backgroundRadios[i].checked) {
-                        background = backgroundRadios[i].value;
-                        break;
-                    }
-                }
-                
-                // Basic client-side validation
-                if (password !== confirmPassword) {
-                    messageElement.textContent = "Passwords do not match!";
-                    messageElement.style.color = "red";
-                    return;
-                }
-                
-                try {
-                    const response = await fetch('/users/findOrCreate', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ 
-                            email,
-                            name,
-                            username,
-                            skinColor,
-                            hairColor,
-                            background
-                            // Password would be hashed on the server in a real app
-                        }),
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (data.success) {
-                        // Store user ID in localStorage for later use
-                        localStorage.setItem('userId', data.user._id);
-                        localStorage.setItem('userEmail', data.user.email);
-                        
-                        messageElement.textContent = "Account created successfully! Redirecting...";
-                        messageElement.style.color = "green";
-                        
-                        // Redirect to landing page after a short delay
-                        setTimeout(() => {
-                            window.location.href = "landingpage.html";
-                        }, 1000);
-                    } else {
-                        messageElement.textContent = data.error || "Account creation failed. Please try again.";
-                        messageElement.style.color = "red";
-                    }
-                } catch (error) {
-                    console.error('Error during sign-up:', error);
-                    messageElement.textContent = "An error occurred. Please try again.";
-                    messageElement.style.color = "red";
-                }
-            });
+            signupForm.classList.add("hidden");
         });
+
+        // Show sign-up form and hide sign-in form
+        signupButton.addEventListener("click", function () {
+            signupForm.classList.remove("hidden");
+            signinForm.classList.add("hidden");
+        });
+
+        // Redirect after sign-in form submission
+        signinForm.addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent default form submission behavior
+            console.log("Sign-in form submitted"); // Debugging
+            window.location.href = "landingpage.html"; // Redirect to landing page
+        });
+
+        // Redirect after sign-up form submission
+        signupForm.addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent default form submission behavior
+            console.log("Sign-up form submitted"); // Debugging
+            
+            window.location.href = "landingpage.html"; // Redirect to landing page
+        });
+    });
+
     </script>
 
 </body>
