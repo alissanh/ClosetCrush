@@ -3,7 +3,7 @@
 html, body {
     height: 100%; /* Ensure full viewport height */
     margin: 0;
-    padding: 0; /* good practice if you want a sticky footer approach */
+    padding: 0; /* good practice if ydou want a sticky footer approach */
   }
 
 body {
