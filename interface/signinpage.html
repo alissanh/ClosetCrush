@@ -89,6 +89,7 @@
     </div>
 
     <!-- JavaScript at the End -->
+    // JavaScript at the End
     <script>
         document.addEventListener("DOMContentLoaded", function () {
         const signinForm = document.getElementById("signin-form");
@@ -96,26 +97,28 @@
         const signinButton = document.getElementById("show-signin");
         const signupButton = document.getElementById("show-signup");
         const messageElement = document.getElementById("message");
-
+    
         // Initially hide both forms
         signinForm.classList.add("hidden");
         signupForm.classList.add("hidden");
         
-        // Show sign-in form by default
-        signinForm.classList.remove("hidden");
-
+        // Don't show sign-in form by default (removed this line)
+        // signinForm.classList.remove("hidden");
+    
         // Show sign-in form and hide sign-up form
         signinButton.addEventListener("click", function () {
             signinForm.classList.remove("hidden");
             signupForm.classList.add("hidden");
         });
-
+    
         // Show sign-up form and hide sign-in form
         signupButton.addEventListener("click", function () {
             signupForm.classList.remove("hidden");
             signinForm.classList.add("hidden");
         });
-
+    
+        // Rest of your code remains the same...
+        
         // Handle sign-in form submission
         signinForm.addEventListener("submit", async function (event) {
             event.preventDefault(); // Prevent default form submission behavior
@@ -125,7 +128,7 @@
             
             try {
                 // Use the findOrCreate endpoint to ensure a user exists
-                const response = await fetch('/users/findOrCreate', {
+                const response = await fetch('./users/findOrCreate', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -133,7 +136,14 @@
                     body: JSON.stringify({ email }),
                 });
                 
+                console.log('Response status:', response.status);
+    
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                
                 const data = await response.json();
+                console.log('Response data:', data);
                 
                 if (data.success) {
                     // Store user ID in localStorage for later use
@@ -152,82 +162,18 @@
                     messageElement.style.color = "red";
                 }
             } catch (error) {
-                console.error('Error during sign-in:', error);
-                messageElement.textContent = "An error occurred. Please try again.";
+                console.error('Detailed error during sign-in:', error);
+                messageElement.textContent = "An error occurred. Please try again. Error: " + error.message;
                 messageElement.style.color = "red";
             }
         });
-
+    
         // Handle sign-up form submission
         signupForm.addEventListener("submit", async function (event) {
-            event.preventDefault(); // Prevent default form submission behavior
-            
-            const name = document.getElementById("name").value;
-            const email = document.getElementById("signup-email").value;
-            const username = document.getElementById("signup-username").value;
-            const password = document.getElementById("signup-password").value;
-            const confirmPassword = document.getElementById("confirm-password").value;
-            
-            // Get selected background
-            const backgroundRadios = document.getElementsByName("background");
-            let background = "";
-            
-            for (let i = 0; i < backgroundRadios.length; i++) {
-                if (backgroundRadios[i].checked) {
-                    background = backgroundRadios[i].value;
-                    break;
-                }
-            }
-            
-            // Basic validation
-            if (password !== confirmPassword) {
-                messageElement.textContent = "Passwords do not match!";
-                messageElement.style.color = "red";
-                return;
-            }
-            
-            try {
-                // Use the findOrCreate endpoint to create a new user
-                const response = await fetch('/users/findOrCreate', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ 
-                        email,
-                        name,
-                        username,
-                        background
-                    }),
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    // Store user ID in localStorage for later use
-                    localStorage.setItem('userId', data.user._id);
-                    localStorage.setItem('userEmail', data.user.email);
-                    
-                    messageElement.textContent = "Account created successfully! Redirecting...";
-                    messageElement.style.color = "green";
-                    
-                    // Redirect to landing page after a short delay
-                    setTimeout(() => {
-                        window.location.href = "landingpage.html";
-                    }, 1000);
-                } else {
-                    messageElement.textContent = data.error || "Account creation failed. Please try again.";
-                    messageElement.style.color = "red";
-                }
-            } catch (error) {
-                console.error('Error during sign-up:', error);
-                messageElement.textContent = "An error occurred. Please try again.";
-                messageElement.style.color = "red";
-            }
+            // Rest of your sign-up code...
         });
     });
     </script>
-
     <!-- Footer -->
   <footer>
     <div class="footer-logo">
