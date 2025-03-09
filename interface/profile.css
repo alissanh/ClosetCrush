@@ -31,8 +31,22 @@
     height: 50px;
   }
   
+  /* Navbar Styling */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #F2CBEF; /* Soft pastel pink */
+    padding: 10px 20px;
+  }
+  
+  /* Logo */
+  .logo img {
+    height: 40px; /* Adjust size as needed */
+  }
+  
   /* Navigation Links */
-.nav-links {
+  .nav-links {
     list-style: none;
     display: flex;
     gap: 20px;  /* Space between links */
@@ -51,6 +65,10 @@
     color: #000000;
     font-weight: bold;
     transition: color 0.3s ease;
+  }
+  
+  .nav-links a:hover {
+    color: #BA56AE; /* Change text color to match your theme */
   }
   
   .right-section {
