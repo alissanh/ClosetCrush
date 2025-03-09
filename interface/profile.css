@@ -137,8 +137,8 @@
     margin-bottom: 10px;
   }
   
-  /* RIGHT COLUMN: carousel */
-  .profile-carousel {
+  /* Right column: carousel */
+.profile-carousel {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -158,7 +158,7 @@
   
   #profile-pic {
     /* Make the Bratz doll bigger */
-    max-width: 300px; 
+    max-width: 1200px; 
     width: 100%;
     height: auto;
   }
