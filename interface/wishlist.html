@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add to Wishlist</title>
+
+  <!-- Link to your wishlist.css file -->
+  <link rel="stylesheet" href="wishlist.css">
+
+  <!-- Font & Icon (if desired) -->
+  <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- Header (optional) -->
+  <header>
+    <nav class="navbar">
+      <!-- Logo linking back to landing page -->
+      <a href="landingPage.html" class="logo">
+        <img src="interface/images/logo.png" alt="ClosetCrush Logo" />
+      </a>
+      <!-- Other Nav Links if you want a consistent menu -->
+      <ul class="nav-links">
+        <li><a href="tops.html">Tops</a></li>
+        <li><a href="bottoms.html">Bottoms</a></li>
+        <li><a href="dresses.html">Dresses</a></li>
+        <li><a href="shoes.html">Shoes</a></li>
+        <li><a href="accessories.html">Accessories</a></li>
+      </ul>
+      <div class="right-section">
+        <a href="wishlist.html">
+            <button class="add-button">+</button>
+          </a>
+        <button class="my-crushes">My Crushes</button>
+        <img src="images/profile.png" alt="User Icon" class="user-icon">
+     </div>
+    </nav>
+  </header>
+
+  <!-- Main Content: 'Add to Wishlist' Form -->
+  <main class="wishlist-container">
+    <div class="wishlist-box">
+      <h2>Let's Add to the Wishlist</h2>
+      <form id="wishlistForm">
+        <div class="form-group">
+          <label>Name:</label>
+          <input type="text" placeholder="__________" name="itemName">
+        </div>
+
+        <div class="form-group">
+          <label>Brand:</label>
+          <input type="text" placeholder="__________" name="brandName">
+        </div>
+
+        <div class="form-group">
+          <label>Price:</label>
+          <input type="text" placeholder="__________" name="price">
+        </div>
+
+        <div class="form-group">
+          <label>Paste Image Link:</label>
+          <input type="text" placeholder="__________" name="imageLink">
+        </div>
+
+        <!-- Category as a dropdown -->
+        <div class="category-select">
+          <label>Category:</label>
+          <select name="category" id="categorySelect">
+            <option value="" disabled selected>Choose a Category</option>
+            <option value="tops">Tops</option>
+            <option value="bottoms">Bottoms</option>
+            <option value="dresses">Dresses</option>
+            <option value="shoes">Shoes</option>
+            <option value="accessories">Accessories</option>
+          </select>
+        </div>
+
+        <div class="category-select" id="newCategorySection" style="display: none;">
+          <label>New Category Name:</label>
+          <input type="text" id="newCategoryInput" placeholder="Enter category name">
+          <button type="button" id="addCategoryBtn">Add Category</button>
+        </div>
+
+
+        <!-- Submit button -->
+        <div class="submit-section">
+          <button type="submit" class="submit-btn">Add to Wishlist</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer (optional) -->
+  <footer class="footer">
+    <p></p>
+  </footer>
+
+  <!-- Script to handle the form submission (optional) -->
+  <script>
+    const wishlistForm = document.getElementById('wishlistForm');
+    wishlistForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      // Gather form data
+      const formData = new FormData(wishlistForm);
+      const itemName = formData.get('itemName');
+      const brandName = formData.get('brandName');
+      const price = formData.get('price');
+      const imageLink = formData.get('imageLink');
+
+      console.log({ itemName, brandName, price, imageLink });
+      alert('Your item has been crushed!');
+
+      // Clear the form or navigate somewhere else
+      wishlistForm.reset();
+    });
+  </script>
+</body>
+</html>
