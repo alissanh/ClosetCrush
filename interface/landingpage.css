@@ -1,18 +1,18 @@
 /* General Styles */
 html, body {
-    margin: 0;
-    padding: 0;  /* no extra padding at all */
-    height: 120%;  /* good practice if you want a sticky footer approach */
-  }
+  margin: 0;
+  padding: 0;  /* no extra padding at all */
+  height: 120%;  /* good practice if you want a sticky footer approach */
+}
 
 body {
-    font-family: 'Irish Grover', cursive;
-    background-image: url('images/backgrounds/finalcheetahbckgrnd.jpeg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-        display: flex;
-    flex-direction: column;
+  font-family: 'Irish Grover', cursive;
+  background-image: url('images/backgrounds/finalcheetahbckgrnd.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
 }
 
 .container {
@@ -82,14 +82,16 @@ h1, h2, h3 {
 
 /* Add Button */
 .add-button {
-  color: #BA56AE;
+  background-color: #BA56AE;
+  color: white;
+  font-size: 24px;
   border: none;
-  background: none;
-  font-size: 40px;
-  font-weight: bold;
-  padding: 8px 15px;
-  cursor: pointer;
-  text-decoration: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  text-decoration: none; /* so it appears like a button */
 }
 
 /* My Crushes Button */
@@ -134,6 +136,19 @@ h1, h2, h3 {
 .footer p {
   color: #666;
   font-size: 14px;
+}
+
+/* Center the stage */
+.stage-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 20px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 /* Stage and Outfit Display */
@@ -203,16 +218,26 @@ h1, h2, h3 {
   height: 20%;
 }
 
-/* Outfit Options */
+/* Position Outfit Selection Buttons on the Right Side of the Stage */
 .outfit-options {
+  position: absolute;
+  right: 34%; /* Adjust to move buttons inside the stage */
+  top: 35%;
+  transform: translateY(-50%);
   display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin: 20px 0;
+  flex-direction: column;
+  gap: 1px; /* Adjust spacing between buttons */
+  z-index: 10; /* Ensure buttons are above the stage */
 }
 
+/* Outfit Button Styling */
 .outfit-button {
-  background: none;
+  width: 65px; /* Make all buttons the same size */
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
   border: none;
   cursor: pointer;
   transition: transform 0.2s;
@@ -281,20 +306,21 @@ h1, h2, h3 {
   text-align: center;
 }
 
-/* Add Button */
-.add-button {
-    background-color: #BA56AE;
-    color: white;
-    font-size: 24px;
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    line-height: 40px;
-    text-decoration: none; /* so it appears like a button */
+.carousel-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
+.carousel-items {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 10px;
+  padding: 10px 0;
+  width: 100%;
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
 
 .carousel-items::-webkit-scrollbar {
   display: none; /* Hide scrollbar for Chrome/Safari */
@@ -312,13 +338,8 @@ h1, h2, h3 {
   overflow: hidden;
 }
 
-
-/* User Icon */
-.user-icon {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    cursor: pointer;
+.carousel-item:hover {
+  transform: translateY(-5px);
 }
 
 .carousel-item.selected {
@@ -326,16 +347,12 @@ h1, h2, h3 {
   box-shadow: 0 0 10px rgba(186, 86, 174, 0.5);
 }
 
-/* Center the stage */
-.stage-container {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-top: 20px;
-    max-width: 800px;
-    margin: 0 auto;
+.item-image {
+  width: 100%;
+  height: 100%;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .carousel-nav {
@@ -352,29 +369,15 @@ h1, h2, h3 {
   font-weight: bold;
 }
 
-
-/* Position Outfit Selection Buttons on the Right Side of the Stage */
-.outfit-options {
-    position: absolute;
-    right: 34%; /* Adjust to move buttons inside the stage */
-    top: 35%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 1px; /* Adjust spacing between buttons */
-    z-index: 10; /* Ensure buttons are above the stage */
+.carousel-nav:hover {
+  background-color: #a04a95;
 }
 
-/* Outfit Button Styling */
-.outfit-button {
-    width: 65px; /* Make all buttons the same size */
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: none;
-    cursor: pointer;
+.loading-message, .empty-message, .error-message {
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  color: #666;
 }
 
 .empty-message {
