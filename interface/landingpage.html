@@ -35,6 +35,35 @@
     </nav>
   </header>
 
+  <div class="container">
+    <h1 id="welcome-message">Welcome</h1>
+
+    <!-- Stage with Avatar -->
+    <div class="stage-container">
+        <img src="images/stage.png" alt="Stage" class="stage">
+    </div>
+
+   <!-- Outfit Selection -->
+  <div class="outfit-options">
+    <button class="outfit-button">
+        <img src="images/buttons/top button.png" alt="Tops">
+    </button>
+    <button class="outfit-button">
+        <img src="images/buttons/bottoms button.png" alt="Bottoms">
+    </button>
+    <button class="outfit-button">
+        <img src="images/buttons/dress button.png" alt="Dresses">
+    </button>
+    <button class="outfit-button">
+        <img src="images/buttons/shoe button.png" alt="Shoes">
+    </button>
+    <button class="outfit-button">
+        <img src="images/buttons/accessories button.png" alt="Accessories">
+    </button>
+  </div>
+
+</div>
+
 
   <!-- Footer -->
   <footer>
@@ -44,7 +73,24 @@
     <p>© 2025 SL, JK, HH & AH. All Rights Reserved</p>
 </footer>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      // Retrieve user data from localStorage
+      const savedBackground = localStorage.getItem("selectedBackground");
+      const savedUsername = localStorage.getItem("username") || "User"; // Default if no username
 
-<script src=""></script>
+      // Apply the selected background
+      if (savedBackground) {
+          document.body.style.backgroundImage = `url('images/backgrounds/${savedBackground}')`;
+          document.body.style.backgroundSize = "cover";
+          document.body.style.backgroundPosition = "center";
+          document.body.style.backgroundRepeat = "no-repeat";
+      }
+
+      // Set welcome message
+      document.getElementById("welcome-message").textContent = `Welcome, ${savedUsername}`;
+  });
+</script>
+
 </body>
 </html>
