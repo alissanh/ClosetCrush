@@ -12,12 +12,30 @@ import User from './data.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const frontendPath = path.join(__dirname, 'interface');
+
+// Check if interface folder is in the current directory or one level up
+let frontendPath = path.join(__dirname, 'interface');
+if (!fs.existsSync(frontendPath)) {
+  frontendPath = path.join(__dirname, '..', 'interface');
+}
+
+console.log('Server directory:', __dirname);
+console.log('Frontend path:', frontendPath);
+console.log('Frontend path exists:', fs.existsSync(frontendPath));
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+// Add request logging
+app.use((req, res, next) => {
+  console.log(`Request for: ${req.url}`);
+  next();
+});
+
+// Set up static file serving ONCE
 app.use(express.static(frontendPath));
+console.log(`Serving static files from: ${frontendPath}`);
 
 console.log('MongoDB URI:', process.env.MONGODB_URI);
 
@@ -30,7 +48,6 @@ if (!process.env.MONGODB_URI) {
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB!'))
   .catch((error) => console.error('MongoDB connection error:', error));
-
 
 const replicate = new Replicate({ auth: process.env.REPLICATE_API_TOKEN });
 const REMBG_MODEL_VERSION =
@@ -132,18 +149,24 @@ app.post('/users/findOrCreate', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 8080;
-
-app.use(express.static(__dirname));
-
-app.use(express.static(path.join(__dirname, 'interface')));
-
+// Add a root route to serve landingpage.html
+app.get('/', (req, res) => {
+  const landingPath = path.join(frontendPath, 'landingpage.html');
+  console.log('Serving landing page from:', landingPath);
+  console.log('Landing page exists:', fs.existsSync(landingPath));
+  
+  if (fs.existsSync(landingPath)) {
+    res.sendFile(landingPath);
+  } else {
+    res.status(404).send('Landing page not found. Check server logs for details.');
+  }
+});
 
 app.get('/signin', (req, res) => {
   res.sendFile(path.join(frontendPath, 'signinpage.html'));
 });
 
-
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
