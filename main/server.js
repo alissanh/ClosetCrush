@@ -639,6 +639,65 @@ app.post('/users/:id/crushOutfit', async (req, res) => {
   }
 });
 
+app.get('/users/:id/crushes', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    
+    // Handle local storage mode
+    if (useLocalStorage) {
+      // Find user in local storage
+      let userData = null;
+      
+      for (const email in localDb.users) {
+        if (localDb.users[email]._id === userId) {
+          userData = localDb.users[email];
+          break;
+        }
+      }
+      
+      if (!userData) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      
+      // Transform the data format to match what frontend expects
+      const crushes = userData.crushes || [];
+      const formattedCrushes = crushes.map(crush => ({
+        outfit: {
+          tops: crush.tops,
+          bottoms: crush.bottoms,
+          dresses: crush.dresses,
+          shoes: crush.shoes,
+          accessories: crush.accessories
+        },
+        date: crush.date
+      }));
+      
+      return res.json(formattedCrushes);
+    }
+
+    // MongoDB mode
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    // Transform the data format
+    const formattedCrushes = (user.crushes || []).map(crush => ({
+      outfit: {
+        tops: crush.tops,
+        bottoms: crush.bottoms,
+        dresses: crush.dresses,
+        shoes: crush.shoes,
+        accessories: crush.accessories
+      },
+      date: crush.date
+    }));
+
+    return res.json(formattedCrushes);
+  } catch (error) {
+    console.error('Error getting crushes:', error);
+    return res.status(500).json({ error: error.message });
+  }
+});
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
