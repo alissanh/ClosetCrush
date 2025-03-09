@@ -270,9 +270,6 @@ async function loadSavedOutfits() {
     // Clear loading message
     crushCardsSection.innerHTML = '<h2 class="profile-subheading">My top crushes &lt;3</h2>';
     
-    // Ensure no duplicates by tracking already shown outfit items
-    const shownOutfits = new Set();
-    
     // Display the outfits
     outfitsToShow.forEach((outfitData, index) => {
       console.log(`Rendering outfit ${index+1}:`, outfitData);
@@ -311,6 +308,9 @@ async function loadSavedOutfits() {
       // Create the outfit container
       const outfitDisplay = document.createElement('div');
       outfitDisplay.className = 'outfit-display';
+      
+      // Get the outfit data - ensure we handle both formats
+      const outfit = outfitData.outfit || outfitData;
       
       // Decide whether to show dress or top/bottom combo
       if (outfit.dresses) {
