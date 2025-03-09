@@ -165,7 +165,7 @@
     .category-select option:disabled {
       color: #999; /* Light grey to show it's not selectable */
     }
-    
+    /* get nme out of here */
   .submit-section {
     text-align: center;
     margin-top: 15px;
