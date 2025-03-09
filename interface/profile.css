@@ -507,11 +507,6 @@ h1, h2, h3 {
   }
 }
 
-<<<<<<< HEAD
-/* Stage image scaling might need adjustment for very large screens */
-@media (min-width: 2000px) {
-  .stage-container, .stage-wrapper {
-=======
   .my-crushes:hover {
     background-color: #a35287;
   }
@@ -623,7 +618,5 @@ h1, h2, h3 {
   #profile-pic {
     /* Make the Bratz doll bigger */
     max-width: 1200px; 
->>>>>>> 60566652e52c11661ed1756be2f23a4f6ad32d5a
     width: 100%;
   }
-}
