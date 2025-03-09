@@ -419,12 +419,73 @@ h1, h2, h3 {
 
 @media (max-width: 768px) {
   .navbar {
-    flex-direction: column;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #F2CBEF;
+    padding: 15px;
+  }
+  
+  .logo img {
+    height: 50px;
+  }
+  
+  /* Navbar Styling */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #F2CBEF; /* Soft pastel pink */
+    padding: 10px 20px;
+  }
+  
+  /* Logo */
+  .logo img {
+    height: 40px; /* Adjust size as needed */
+  }
+  
+  /* Navigation Links */
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;  /* Space between links */
+    margin-left: auto;  /* Pushes links to the right */
+    /* margin: 0;
+    padding: 0; */
+  }
+  
+  .nav-links li {
+    display: inline-block;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    font-size: 18px;
+    color: #000000;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-links a:hover {
+    color: #BA56AE; /* Change text color to match your theme */
+  }
+  
+  .right-section {
+    display: flex;
+    align-items: center;
     gap: 10px;
   }
   
-  .nav-links {
-    gap: 10px;
+  .add-button {
+    text-decoration: none;
+    color: #BA56AE;
+    border: none;
+    background: none;
+    font-size: 40px;
+    font-weight: bold;
+    padding: 8px 15px;
+    cursor: pointer;
+    text-decoration: none;
   }
   
   .outfit-button img {
@@ -446,9 +507,123 @@ h1, h2, h3 {
   }
 }
 
+<<<<<<< HEAD
 /* Stage image scaling might need adjustment for very large screens */
 @media (min-width: 2000px) {
   .stage-container, .stage-wrapper {
+=======
+  .my-crushes:hover {
+    background-color: #a35287;
+  }
+  
+  .profile-link {
+    display: inline-block;
+  }
+  
+  .user-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
+  /* MAIN CONTAINER */
+  .profile-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 20px;
+    /* Similar to .items-container approach */
+  }
+  
+  /* HEADINGS */
+  .intro-panel {
+    background-color: #F2CBEF;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px; /* space below the panel */
+    text-align: center;  /* center the text, if you like */
+  }
+  
+  
+  .profile-subtitle {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 18px;
+  }
+  
+  .profile-subheading {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #555;
+  }
+  
+  /* TWO-COLUMN LAYOUT (like .items-grid, but for profile) */
+  .profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 40px; 
+  }
+  
+  .left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .right-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* LEFT COLUMN: crush-cards */
+  .crush-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    color: #000
+  }
+  
+  .crush-card {
+    background-color: #F2CBEF;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    width: 600px;
+    color: #000;
+  }
+  
+  .crush-card img {
+    width: 100px;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  /* Right column: carousel */
+.profile-carousel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0px;
+  }
+  
+  .profile-carousel button {
+    background-color: #F2CBEF;
+    color: #000000;
+    border: none;
+    border-radius: 50%;
+    width:60px;
+    height: 40px;
+    font-size: 25px;
+    cursor: pointer;
+  }
+  
+  #profile-pic {
+    /* Make the Bratz doll bigger */
+    max-width: 1200px; 
+>>>>>>> 60566652e52c11661ed1756be2f23a4f6ad32d5a
     width: 100%;
   }
 }
