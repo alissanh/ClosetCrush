@@ -65,13 +65,19 @@
   }
   
   .my-crushes {
-    background-color: #8a3e85;
+    font-family: 'Irish Grover', cursive;
+    background-color: #BA56AE;
     color: white;
-    padding: 10px 20px;
     border: none;
-    border-radius: 15px;
-    cursor: pointer;
+    padding: 12px 30px;
+    width: auto;
+    white-space: nowrap;
     font-size: 16px;
+    border-radius: 10px;
+}
+
+  .my-crushes:hover {
+    background-color: #a35287;
   }
   
   .profile-link {
