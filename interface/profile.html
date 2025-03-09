@@ -34,12 +34,12 @@
         <a href="wishlist.html" class="add-button">+</a>
         <button class="my-crushes">My Crushes</button>
         <a href="profile.html" class="profile-link">
-            <img
-              id="icon-pic"
-              src="images/profile.png"
-              alt="User Icon"
-              class="user-icon"
-            />
+          <img
+            id="icon-pic"
+            src="images/profile.png"
+            alt="User Icon"
+            class="user-icon"
+          />
         </a>
       </div>
     </nav>
@@ -96,7 +96,7 @@
     <p>© 2025 SL, JK, HH & AH. All Rights Reserved</p>
   </footer>
 
-  <!-- JavaScript for cycling profile images -->
+  <!-- JavaScript for cycling profile images and persisting choice -->
   <script>
     // Array of profile image paths
     const bratzImages = [
@@ -104,23 +104,50 @@
       'images/bratzTwoNoBg.png',
       'images/bratzThreeNoBg.png'
     ];
-    let currentIndex = 0;
+    
+    let currentIndex = 0;  // We will update this from localStorage if available
 
-    // Show the chosen image on the main carousel AND the icon
+    // 1) Attempt to load the saved index from localStorage (if any)
+    function loadSavedIndex() {
+      const savedIndex = localStorage.getItem('bratzIndex');
+      if (savedIndex !== null) {
+        currentIndex = parseInt(savedIndex, 10);
+        // Ensure it's still in range
+        if (isNaN(currentIndex) || currentIndex < 0 || currentIndex >= bratzImages.length) {
+          currentIndex = 0; // fallback if out of range
+        }
+      }
+    }
+
+    // 2) Save the current index to localStorage
+    function saveIndex(index) {
+      localStorage.setItem('bratzIndex', index.toString());
+    }
+
+    // Updates both the main profile-pic and the icon-pic
     function showImage(index) {
       document.getElementById('profile-pic').src = bratzImages[index];
       document.getElementById('icon-pic').src = bratzImages[index];
+      saveIndex(index); // Save the new choice
     }
 
+    // Go to the previous image
     function prevImage() {
       currentIndex = (currentIndex - 1 + bratzImages.length) % bratzImages.length;
       showImage(currentIndex);
     }
 
+    // Go to the next image
     function nextImage() {
       currentIndex = (currentIndex + 1) % bratzImages.length;
       showImage(currentIndex);
     }
+
+    // 3) Load the saved index (if any) as soon as the page loads, then show that image
+    document.addEventListener('DOMContentLoaded', function() {
+      loadSavedIndex();
+      showImage(currentIndex);
+    });
   </script>
 </body>
 </html>
