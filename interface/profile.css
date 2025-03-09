@@ -287,7 +287,101 @@ footer p {
   
   .my-crushes {
     padding: 8px 15px;
-    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  
+  .outfit-button img {
+    max-width: 40px;
+  }
+  
+  .action-button {
+    padding: 6px 15px;
+    font-size: 10px;
+  }
+  
+  .carousel-item {
+    min-width: 80px;
+    height: 80px;
+  }
+  
+  .stage {
+    width: 110%;
+  }
+}
+
+  .my-crushes:hover {
+    background-color: #a35287;
+  }
+  
+  .profile-link {
+    display: inline-block;
+  }
+  
+  .user-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
+  /* MAIN CONTAINER */
+  .profile-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 20px;
+    /* Similar to .items-container approach */
+  }
+  
+  /* HEADINGS */
+  .intro-panel {
+    background-color: #F2CBEF;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px; /* space below the panel */
+    text-align: center;  /* center the text, if you like */
+  }
+  
+  
+  .profile-subtitle {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 18px;
+  }
+  
+  .profile-subheading {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #555;
+  }
+  
+  /* TWO-COLUMN LAYOUT (like .items-grid, but for profile) */
+  .profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 40px; 
+  }
+  
+  .left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .right-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* LEFT COLUMN: crush-cards */
+  .crush-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    color: #000
   }
   
   .crush-card {
@@ -320,6 +414,12 @@ footer p {
   .profile-carousel button {
     width: 40px;
     height: 40px;
-    font-size: 20px;
+    font-size: 25px;
+    cursor: pointer;
   }
-}
+  
+  #profile-pic {
+    /* Make the Bratz doll bigger */
+    max-width: 1200px; 
+    width: 100%;
+  }
