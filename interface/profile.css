@@ -34,7 +34,9 @@
   .nav-links {
     list-style: none;
     display: flex;
-    gap: 15px;
+    gap: 20px; 
+    margin-left: auto;  /* Pushes links to the right */
+    padding: 10px 20px;
   }
   
   .nav-links li a {
