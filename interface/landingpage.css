@@ -220,7 +220,7 @@ body {
     align-items: center;
     width: 100%;
     margin-top: 20px;
-    max-width: 600px;
+    max-width: 800px;
     margin: 0 auto;
 }
 
@@ -236,7 +236,7 @@ body {
 .outfit-options {
     position: absolute;
     right: 34%; /* Adjust to move buttons inside the stage */
-    top: 36%;
+    top: 35%;
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
@@ -246,8 +246,8 @@ body {
 
 /* Outfit Button Styling */
 .outfit-button {
-    width: 48px; /* Make all buttons the same size */
-    height: 36px;
+    width: 65px; /* Make all buttons the same size */
+    height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
