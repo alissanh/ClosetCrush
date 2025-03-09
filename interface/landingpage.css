@@ -166,7 +166,7 @@ body {
 
 /* Add Button */
 .add-button {
-    background-color: #a653a0;
+    background-color: #BA56AE;
     color: white;
     font-size: 24px;
     border: none;
@@ -178,9 +178,6 @@ body {
     text-decoration: none; /* so it appears like a button */
 }
 
-.my-crushes:hover {
-    background-color: #a35287;
-}
 
 /* My Crushes Button */
 .my-crushes {
@@ -198,6 +195,7 @@ body {
 .my-crushes:hover {
     background-color: #a35287;
 }
+
 
 /* User Icon */
 .user-icon {
