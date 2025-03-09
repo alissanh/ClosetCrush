@@ -39,22 +39,45 @@ body {
   /* or margin: 0 if you prefer them centered */
 }
 
-/* For each link item */
-.nav-links li {
-  display: inline-block; /* as in items.css */
-}
-
-.nav-links a {
-  text-decoration: none;
-  font-size: 18px;
-  color: #000000;
-  font-weight: bold;
-  transition: color 0.3s ease;
-}
-
-.nav-links a:hover {
-  color: #BA56AE;
-}
+/* Navbar Styling */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #F2CBEF; /* Soft pastel pink */
+    padding: 10px 20px;
+  }
+  
+  /* Logo */
+  .logo img {
+    height: 40px; /* Adjust size as needed */
+  }
+  
+  /* Navigation Links */
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;  /* Space between links */
+    margin-left: auto;  /* Pushes links to the right */
+    /* margin: 0;
+    padding: 0; */
+  }
+  
+  .nav-links li {
+    display: inline-block;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    font-size: 18px;
+    color: #000000;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-links a:hover {
+    color: #BA56AE; /* Change text color to match your theme */
+  }
 
 /* Right Section (Buttons & User Icon) */
 .right-section {
@@ -65,16 +88,16 @@ body {
 
 /* Add Button — from items.css */
 .add-button {
-  text-decoration: none;
-  color: #BA56AE;
-  border: none;
-  background: none;
-  font-size: 40px;
-  font-weight: bold;
-  padding: 8px 15px;
-  cursor: pointer;
-  text-decoration: none; /* ensures link text isn't underlined if it's an <a> */
-}
+    text-decoration: none;
+    color: #BA56AE;
+    border: none;
+    background: none;
+    font-size: 40px;
+    font-weight: bold;
+    padding: 8px 15px;
+    cursor: pointer;
+    text-decoration: none;
+  }
 
 /* My Crushes Button */
 /* My Crushes Button */
