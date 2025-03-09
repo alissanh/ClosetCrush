@@ -2,21 +2,13 @@
 html, body {
   margin: 0;
   padding: 0;  /* no extra padding at all */
-<<<<<<< HEAD
-  height: 107%;  /* good practice if you want a sticky footer approach */
-=======
   height: 120%;  /* good practice if you want a sticky footer approach */
->>>>>>> 6c8333ad8323b04cae62790041ae9241d704256c
 }
 
 body {
   font-family: 'Irish Grover', cursive;
   background-image: url('images/backgrounds/finalcheetahbckgrnd.jpeg');
   background-size: cover;
-<<<<<<< HEAD
-  min-height: 100vh; /* ensures full viewport height */
-=======
->>>>>>> 6c8333ad8323b04cae62790041ae9241d704256c
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
@@ -24,10 +16,6 @@ body {
 }
 
 .container {
-<<<<<<< HEAD
-  flex: 1; /* pushes footer to the bottom by expanding container */
-=======
->>>>>>> 6c8333ad8323b04cae62790041ae9241d704256c
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
@@ -42,13 +30,8 @@ h1, h2, h3 {
   text-align: center;
   margin: 20px 0;
   font-size: 32px;
-<<<<<<< HEAD
-  color: #ffd1f4;
-  text-shadow: 2px 2px 4px #ff3dce;
-=======
   color: #ffffff;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
->>>>>>> 6c8333ad8323b04cae62790041ae9241d704256c
 }
 
 /* Navbar Styling */
@@ -56,11 +39,7 @@ h1, h2, h3 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-<<<<<<< HEAD
-  background-color: #F2CBEF; /* Soft pastel pink */
-=======
   background-color: #F2CBEF; /* Soft pasl pink */
->>>>>>> 6c8333ad8323b04cae62790041ae9241d704256c
   padding: 10px 20px;
 }
 
@@ -68,30 +47,6 @@ h1, h2, h3 {
 .logo img {
   height: 40px; /* Adjust size as needed */
 }
-<<<<<<< HEAD
-
-/* Navigation Links */
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 20px;  /* Space between links */
-  margin-left: auto;  /* Pushes links to the right */
-  /* margin: 0;
-  padding: 0; */
-}
-
-.nav-links li {
-  display: inline-block;
-}
-
-.nav-links a {
-  text-decoration: none;
-  font-size: 18px;
-  color: #000000;
-  font-weight: bold;
-  transition: color 0.3s ease;
-}
-=======
   
   /* Navigation Links */
   .nav-links {
@@ -118,7 +73,6 @@ h1, h2, h3 {
   .nav-links a:hover {
     color: #BA56AE; /* Change text color to match your theme */
   }
->>>>>>> 6c8333ad8323b04cae62790041ae9241d704256c
 
   .wrapper {
     flex: 1; /* This makes the wrapper expand and push the footer down */
@@ -132,19 +86,6 @@ h1, h2, h3 {
 
 /* Add Button */
 .add-button {
-<<<<<<< HEAD
-  background-color: #BA56AE;
-  color: white;
-  font-size: 24px;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  text-align: center;
-  line-height: 40px;
-  text-decoration: none; /* so it appears like a button */
-}
-=======
     text-decoration: none;
     color: #BA56AE;
     border: none;
@@ -154,7 +95,6 @@ h1, h2, h3 {
     padding: 8px 15px;
     cursor: pointer;
   }
->>>>>>> 6c8333ad8323b04cae62790041ae9241d704256c
 
 /* My Crushes Button */
 .my-crushes {
@@ -187,35 +127,6 @@ h1, h2, h3 {
   background-color: #F2CBEF;
   text-align: center;
   padding: 20px;
-<<<<<<< HEAD
-  margin-top: auto;
-}
-
-.footer .logo img {
-  height: 40px;
-  margin-bottom: 10px;
-}
-
-.footer p {
-  color: #666;
-  font-size: 14px;
-}
-.stage-container {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-  margin-top: 20px;
-  max-width: 1500px;
-  margin: 0 auto;
-}
-
-.stage-wrapper {
-  position: relative;
-  max-width: 1500px;
-=======
 }
 
 footer {
@@ -258,16 +169,11 @@ footer {
 .stage-wrapper {
   position: relative;
   max-width: 1800px;
->>>>>>> 6c8333ad8323b04cae62790041ae9241d704256c
   margin: 0 auto;
 }
 
 .stage {
-<<<<<<< HEAD
-  width: 90%;
-=======
   width: 150%;
->>>>>>> 6c8333ad8323b04cae62790041ae9241d704256c
   height: auto;
   display: block;
   position: relative;
@@ -291,21 +197,6 @@ footer {
 }
 
 .preview-top {
-<<<<<<< HEAD
-  top: 14%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 38%;
-  height: 38%;
-}
-
-.preview-bottom {
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 45%;
-  height: 45%;
-=======
   top: 15%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -319,7 +210,6 @@ footer {
   transform: translate(-50%, -50%);
   width: 40%;
   height: 40%;
->>>>>>> 6c8333ad8323b04cae62790041ae9241d704256c
 }
 
 .preview-dress {
@@ -340,11 +230,7 @@ footer {
 
 .preview-accessories {
   top: 20%;
-<<<<<<< HEAD
-  left: 25%;
-=======
   left: 15%;
->>>>>>> 6c8333ad8323b04cae62790041ae9241d704256c
   width: 30%;
   height: 30%;
 }
@@ -416,14 +302,6 @@ footer {
   background-color: #ff0000;
 }
 
-<<<<<<< HEAD
-/* Item Carousels */
-.item-carousels {
-  max-width: 800px;
-  margin: 0 auto;
-}
-=======
->>>>>>> 6c8333ad8323b04cae62790041ae9241d704256c
 
 .item-carousel {
   background-color: #f8f8f8;
