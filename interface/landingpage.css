@@ -31,6 +31,7 @@ h1, h2, h3 {
   margin: 20px 0;
   font-size: 32px;
   color: #ffffff;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Navbar Styling */
@@ -318,11 +319,6 @@ footer {
   background-color: #ff0000;
 }
 
-/* Item Carousels */
-.item-carousels {
-  max-width: 800px;
-  margin: 0 auto;
-}
 
 .item-carousel {
   background-color: #f8f8f8;

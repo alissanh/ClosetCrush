@@ -295,11 +295,11 @@
             const nextButton = carousel.querySelector('.next');
             
             prevButton.addEventListener('click', () => {
-                itemsContainer.scrollBy({ left: -200, behavior: 'smooth' });
+                itemsContainer.scrollLeft -= 200;
             });
             
             nextButton.addEventListener('click', () => {
-                itemsContainer.scrollBy({ left: 200, behavior: 'smooth' });
+                itemsContainer.scrollLeft += 200;
             });
         }
         
