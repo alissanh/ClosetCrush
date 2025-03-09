@@ -5,7 +5,7 @@ body {
   font-family: 'Irish Grover', cursive;
   background-image: url(images/backgrounds/finalcleanbckgrnd.png);
   background-repeat: repeat;
-  background-size:auto;
+  background-size: cover;
 }
 
 /* Navbar Styling */
