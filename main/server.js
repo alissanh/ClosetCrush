@@ -8,7 +8,7 @@ import { pipeline } from 'stream/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
-import User from './main/data.js';
+import User from './data.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,6 +18,17 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.static(frontendPath));
+
+app.use((req, res, next) => {
+  console.log(`Request for: ${req.url}`);
+  next();
+});
+
+
+app.use(express.static(frontendPath));
+console.log(`Serving static files from: ${frontendPath}`);
+
+
 
 console.log('MongoDB URI:', process.env.MONGODB_URI);
 
@@ -132,14 +143,23 @@ app.post('/users/findOrCreate', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 8080;
-
-app.use(express.static(__dirname));
-
+// Set up the root route to serve landingpage.html
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(frontendPath, 'landingpage.html'));
 });
 
+// Catch-all route to redirect any unmatched routes to the landing page
+app.get('*', (req, res) => {
+    // Exclude API routes and static files from the redirect
+    if (!req.path.startsWith('/users') && !req.path.includes('.')) {
+        res.redirect('/');
+    } else {
+        // For API routes and static files that don't exist, let Express handle it
+        res.status(404).send('Not found');
+    }
+});
+
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
