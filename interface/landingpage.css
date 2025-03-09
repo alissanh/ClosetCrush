@@ -1,12 +1,28 @@
 /* General Styles */
-body {
+html, body {
     margin: 0;
-    padding: 5px;
+    padding: 0;  /* no extra padding at all */
+    height: 100%;  /* good practice if you want a sticky footer approach */
+  }
+
+body {
     font-family: 'Irish Grover', cursive;
-    background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
+    background-image: url('images/backgrounds/finalcheetahbckgrnd.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
+
+/* 2) Turn body into a flex container with column direction */
+body {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* 3) The main content area expands, pushing the footer to the bottom */
+  .container {
+    flex: 1; /* Grow to fill leftover space */
+  }
 
 /* Outfit Preview Section */
 .outfit-preview {
@@ -100,6 +116,93 @@ body {
   width: 80%;
   margin-top: 10px;
 }
+/* Navbar Styling */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #F2CBEF;
+    padding: 10px 20px;
+}
+
+/* Logo */
+.logo img {
+    height: 40px; /* Adjust size as needed */
+}
+
+/* Navigation Links */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;  /* Space between links */
+    margin-left: auto;  /* Pushes links to the right */
+    padding: 10px 20px;
+    /* margin: 0;
+    padding: 0; */
+}
+
+.nav-links li {
+    display: inline-block;
+}
+
+.nav-links a {
+    text-decoration: none;
+    font-size: 18px;
+    color: #000000;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #BA56AE; /* Change text color to match your theme */
+}
+
+/* Right Section (Buttons & User Icon) */
+.right-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Add Button */
+.add-button {
+    color: #BA56AE;
+    border: none;
+    background: none;
+    font-size: 40px;
+    font-weight: bold;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+.my-crushes:hover {
+    background-color: #a35287;
+}
+
+/* My Crushes Button */
+.my-crushes {
+    font-family: 'Irish Grover', cursive;
+    background-color: #BA56AE;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    width: auto;
+    white-space: nowrap;
+    font-size: 16px;
+    border-radius: 10px;
+}
+
+.my-crushes:hover {
+    background-color: #a35287;
+}
+
+/* User Icon */
+.user-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+}
 
 /* User Icon */
 .user-icon {
@@ -117,34 +220,40 @@ body {
     align-items: center;
     width: 100%;
     margin-top: 20px;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 /* Stage Image */
 .stage {
-    width: 50%; /* Adjust size as needed */
+    width: 100%; /* Adjust size as needed */
     max-width: 600px;
     display: block;
 }
 
+
 /* Position Outfit Selection Buttons on the Right Side of the Stage */
 .outfit-options {
     position: absolute;
-    right: 10%; /* Adjust to move closer/further from stage */
+    right: 10%; /* Adjust to move buttons inside the stage */
     top: 50%;
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 5px; /* Adjust spacing between buttons */
+    z-index: 10; /* Ensure buttons are above the stage */
 }
 
 /* Outfit Button Styling */
 .outfit-button {
-    background-color: transparent;
+    width: 65px; /* Make all buttons the same size */
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
     border: none;
     cursor: pointer;
-    padding: 0;
-    width: 50px; /* Adjust button size */
-    height: 50px;
 }
 
 /* Outfit Button Images */
@@ -152,9 +261,24 @@ body {
     width: 100%;
     height: 100%;
     object-fit: contain; /* Ensures images fit properly */
-    transition: transform 0.2s ease-in-out;
 }
 
 .outfit-button:hover img {
     transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+/* Footer Styling */
+.footer {
+    background-color: #F2CBEF; /* Matches navbar */
+    color: #000000; /* Black text */
+    text-align: center;
+    padding: 5px 10px;
+    font-family: 'Irish Grover', cursive;
+    font-size: 10px;
+}
+
+/* Footer Logo */
+.footer .logo img {
+    height: 40px; /* Adjust size as needed */
+    margin-bottom: 5px;
 }
