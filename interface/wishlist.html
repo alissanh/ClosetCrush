@@ -6,10 +6,56 @@
   <title>Add to Wishlist</title>
 
   <!-- Link to your wishlist.css file -->
-  <link rel="stylesheet" href="wishlist.css">
+  <link rel="stylesheet" href="/wishlist.css">
 
   <!-- Font & Icon (if desired) -->
   <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet" />
+  
+  <style>
+    /* Adding just the necessary extra styling for functionality */
+    .status-message {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .status-message.success {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #c8e6c9;
+    }
+    .status-message.error {
+      background-color: #ffebee;
+      color: #c62828;
+      border: 1px solid #ffcdd2;
+    }
+    .status-message.loading {
+      background-color: #e3f2fd;
+      color: #1565c0;
+      border: 1px solid #bbdefb;
+    }
+    .preview-container {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: white;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .image-preview {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    small {
+      display: block;
+      margin-top: 5px;
+      color: #666;
+      font-style: italic;
+    }
+  </style>
 </head>
 <body>
   <!-- Header (optional) -->
@@ -56,6 +102,7 @@
         <div class="form-group">
           <label>Paste Image Link:</label>
           <input type="text" placeholder="__________" name="imageLink">
+          <small>Image should have a plain background for best results</small>
         </div>
 
         <!-- Category as a dropdown -->
@@ -77,12 +124,17 @@
           <button type="button" id="addCategoryBtn">Add Category</button>
         </div>
 
-
         <!-- Submit button -->
         <div class="submit-section">
           <button type="submit" class="submit-btn">Add to Wishlist</button>
         </div>
       </form>
+      
+      <div id="status-message" class="status-message"></div>
+      <div id="preview-container" class="preview-container" style="display: none;">
+        <h3>Preview</h3>
+        <div id="image-preview" class="image-preview"></div>
+      </div>
     </div>
   </main>
 
@@ -93,34 +145,85 @@
     <p>@ 2025 SL, JK, HH & AH. All Rights Reserved</p>
   </footer>
 
-
   <script>
-    const wishlistForm = document.getElementById('wishlistForm');
-  
-    wishlistForm.addEventListener('submit', (event) => {
-      event.preventDefault();
-  
-      // Gather form data
-      const formData = new FormData(wishlistForm);
-      const itemName = formData.get('itemName').trim();
-      const brandName = formData.get('brandName').trim();
-      const price = formData.get('price').trim();
-      const imageLink = formData.get('imageLink').trim();
-  
-      // Check if any required field is empty
-      if (!itemName || !brandName || !price || !imageLink) {
-        alert('Please fill out all fields!');
-        return; // Stop here, do not proceed to crush item
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if user is logged in
+      const userId = localStorage.getItem('userId');
+      if (!userId) {
+        // Redirect to sign-in page if no user is logged in
+        window.location.href = "/signin";
+        return;
       }
-  
-      // If all fields have values
-      console.log({ itemName, brandName, price, imageLink });
-      alert('Your item has been crushed!');
-  
-      // Clear the form or navigate somewhere else
-      wishlistForm.reset();
+      
+      const wishlistForm = document.getElementById('wishlistForm');
+      const statusMessage = document.getElementById('status-message');
+      const previewContainer = document.getElementById('preview-container');
+      const imagePreview = document.getElementById('image-preview');
+    
+      wishlistForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+    
+        // Gather form data
+        const formData = new FormData(wishlistForm);
+        const itemName = formData.get('itemName').trim();
+        const brandName = formData.get('brandName').trim();
+        const imageUrl = formData.get('imageLink').trim(); // Changed to match your original form
+        const category = formData.get('category');
+    
+        // Check if any required field is empty
+        if (!itemName || !brandName || !imageUrl || !category) {
+          statusMessage.textContent = 'Please fill out all fields!';
+          statusMessage.className = 'status-message error';
+          return;
+        }
+    
+        // Show loading message
+        statusMessage.textContent = 'Processing your image. This may take a moment...';
+        statusMessage.className = 'status-message loading';
+    
+        try {
+          // Send to server for processing
+          const response = await fetch(`/users/${userId}/addItem`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              imageUrl: imageUrl, // Using the image link from your form
+              category,
+              name: itemName,
+              brand: brandName
+            }),
+          });
+    
+          const data = await response.json();
+    
+          if (data.success) {
+            // Show success message
+            statusMessage.textContent = `Your item has been crushed and added to your ${category} collection!`;
+            statusMessage.className = 'status-message success';
+    
+            // Show preview if available
+            if (data.filename) {
+              previewContainer.style.display = 'block';
+              imagePreview.style.backgroundImage = `url(/images/${data.filename})`;
+            }
+    
+            // Clear the form
+            wishlistForm.reset();
+    
+          } else {
+            // Show error
+            statusMessage.textContent = data.error || 'Failed to add item. Please try again.';
+            statusMessage.className = 'status-message error';
+          }
+        } catch (error) {
+          console.error('Error adding item:', error);
+          statusMessage.textContent = 'An error occurred. Please try again.';
+          statusMessage.className = 'status-message error';
+        }
+      });
     });
   </script>
-  
 </body>
 </html>

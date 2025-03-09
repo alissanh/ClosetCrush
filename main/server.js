@@ -27,15 +27,53 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Add request logging
+// Log all requests
 app.use((req, res, next) => {
   console.log(`Request for: ${req.url}`);
   next();
 });
 
-// Set up static file serving ONCE
+// Add middleware to log CSS file access
+app.use((req, res, next) => {
+  if (req.url.endsWith('.css')) {
+    const cssPath = path.join(frontendPath, req.url.substring(1)); // Remove leading slash
+    console.log(`CSS file requested: ${req.url}`);
+    console.log(`Looking for CSS at: ${cssPath}`);
+    console.log(`CSS file exists: ${fs.existsSync(cssPath)}`);
+  }
+  next();
+});
+
+// Set up static file serving
 app.use(express.static(frontendPath));
 console.log(`Serving static files from: ${frontendPath}`);
+
+// Add specific routes for CSS files
+app.get('/signinpage.css', (req, res) => {
+  const cssPath = path.join(frontendPath, 'signinpage.css');
+  console.log(`Serving signinpage.css from: ${cssPath}`);
+  console.log(`File exists: ${fs.existsSync(cssPath)}`);
+  
+  if (fs.existsSync(cssPath)) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(cssPath);
+  } else {
+    res.status(404).send('CSS file not found');
+  }
+});
+
+app.get('/landingpage.css', (req, res) => {
+  const cssPath = path.join(frontendPath, 'landingpage.css');
+  console.log(`Serving landingpage.css from: ${cssPath}`);
+  console.log(`File exists: ${fs.existsSync(cssPath)}`);
+  
+  if (fs.existsSync(cssPath)) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(cssPath);
+  } else {
+    res.status(404).send('CSS file not found');
+  }
+});
 
 console.log('MongoDB URI:', process.env.MONGODB_URI);
 
@@ -149,8 +187,31 @@ app.post('/users/findOrCreate', async (req, res) => {
   }
 });
 
-// Add a root route to serve landingpage.html
+// Set the root route to serve signinpage.html
 app.get('/', (req, res) => {
+  const signinPath = path.join(frontendPath, 'signinpage.html');
+  console.log('Serving signin page from:', signinPath);
+  console.log('Signin page exists:', fs.existsSync(signinPath));
+  
+  if (fs.existsSync(signinPath)) {
+    res.sendFile(signinPath);
+  } else {
+    res.status(404).send('Signin page not found. Check server logs for details.');
+  }
+});
+
+// Explicit signin route
+app.get('/signin', (req, res) => {
+  const signinPath = path.join(frontendPath, 'signinpage.html');
+  if (fs.existsSync(signinPath)) {
+    res.sendFile(signinPath);
+  } else {
+    res.redirect('/');
+  }
+});
+
+// Landing page route
+app.get('/landing', (req, res) => {
   const landingPath = path.join(frontendPath, 'landingpage.html');
   console.log('Serving landing page from:', landingPath);
   console.log('Landing page exists:', fs.existsSync(landingPath));
@@ -162,9 +223,32 @@ app.get('/', (req, res) => {
   }
 });
 
-app.get('/signin', (req, res) => {
-  res.sendFile(path.join(frontendPath, 'signinpage.html'));
+app.get('/wishlist.css', (req, res) => {
+  const cssPath = path.join(frontendPath, 'wishlist.css');
+  console.log(`Serving wishlist.css from: ${cssPath}`);
+  console.log(`File exists: ${fs.existsSync(cssPath)}`);
+  
+  if (fs.existsSync(cssPath)) {
+    res.setHeader('Content-Type', 'text/css');
+    res.sendFile(cssPath);
+  } else {
+    res.status(404).send('CSS file not found');
+  }
 });
+
+// Serve image files with specific logging
+app.get('/images/:imageName', (req, res) => {
+  const imagePath = path.join(frontendPath, 'images', req.params.imageName);
+  console.log(`Serving image from: ${imagePath}`);
+  console.log(`Image exists: ${fs.existsSync(imagePath)}`);
+  
+  if (fs.existsSync(imagePath)) {
+    res.sendFile(imagePath);
+  } else {
+    res.status(404).send('Image not found');
+  }
+});
+
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
