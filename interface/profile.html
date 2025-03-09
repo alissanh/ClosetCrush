@@ -34,7 +34,12 @@
         <a href="wishlist.html" class="add-button">+</a>
         <button class="my-crushes">My Crushes</button>
         <a href="profile.html" class="profile-link">
-          <img src="images/profile.png" alt="User Icon" class="user-icon" />
+            <img
+              id="icon-pic"
+              src="images/profile.png"
+              alt="User Icon"
+              class="user-icon"
+            />
         </a>
       </div>
     </nav>
@@ -57,16 +62,16 @@
                 <div class="crush-card">
                     <img src="images/dress.png" alt="Dress" />
                     <p>perf fit for brunch</p>
-                  </div>
-                  <div class="crush-card">
+                </div>
+                <div class="crush-card">
                     <img src="images/dress.png" alt="Dress" />
                     <p>perf fit for brunch</p>
-                  </div>
-                  <div class="crush-card">
+                </div>
+                <div class="crush-card">
                     <img src="images/dress.png" alt="Dress" />
                     <p>perf fit for brunch</p>
-                  </div>
-              </div>
+                </div>
+            </div>
         </div>
       </div>
 
@@ -101,8 +106,10 @@
     ];
     let currentIndex = 0;
 
+    // Show the chosen image on the main carousel AND the icon
     function showImage(index) {
       document.getElementById('profile-pic').src = bratzImages[index];
+      document.getElementById('icon-pic').src = bratzImages[index];
     }
 
     function prevImage() {
