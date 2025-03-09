@@ -8,11 +8,11 @@ import { pipeline } from 'stream/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
-import User from './main/data.js';
+import User from './data.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const frontendPath = path.join(__dirname, '..', 'interface');
+const frontendPath = path.join(__dirname, 'interface');
 
 const app = express();
 app.use(express.json());
@@ -106,9 +106,13 @@ const PORT = 8080;
 
 app.use(express.static(__dirname));
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+app.use(express.static(path.join(__dirname, 'interface')));
+
+
+app.get('/signin', (req, res) => {
+  res.sendFile(path.join(frontendPath, 'signinpage.html'));
 });
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
