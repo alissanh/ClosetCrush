@@ -235,19 +235,19 @@ body {
 /* Position Outfit Selection Buttons on the Right Side of the Stage */
 .outfit-options {
     position: absolute;
-    right: 10%; /* Adjust to move buttons inside the stage */
-    top: 50%;
+    right: 34%; /* Adjust to move buttons inside the stage */
+    top: 36%;
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
-    gap: 5px; /* Adjust spacing between buttons */
+    gap: 1px; /* Adjust spacing between buttons */
     z-index: 10; /* Ensure buttons are above the stage */
 }
 
 /* Outfit Button Styling */
 .outfit-button {
-    width: 65px; /* Make all buttons the same size */
-    height: 65px;
+    width: 48px; /* Make all buttons the same size */
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
