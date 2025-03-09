@@ -128,15 +128,17 @@ h1, h2, h3 {
   margin-top: 40px;
 }
 
-.footer .logo img {
-  height: 40px;
-  margin-bottom: 10px;
-}
-
-.footer p {
-  color: #666;
-  font-size: 14px;
-}
+footer {
+    background-color: #F2CBEF;
+    padding: 20px;
+    text-align: center;
+    color: #000;
+  }
+  
+  .footer-logo img {
+    height: 50px;
+    margin-bottom: 10px;
+  }
 
 /* Center the stage */
 .stage-container {
