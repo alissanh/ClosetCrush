@@ -30,7 +30,7 @@ h1, h2, h3 {
   text-align: center;
   margin: 20px 0;
   font-size: 32px;
-  color: #BA56AE;
+  color: #ffffff;
 }
 
 /* Navbar Styling */
@@ -38,7 +38,7 @@ h1, h2, h3 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #F2CBEF; /* Soft pastel pink */
+  background-color: #F2CBEF; /* Soft pasl pink */
   padding: 10px 20px;
 }
 
@@ -159,16 +159,28 @@ footer {
 
 /* Center the stage */
 .stage-container {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-  margin-top: 20px;
-  max-width: 2000px;
-  margin: 0 auto;
-}
+    /* Previously had flex-direction: column, remove that so items go side by side */
+    position: relative;
+    display: flex;
+    justify-content: flex-start; /* or center, or space-between */
+    align-items: flex-start;     /* keep them aligned at the top */
+    width: 100%;
+    max-width: 2000px;
+    margin: 20px auto 0 auto;    /* top margin of 20px */
+  }
+  
+  /* Make the carousels panel take up fixed width on the left side */
+  .item-carousels {
+    width: 300px;        /* pick a nice fixed width for your side panel */
+    margin-right: 20px;  /* spacing between carousels and the stage */
+  }
+  
+  /* Let the stage and its actions fill the remaining space on the right */
+  .stage-and-actions {
+    flex: 1;
+    position: relative;
+  }
+  
 
 .stage-wrapper {
   position: relative;
