@@ -1,48 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Category Image Test</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <title>My Items</title>
+  <link rel="stylesheet" href="items.css">
+  <link rel="icon" href="" type="image/png">
+  <!-- Irish Grover font -->
+  <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Category Image Test</h1>
+  
+  <!-- Main container-->
+  <div class="my-bottoms-container">
+    <h1 class="my-bottoms-title">Bottoms</h1>
+    
+    <!-- Generic container for items -->
+    <div class="bottoms-container">
+      <h1 class="bottoms-title">Bottoms</h1>
+      
+      <!-- Must be populated with data from user -->
+      <div class="bottoms-grid">
 
-    <section class="category">
-        <h2>Tops</h2>
-        <div class="image-container" id="tops">
-            <img src="gapcanada_tops_1.png" alt="Top 1">
-            <img src="gapcanada_tops_2.png" alt="Top 2">
-            <!-- Add more top images as needed -->
+        <div class="item-card">
+          <div class="item-image"></div>
+          <p class="store">Store: Example Store</p>
+          <p class="price">Price: $XX</p>
+          <p class="name">Name: Sample Item</p>
         </div>
-    </section>
 
-    <section class="category">
-        <h2>Bottoms</h2>
-        <div class="image-container" id="bottoms">
-            <img src="gapcanada_bottoms_1.png" alt="Bottom 1">
-            <img src="gapcanada_bottoms_2.png" alt="Bottom 2">
-            <!-- Add more bottom images as needed -->
+        <div class="item-card">
+          <div class="item-image"></div>
+          <p class="store">Store: Example Store</p>
+          <p class="price">Price: $XX</p>
+          <p class="name">Name: Sample Item</p>
         </div>
-    </section>
 
-    <section class="category">
-        <h2>Shoes</h2>
-        <div class="image-container" id="shoes">
-            <img src="gapcanada_shoes_1.png" alt="Shoe 1">
-            <img src="gapcanada_shoes_2.png" alt="Shoe 2">
-            <!-- Add more shoe images as needed -->
+        <div class="item-card">
+          <div class="item-image"></div>
+          <p class="store">Store: Example Store</p>
+          <p class="price">Price: $XX</p>
+          <p class="name">Name: Sample Item</p>
         </div>
-    </section>
+        
+        <!-- Repeat or dynamically render more cards as needed -->
 
-    <section class="category">
-        <h2>Accessories</h2>
-        <div class="image-container" id="accessories">
-            <img src="gapcanada_accessories_1.png" alt="Accessory 1">
-            <img src="gapcanada_accessories_2.png" alt="Accessory 2">
-            <!-- Add more accessories images as needed -->
-        </div>
-    </section>
+      </div>
+    </div>
+  </div>
+  
 </body>
 </html>
