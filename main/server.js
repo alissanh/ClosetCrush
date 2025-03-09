@@ -102,7 +102,37 @@ app.get('/users/:id/items', async (req, res) => {
   }
 });
 
-const PORT = 8080;
+app.post('/users/findOrCreate', async (req, res) => {
+  try {
+    const { email } = req.body;
+    
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
+    }
+    
+    // Look for existing user
+    let user = await User.findOne({ email });
+    
+    // If no user found, create a new one
+    if (!user) {
+      user = new User({ email });
+      await user.save();
+    }
+    
+    return res.json({
+      success: true,
+      user: {
+        _id: user._id,
+        email: user.email
+      }
+    });
+  } catch (error) {
+    console.error('Error finding/creating user:', error);
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+const PORT = process.env.PORT || 8080;
 
 app.use(express.static(__dirname));
 
