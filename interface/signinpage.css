@@ -1,25 +1,15 @@
 /* General Styles */
 
 html, body {
-<<<<<<< HEAD
-    height: 107%; /* Ensure full viewport height */
-=======
     height: 100%; /* Ensure full viewport height */
->>>>>>> e90bc95b3d3ea88bc9900ed4abea06edc0433dbd
     margin: 0;
     padding: 0; /* good practice if ydou want a sticky footer approach */
   }
 
 body {
-<<<<<<< HEAD
-  font-family: 'Irish Grover', cursive;
-  background-image: url('images/backgrounds/finalhangerbckgrnd.png');
-  background-size: cover;
-=======
     font-family: 'Irish Grover', cursive;
     background-image: url(images/backgrounds/finalhangerbckgrnd.png);
     background-size: cover;
->>>>>>> e90bc95b3d3ea88bc9900ed4abea06edc0433dbd
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
@@ -70,14 +60,11 @@ body {
     color: #BA56AE; /* Change text color to match your theme */
   }
 
-<<<<<<< HEAD
-=======
 
 .nav-links a:hover {
     color: #BA56AE; /* Change text color to match your theme */
 }
 
->>>>>>> e90bc95b3d3ea88bc9900ed4abea06edc0433dbd
 footer {
     background-color:#F2CBEF;
     text-align: center;
