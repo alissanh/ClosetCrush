@@ -23,7 +23,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #d191c8;
+    background-color: #F2CBEF;
     padding: 15px;
   }
   
@@ -142,7 +142,7 @@
   }
   
   .crush-card {
-    background-color: #d191c8;
+    background-color: #F2CBEF;
     border-radius: 10px;
     padding: 15px;
     text-align: center;
