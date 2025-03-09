@@ -41,67 +41,6 @@
 
   <div class="container">
     <h1 id="welcome-message">Welcome, NAME</h1>
-
-    <!-- Stage with Avatar -->
-    <div class="stage-container">
-        <!-- Item Carousels now  the left -->
-        <div class="item-carousels">
-            <div id="topsCarousel" class="item-carousel" style="display: none;">
-                <h3>Select a Top</h3>
-                <div class="carousel-container">
-                    <button class="carousel-nav prev">&lt;</button>
-                    <div class="carousel-items" id="topsItems">
-                        <div class="loading-message">Loading your tops...</div>
-                    </div>
-                    <button class="carousel-nav next">&gt;</button>
-                </div>
-            </div>
-            
-            <div id="bottomsCarousel" class="item-carousel" style="display: none;">
-                <h3>Select Bottoms</h3>
-                <div class="carousel-container">
-                    <button class="carousel-nav prev">&lt;</button>
-                    <div class="carousel-items" id="bottomsItems">
-                        <div class="loading-message">Loading your bottoms...</div>
-                    </div>
-                    <button class="carousel-nav next">&gt;</button>
-                </div>
-            </div>
-            
-            <div id="dressesCarousel" class="item-carousel" style="display: none;">
-                <h3>Select a Dress</h3>
-                <div class="carousel-container">
-                    <button class="carousel-nav prev">&lt;</button>
-                    <div class="carousel-items" id="dressesItems">
-                        <div class="loading-message">Loading your dresses...</div>
-                    </div>
-                    <button class="carousel-nav next">&gt;</button>
-                </div>
-            </div>
-            
-            <div id="shoesCarousel" class="item-carousel" style="display: none;">
-                <h3>Select Shoes</h3>
-                <div class="carousel-container">
-                    <button class="carousel-nav prev">&lt;</button>
-                    <div class="carousel-items" id="shoesItems">
-                        <div class="loading-message">Loading your shoes...</div>
-                    </div>
-                    <button class="carousel-nav next">&gt;</button>
-                </div>
-            </div>
-            
-            <div id="accessoriesCarousel" class="item-carousel" style="display: none;">
-                <h3>Select Accessories</h3>
-                <div class="carousel-container">
-                    <button class="carousel-nav prev">&lt;</button>
-                    <div class="carousel-items" id="accessoriesItems">
-                        <div class="loading-message">Loading your accessories...</div>
-                    </div>
-                    <button class="carousel-nav next">&gt;</button>
-                </div>
-            </div>
-        </div>
-
         <!-- Stage and actions wrapper -->
         <div class="stage-and-actions">
             <div class="stage-wrapper">
@@ -141,6 +80,67 @@
                 <button id="crushOutfitBtn" class="action-button crush-button">♥ Crush</button>
             </div>
         </div>
+
+            <!-- Stage with Avatar -->
+    <div class="stage-container">
+      <!-- Item Carousels now on the left -->
+      <div class="item-carousels">
+          <div id="topsCarousel" class="item-carousel" style="display: none;">
+              <h3>Select a Top</h3>
+              <div class="carousel-container">
+                  <button class="carousel-nav prev">&lt;</button>
+                  <div class="carousel-items" id="topsItems">
+                      <div class="loading-message">Loading your tops...</div>
+                  </div>
+                  <button class="carousel-nav next">&gt;</button>
+              </div>
+          </div>
+          
+          <div id="bottomsCarousel" class="item-carousel" style="display: none;">
+              <h3>Select Bottoms</h3>
+              <div class="carousel-container">
+                  <button class="carousel-nav prev">&lt;</button>
+                  <div class="carousel-items" id="bottomsItems">
+                      <div class="loading-message">Loading your bottoms...</div>
+                  </div>
+                  <button class="carousel-nav next">&gt;</button>
+              </div>
+          </div>
+          
+          <div id="dressesCarousel" class="item-carousel" style="display: none;">
+              <h3>Select a Dress</h3>
+              <div class="carousel-container">
+                  <button class="carousel-nav prev">&lt;</button>
+                  <div class="carousel-items" id="dressesItems">
+                      <div class="loading-message">Loading your dresses...</div>
+                  </div>
+                  <button class="carousel-nav next">&gt;</button>
+              </div>
+          </div>
+          
+          <div id="shoesCarousel" class="item-carousel" style="display: none;">
+              <h3>Select Shoes</h3>
+              <div class="carousel-container">
+                  <button class="carousel-nav prev">&lt;</button>
+                  <div class="carousel-items" id="shoesItems">
+                      <div class="loading-message">Loading your shoes...</div>
+                  </div>
+                  <button class="carousel-nav next">&gt;</button>
+              </div>
+          </div>
+          
+          <div id="accessoriesCarousel" class="item-carousel" style="display: none;">
+              <h3>Select Accessories</h3>
+              <div class="carousel-container">
+                  <button class="carousel-nav prev">&lt;</button>
+                  <div class="carousel-items" id="accessoriesItems">
+                      <div class="loading-message">Loading your accessories...</div>
+                  </div>
+                  <button class="carousel-nav next">&gt;</button>
+              </div>
+          </div>
+      </div>
+
     </div>
   </div>
 
@@ -295,11 +295,11 @@
             const nextButton = carousel.querySelector('.next');
             
             prevButton.addEventListener('click', () => {
-                itemsContainer.scrollLeft -= 200;
+                itemsContainer.scrollBy({ left: -200, behavior: 'smooth' });
             });
             
             nextButton.addEventListener('click', () => {
-                itemsContainer.scrollLeft += 200;
+                itemsContainer.scrollBy({ left: 200, behavior: 'smooth' });
             });
         }
         
@@ -415,29 +415,51 @@
         }
         
         // Helper function to save crush to localStorage
-        function saveOutfitToLocalStorage(outfit) {
-            // Get existing crushes from localStorage
-            let crushes = [];
-            const existingCrushes = localStorage.getItem('outfitCrushes');
-            
-            if (existingCrushes) {
-                crushes = JSON.parse(existingCrushes);
-            }
-            
-            // Add the new crush
-            crushes.unshift({
-                outfit: outfit,
-                date: new Date().toISOString()
-            });
-            
-            // Keep only the most recent 20 crushes
-            if (crushes.length > 20) {
-                crushes = crushes.slice(0, 20);
-            }
-            
-            // Save back to localStorage
-            localStorage.setItem('outfitCrushes', JSON.stringify(crushes));
+// Helper function to save crush to localStorage
+function saveOutfitToLocalStorage(outfit) {
+    // Skip if outfit is empty (has no items)
+    if (!outfit.tops && !outfit.bottoms && !outfit.dresses && 
+        !outfit.shoes && !outfit.accessories) {
+        console.log('Skipping empty outfit');
+        return;
+    }
+    
+    // Get existing crushes from localStorage
+    let crushes = [];
+    const existingCrushes = localStorage.getItem('outfitCrushes');
+    
+    if (existingCrushes) {
+        try {
+            crushes = JSON.parse(existingCrushes);
+        } catch (e) {
+            console.error('Error parsing existing crushes:', e);
+            crushes = [];
         }
+    }
+    
+    // Create a clean copy of the outfit, removing any null/undefined values
+    const cleanOutfit = {};
+    Object.keys(outfit).forEach(key => {
+        if (outfit[key]) {
+            cleanOutfit[key] = outfit[key];
+        }
+    });
+    
+    // Add the new crush
+    crushes.unshift({
+        outfit: cleanOutfit, // Use the cleaned outfit object
+        date: new Date().toISOString()
+    });
+    
+    // Keep only the most recent 20 crushes
+    if (crushes.length > 20) {
+        crushes = crushes.slice(0, 20);
+    }
+    
+    // Save back to localStorage
+    localStorage.setItem('outfitCrushes', JSON.stringify(crushes));
+    console.log('Saved outfit to localStorage, total crushes:', crushes.length);
+}
     });
   </script>
 </body>
